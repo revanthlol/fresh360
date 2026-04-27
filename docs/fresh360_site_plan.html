@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fresh 360 — Website Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --green:   #2D6A2D;
+  --green-l: #3D8C3D;
+  --green-xl:#F0F7F0;
+  --amber:   #D97706;
+  --amber-l: #FEF3C7;
+  --slate:   #1E293B;
+  --muted:   #64748B;
+  --border:  #E2E8F0;
+  --bg:      #FAFAFA;
+  --white:   #FFFFFF;
+  --fuzzy:   #0F766E;
+  --refrizz: #C2410C;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--slate);line-height:1.6;font-size:15px}
+a{color:inherit;text-decoration:none}
+
+/* ── Layout ── */
+.container{max-width:1120px;margin:0 auto;padding:0 24px}
+.page-header{background:var(--slate);color:#fff;padding:56px 0 48px}
+.page-header h1{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);font-weight:400;letter-spacing:-0.5px;margin-bottom:8px}
+.page-header p{color:#94A3B8;font-size:15px}
+.badge{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;letter-spacing:.04em;text-transform:uppercase}
+.badge-green{background:var(--green-xl);color:var(--green)}
+.badge-amber{background:var(--amber-l);color:var(--amber)}
+.badge-teal{background:#CCFBF1;color:var(--fuzzy)}
+.badge-orange{background:#FED7AA;color:var(--refrizz)}
+.badge-slate{background:#F1F5F9;color:var(--muted)}
+
+/* ── Sections ── */
+.section{padding:48px 0;border-bottom:1px solid var(--border)}
+.section:last-child{border-bottom:none}
+.section-label{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:6px}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(20px,2.5vw,28px);font-weight:400;color:var(--slate);margin-bottom:4px}
+.section-sub{font-size:14px;color:var(--muted);margin-bottom:28px;max-width:640px}
+
+/* ── Nav tree ── */
+.nav-tree{display:flex;flex-wrap:wrap;gap:10px;margin-top:20px}
+.route-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px;min-width:200px;flex:1;transition:box-shadow .2s}
+.route-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.route-url{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--green);font-weight:600;margin-bottom:4px}
+.route-name{font-size:13px;font-weight:600;color:var(--slate)}
+.route-desc{font-size:12px;color:var(--muted);margin-top:3px}
+.route-method{font-size:10px;background:#DBEAFE;color:#1D4ED8;padding:2px 6px;border-radius:4px;font-weight:600;font-family:'JetBrains Mono',monospace}
+
+/* ── Page layouts ── */
+.page-preview{background:var(--white);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:20px}
+.page-preview-header{background:var(--green);padding:10px 16px;display:flex;align-items:center;gap:8px}
+.page-preview-header span{font-size:12px;font-weight:600;color:#fff;font-family:'JetBrains Mono',monospace}
+.page-preview-body{padding:0}
+.zone{padding:12px 16px;border-bottom:1px dashed var(--border);display:flex;align-items:flex-start;gap:12px}
+.zone:last-child{border-bottom:none}
+.zone-num{width:24px;height:24px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.zone-title{font-size:13px;font-weight:600;color:var(--slate);margin-bottom:2px}
+.zone-desc{font-size:12px;color:var(--muted)}
+.zone-tags{display:flex;flex-wrap:wrap;gap:4px;margin-top:5px}
+.tag{font-size:10px;padding:2px 7px;border-radius:4px;background:var(--green-xl);color:var(--green);font-weight:600}
+
+/* ── Data schema ── */
+.schema-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:16px}
+.schema-header{padding:10px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.schema-header h4{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;color:var(--slate)}
+.schema-table{width:100%;border-collapse:collapse}
+.schema-table th{background:#F8FAFC;font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--muted);padding:8px 14px;text-align:left;border-bottom:1px solid var(--border)}
+.schema-table td{padding:8px 14px;font-size:12px;border-bottom:1px solid #F1F5F9;vertical-align:top}
+.schema-table tr:last-child td{border-bottom:none}
+.schema-table tr:hover td{background:#F8FAFC}
+.field-name{font-family:'JetBrains Mono',monospace;color:var(--green);font-weight:600}
+.field-type{font-family:'JetBrains Mono',monospace;color:var(--refrizz);font-size:11px}
+.req-yes{color:var(--green);font-weight:700}
+.req-no{color:var(--muted)}
+
+/* ── Stack table ── */
+.stack-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin-top:16px}
+.stack-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.stack-layer{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:4px}
+.stack-choice{font-size:14px;font-weight:600;color:var(--slate);margin-bottom:3px}
+.stack-why{font-size:12px;color:var(--muted)}
+
+/* ── Brand pills ── */
+.brand-pills{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.brand-pill{border-radius:10px;padding:16px 20px;flex:1;min-width:180px}
+.brand-pill.juicera{background:var(--green-xl);border:1px solid #B6E2B6}
+.brand-pill.fuzzy{background:#CCFBF1;border:1px solid #99F6E4}
+.brand-pill.refrizz{background:#FED7AA;border:1px solid #FDBA74}
+.brand-pill h3{font-family:'DM Serif Display',serif;font-size:18px;font-weight:400;margin-bottom:3px}
+.brand-pill.juicera h3{color:var(--green)}
+.brand-pill.fuzzy h3{color:var(--fuzzy)}
+.brand-pill.refrizz h3{color:var(--refrizz)}
+.brand-pill p{font-size:12px;color:var(--muted)}
+
+/* ── Product grid ── */
+.product-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:10px;margin-top:16px}
+.product-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden}
+.product-thumb{height:80px;display:flex;align-items:center;justify-content:center;font-size:28px}
+.product-thumb.j{background:var(--green-xl)}
+.product-thumb.f{background:#CCFBF1}
+.product-thumb.r{background:#FED7AA}
+.product-info{padding:10px 12px}
+.product-info .name{font-size:13px;font-weight:600;color:var(--slate)}
+.product-info .brand{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+.product-info .brand.j{color:var(--green)}
+.product-info .brand.f{color:var(--fuzzy)}
+.product-info .brand.r{color:var(--refrizz)}
+.product-info .ingr{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ── Timeline ── */
+.timeline{margin-top:20px}
+.phase{display:flex;gap:16px;margin-bottom:20px}
+.phase-num{width:32px;height:32px;border-radius:50%;background:var(--green);color:#fff;font-weight:700;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.phase-body{flex:1;background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.phase-name{font-size:14px;font-weight:600;color:var(--slate);margin-bottom:2px}
+.phase-dur{font-size:11px;color:var(--amber);font-weight:700;text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+.phase-tasks{list-style:none;font-size:12px;color:var(--muted)}
+.phase-tasks li::before{content:"→ ";color:var(--green);font-weight:700}
+.phase-tasks li{margin-bottom:2px}
+
+/* ── Perf table ── */
+.perf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin-top:16px}
+.perf-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:14px 16px}
+.perf-metric{font-size:12px;color:var(--muted);margin-bottom:4px}
+.perf-target{font-size:18px;font-weight:700;color:var(--green);font-family:'DM Serif Display',serif}
+.perf-label{font-size:11px;color:var(--muted);margin-top:2px}
+
+/* ── TOC ── */
+.toc{background:var(--white);border:1px solid var(--border);border-radius:12px;padding:20px 24px;margin-bottom:40px}
+.toc h2{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--muted);margin-bottom:12px}
+.toc ol{counter-reset:toc-counter;list-style:none}
+.toc li{counter-increment:toc-counter;display:flex;align-items:center;gap:8px;padding:5px 0;border-bottom:1px dashed var(--border);font-size:13px}
+.toc li:last-child{border-bottom:none}
+.toc li::before{content:counter(toc-counter);width:22px;height:22px;border-radius:50%;background:var(--green);color:#fff;font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.toc a{color:var(--slate);font-weight:500}
+.toc a:hover{color:var(--green)}
+
+/* ── Component map ── */
+.comp-tree{font-family:'JetBrains Mono',monospace;font-size:12px;background:#1E293B;color:#94A3B8;border-radius:10px;padding:20px 24px;line-height:2;margin-top:16px}
+.comp-tree .dir{color:#38BDF8}
+.comp-tree .file{color:#A3E635}
+.comp-tree .comment{color:#475569}
+</style>
+</head>
+<body>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="container">
+    <div class="badge badge-green" style="margin-bottom:16px">Website Plan</div>
+    <h1>Fresh 360 Degrees Foods LLP</h1>
+    <p>Brand Website — Page Architecture, Data Models & Technical Blueprint &nbsp;·&nbsp; v1.0 &nbsp;·&nbsp; April 2025</p>
+  </div>
+</div>
+
+<div class="container" style="padding-top:40px;padding-bottom:80px">
+
+  <!-- TOC -->
+  <div class="toc">
+    <h2>Contents</h2>
+    <ol>
+      <li><a href="#brands">Brand Structure</a></li>
+      <li><a href="#products">Product Catalogue</a></li>
+      <li><a href="#routes">Routes & Navigation</a></li>
+      <li><a href="#pages">Page Layouts (Zone Maps)</a></li>
+      <li><a href="#data">Data Models</a></li>
+      <li><a href="#stack">Tech Stack</a></li>
+      <li><a href="#components">Component Architecture</a></li>
+      <li><a href="#perf">Performance Targets</a></li>
+      <li><a href="#timeline">Build Timeline</a></li>
+    </ol>
+  </div>
+
+  <!-- 1. BRANDS -->
+  <div class="section" id="brands">
+    <div class="section-label">Section 1</div>
+    <div class="section-title">Brand Structure</div>
+    <div class="section-sub">Three sub-brands under Fresh 360 Degrees Foods LLP. Each gets its own page, colour identity, and product set.</div>
+    <div class="brand-pills">
+      <div class="brand-pill juicera">
+        <h3>Juicera</h3>
+        <p>100% cold-pressed fruit juices & nut milks. Zero preservatives, zero added sugar, zero artificial flavours or colours.</p>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="tag">Cold Pressed</span><span class="tag">No Sugar</span><span class="tag">No Additives</span>
+        </div>
+      </div>
+      <div class="brand-pill fuzzy">
+        <h3>Fuzzy</h3>
+        <p>Cold-pressed juice + carbonated water. Same clean bases as Juicera, with a fizz. No artificial additives.</p>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge badge-teal">Carbonated</span><span class="tag" style="background:#CCFBF1;color:var(--fuzzy)">No Artificial</span>
+        </div>
+      </div>
+      <div class="brand-pill refrizz">
+        <h3>Refrizz</h3>
+        <p>Flavoured goli soda. Fun, affordable, accessible. Artificial flavours permitted. Targets the mass market.</p>
+        <div style="margin-top:10px;display:flex;gap:6px;flex-wrap:wrap">
+          <span class="badge badge-orange">Goli Soda</span><span class="tag" style="background:#FED7AA;color:var(--refrizz)">Flavoured</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. PRODUCTS -->
+  <div class="section" id="products">
+    <div class="section-label">Section 2</div>
+    <div class="section-title">Product Catalogue</div>
+    <div class="section-sub">Full product list. Each card = one JSON entry in /data/products.json</div>
+    <div class="product-grid">
+      <div class="product-card">
+        <div class="product-thumb j">🍷</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Elixir</div>
+          <div class="ingr">Pomegranate · Ginger · Lemon</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb j">🥕</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Citrovit</div>
+          <div class="ingr">Orange · Carrot · Ginger · Lemon</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb j">🫐</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Purify</div>
+          <div class="ingr">Beetroot · Orange · Pomegranate</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb j">🥝</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Refresh</div>
+          <div class="ingr">Kiwi · Pineapple · Ginger · Lemon</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb j">🥛</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Almond Crush</div>
+          <div class="ingr">Almond · Vanilla · Honey · Chia</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb j">🥛</div>
+        <div class="product-info">
+          <div class="brand j">Juicera</div>
+          <div class="name">Almond Delight</div>
+          <div class="ingr">Almond · Saffron · Honey · Chia</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb f">🫧</div>
+        <div class="product-info">
+          <div class="brand f">Fuzzy</div>
+          <div class="name">Elixir Fizz</div>
+          <div class="ingr">Pomegranate + Carbonated</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb f">🫧</div>
+        <div class="product-info">
+          <div class="brand f">Fuzzy</div>
+          <div class="name">Citrovit Fizz</div>
+          <div class="ingr">Orange Carrot + Carbonated</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb f">🫧</div>
+        <div class="product-info">
+          <div class="brand f">Fuzzy</div>
+          <div class="name">Purify Fizz</div>
+          <div class="ingr">Beetroot Orange + Carbonated</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb f">🫧</div>
+        <div class="product-info">
+          <div class="brand f">Fuzzy</div>
+          <div class="name">Refresh Fizz</div>
+          <div class="ingr">Kiwi Pineapple + Carbonated</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb r">🍊</div>
+        <div class="product-info">
+          <div class="brand r">Refrizz</div>
+          <div class="name">Orange Soda</div>
+          <div class="ingr">Flavoured goli soda</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb r">🍍</div>
+        <div class="product-info">
+          <div class="brand r">Refrizz</div>
+          <div class="name">Pineapple Soda</div>
+          <div class="ingr">Flavoured goli soda</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb r">🫙</div>
+        <div class="product-info">
+          <div class="brand r">Refrizz</div>
+          <div class="name">Jeera Soda</div>
+          <div class="ingr">Flavoured goli soda</div>
+        </div>
+      </div>
+      <div class="product-card">
+        <div class="product-thumb r">💙</div>
+        <div class="product-info">
+          <div class="brand r">Refrizz</div>
+          <div class="name">Blue Soda</div>
+          <div class="ingr">Flavoured goli soda</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--muted);margin-top:12px">* Fuzzy and Refrizz variant lists pending client confirmation. Placeholders shown above.</p>
+  </div>
+
+  <!-- 3. ROUTES -->
+  <div class="section" id="routes">
+    <div class="section-label">Section 3</div>
+    <div class="section-title">Routes & Navigation</div>
+    <div class="section-sub">All routes in the Next.js App Router structure. Primary nav = top 6. Secondary nav in footer.</div>
+    <div class="nav-tree">
+      <div class="route-card">
+        <div class="route-url">/</div>
+        <div class="route-name">Homepage</div>
+        <div class="route-desc">Hero, brand overview, featured products, process teaser, testimonials</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Primary Nav</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/about</div>
+        <div class="route-name">About Us</div>
+        <div class="route-desc">Company story, mission, values, optional team section</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Primary Nav</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/process</div>
+        <div class="route-name">Our Process</div>
+        <div class="route-desc">Process video, step-by-step explanation, quality certifications</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Primary Nav</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/products</div>
+        <div class="route-name">All Products</div>
+        <div class="route-desc">Filterable product grid: All | Juicera | Fuzzy | Refrizz</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Primary Nav</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/products/[slug]</div>
+        <div class="route-name">Product Detail</div>
+        <div class="route-desc">Image, description, ingredients, benefits, WhatsApp CTA</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Dynamic</span><span class="tag">SSG</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/brands/juicera</div>
+        <div class="route-name">Juicera Brand</div>
+        <div class="route-desc">Brand hero, USPs, Juicera product grid</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Brand Page</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/brands/fuzzy</div>
+        <div class="route-name">Fuzzy Brand</div>
+        <div class="route-desc">Brand hero, USPs, Fuzzy product grid</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Brand Page</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/brands/refrizz</div>
+        <div class="route-name">Refrizz Brand</div>
+        <div class="route-desc">Brand hero, USPs, Refrizz product grid</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Brand Page</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/contact</div>
+        <div class="route-name">Contact</div>
+        <div class="route-desc">Form, WhatsApp block, email, optional Google Map</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="tag">Primary Nav</span></div>
+      </div>
+      <div class="route-card">
+        <div class="route-url">/api/contact</div>
+        <div class="route-name">Contact API</div>
+        <div class="route-desc">POST handler. Validates, sends email via Resend/Nodemailer</div>
+        <div class="zone-tags" style="margin-top:8px"><span class="route-method">POST</span><span class="tag">Server</span></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. PAGE LAYOUTS -->
+  <div class="section" id="pages">
+    <div class="section-label">Section 4</div>
+    <div class="section-title">Page Layouts — Zone Maps</div>
+    <div class="section-sub">Each numbered zone = a discrete section/component. Order = top to bottom on the page.</div>
+
+    <!-- Homepage -->
+    <div class="page-preview">
+      <div class="page-preview-header"><span>/ &nbsp; Homepage</span><span class="badge badge-amber" style="margin-left:auto">Priority 1</span></div>
+      <div class="page-preview-body">
+        <div class="zone"><div class="zone-num">1</div><div><div class="zone-title">Sticky Navigation</div><div class="zone-desc">Logo left. Nav links centre. WhatsApp CTA button right. Hamburger on mobile. Transparent → opaque on scroll.</div><div class="zone-tags"><span class="tag">Component: Navbar</span><span class="tag">Global</span></div></div></div>
+        <div class="zone"><div class="zone-num">2</div><div><div class="zone-title">Hero Section</div><div class="zone-desc">Full-width. Background: brand image or texture. Headline: brand promise. Sub-headline. 2 CTAs: "Explore Products" + "WhatsApp Us". Sub-brand pills (Juicera / Fuzzy / Refrizz) as clickable chips below.</div><div class="zone-tags"><span class="tag">Component: HeroSection</span><span class="tag">Above fold</span></div></div></div>
+        <div class="zone"><div class="zone-num">3</div><div><div class="zone-title">Brand Overview Strip</div><div class="zone-desc">3 cards, one per brand. Icon + name + one-liner + "Explore" link. Responsive: horizontal scroll on mobile.</div><div class="zone-tags"><span class="tag">Component: BrandStrip</span></div></div></div>
+        <div class="zone"><div class="zone-num">4</div><div><div class="zone-title">Featured Products</div><div class="zone-desc">6 product cards, 2 per brand. Image, brand badge, name, tagline. Click → Product Detail. Heading: "Our Products".</div><div class="zone-tags"><span class="tag">Component: ProductGrid</span><span class="tag">max 6 items</span></div></div></div>
+        <div class="zone"><div class="zone-num">5</div><div><div class="zone-title">Why Choose Us</div><div class="zone-desc">4-icon USP strip: No Preservatives · No Added Sugar · Cold Pressed · Farm Sourced. Alternating bg colour for contrast.</div><div class="zone-tags"><span class="tag">Component: USPStrip</span></div></div></div>
+        <div class="zone"><div class="zone-num">6</div><div><div class="zone-title">Process Teaser</div><div class="zone-desc">Half-width video poster image with play icon. Right side: 3-line process summary + CTA "See Our Process →".</div><div class="zone-tags"><span class="tag">Component: ProcessTeaser</span></div></div></div>
+        <div class="zone"><div class="zone-num">7</div><div><div class="zone-title">Testimonials</div><div class="zone-desc">3–5 static testimonial cards. Name, location, quote. Simple horizontal scroll on mobile.</div><div class="zone-tags"><span class="tag">Component: TestimonialStrip</span><span class="tag">Static data</span></div></div></div>
+        <div class="zone"><div class="zone-num">8</div><div><div class="zone-title">Footer</div><div class="zone-desc">Logo, nav links, brand links, WhatsApp, email, social icons. Copyright. No heavy grid.</div><div class="zone-tags"><span class="tag">Component: Footer</span><span class="tag">Global</span></div></div></div>
+      </div>
+    </div>
+
+    <!-- Product Listing -->
+    <div class="page-preview">
+      <div class="page-preview-header"><span>/products &nbsp; Product Listing</span></div>
+      <div class="page-preview-body">
+        <div class="zone"><div class="zone-num">1</div><div><div class="zone-title">Page Hero</div><div class="zone-desc">Short hero: "Our Products" heading, subtitle. No full-screen height.</div></div></div>
+        <div class="zone"><div class="zone-num">2</div><div><div class="zone-title">Filter Bar</div><div class="zone-desc">Tab buttons: All | Juicera | Fuzzy | Refrizz. Active tab highlighted green. Client-side filter — no page reload.</div><div class="zone-tags"><span class="tag">useState filter</span><span class="tag">No API call</span></div></div></div>
+        <div class="zone"><div class="zone-num">3</div><div><div class="zone-title">Product Grid</div><div class="zone-desc">Responsive card grid. 1→2→3→4 columns. Card: image, brand badge, name, tagline. Entire card clickable → /products/[slug].</div><div class="zone-tags"><span class="tag">Component: ProductGrid</span><span class="tag">No pagination initially</span></div></div></div>
+        <div class="zone"><div class="zone-num">4</div><div><div class="zone-title">Enquiry CTA</div><div class="zone-desc">Bottom strip: "Can't find what you're looking for? Chat with us on WhatsApp."</div></div></div>
+      </div>
+    </div>
+
+    <!-- Product Detail -->
+    <div class="page-preview">
+      <div class="page-preview-header"><span>/products/[slug] &nbsp; Product Detail</span></div>
+      <div class="page-preview-body">
+        <div class="zone"><div class="zone-num">1</div><div><div class="zone-title">Breadcrumb</div><div class="zone-desc">Home / Products / [Product Name]. Small, subtle. Helps navigation + SEO.</div></div></div>
+        <div class="zone"><div class="zone-num">2</div><div><div class="zone-title">Product Hero (2-col)</div><div class="zone-desc">Left: large product image (600×600, WebP). Right: brand badge, product name, category, short description. Mobile: image stacks above.</div><div class="zone-tags"><span class="tag">next/image</span><span class="tag">blur placeholder</span></div></div></div>
+        <div class="zone"><div class="zone-num">3</div><div><div class="zone-title">Ingredients & Benefits</div><div class="zone-desc">Two sub-sections in same panel. Ingredients: chip/tag list. Benefits: icon + text bullets (max 10).</div></div></div>
+        <div class="zone"><div class="zone-num">4</div><div><div class="zone-title">CTA Block</div><div class="zone-desc">Primary: WhatsApp button (pre-filled: "Hi, I'm interested in [Product Name]"). Secondary: "Contact Us" link. NO price, NO cart.</div><div class="zone-tags"><span class="tag">wa.me link</span><span class="tag">No ecommerce</span></div></div></div>
+        <div class="zone"><div class="zone-num">5</div><div><div class="zone-title">Related Products</div><div class="zone-desc">Horizontal strip, max 3. Same brand only. Heading: "More from Juicera / Fuzzy / Refrizz".</div></div></div>
+      </div>
+    </div>
+
+    <!-- Contact -->
+    <div class="page-preview">
+      <div class="page-preview-header"><span>/contact &nbsp; Contact Page</span></div>
+      <div class="page-preview-body">
+        <div class="zone"><div class="zone-num">1</div><div><div class="zone-title">Page Hero</div><div class="zone-desc">"Get in Touch" heading. Short copy.</div></div></div>
+        <div class="zone"><div class="zone-num">2</div><div><div class="zone-title">2-col Layout</div><div class="zone-desc">Left: contact form (Name, Phone, Email, Brand Interest select, Message). Right: WhatsApp block, email address, business hours.</div><div class="zone-tags"><span class="tag">POST /api/contact</span><span class="tag">Resend API</span><span class="tag">No page reload</span></div></div></div>
+        <div class="zone"><div class="zone-num">3</div><div><div class="zone-title">Form Fields Detail</div><div class="zone-desc">Name (text, req) · Phone (tel, req, 10-digit validate) · Email (email, req) · Brand Interest (select: Juicera/Fuzzy/Refrizz/General) · Message (textarea, req, max 1000 chars). Inline error states. Green focus ring. Success: inline confirmation message.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. DATA MODELS -->
+  <div class="section" id="data">
+    <div class="section-label">Section 5</div>
+    <div class="section-title">Data Models</div>
+    <div class="section-sub">TypeScript interfaces + JSON shape. Stored in /data, accessed only via /lib helpers.</div>
+
+    <div class="schema-card">
+      <div class="schema-header"><span class="badge badge-green">Product</span><h4>Product — /data/products.json</h4></div>
+      <table class="schema-table">
+        <thead><tr><th>Field</th><th>Type</th><th>Req</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="field-name">id</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Slug + URL key. e.g. "juicera-elixir"</td></tr>
+          <tr><td class="field-name">name</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Display name. e.g. "Elixir"</td></tr>
+          <tr><td class="field-name">brand</td><td class="field-type">"juicera"|"fuzzy"|"refrizz"</td><td class="req-yes">Yes</td><td>Enum — links to brands.json</td></tr>
+          <tr><td class="field-name">category</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>"cold-pressed-juice" | "nut-milk" | "carbonated" | "goli-soda"</td></tr>
+          <tr><td class="field-name">tagline</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Used on product card. Max 80 chars.</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Detail page body copy. Max 400 chars.</td></tr>
+          <tr><td class="field-name">ingredients</td><td class="field-type">string[]</td><td class="req-yes">Yes</td><td>Ordered array. Rendered as chips.</td></tr>
+          <tr><td class="field-name">benefits</td><td class="field-type">string[]</td><td class="req-no">No</td><td>Benefit bullets. Max 10. Juicera only in practice.</td></tr>
+          <tr><td class="field-name">imageSrc</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Path or URL. Preferred: 600×600px WebP in /public/images/products/</td></tr>
+          <tr><td class="field-name">imageAlt</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Accessibility alt text.</td></tr>
+          <tr><td class="field-name">featured</td><td class="field-type">boolean</td><td class="req-no">No</td><td>Show on homepage highlights. Default: false.</td></tr>
+          <tr><td class="field-name">sortOrder</td><td class="field-type">number</td><td class="req-no">No</td><td>Display order within brand. Lower = first.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schema-card" style="margin-top:16px">
+      <div class="schema-header"><span class="badge badge-amber">Brand</span><h4>Brand — /data/brands.json</h4></div>
+      <table class="schema-table">
+        <thead><tr><th>Field</th><th>Type</th><th>Req</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="field-name">id</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>"juicera" | "fuzzy" | "refrizz"</td></tr>
+          <tr><td class="field-name">name</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Display name</td></tr>
+          <tr><td class="field-name">tagline</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Max 100 chars. Hero subtitle.</td></tr>
+          <tr><td class="field-name">description</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Brand narrative. Max 600 chars.</td></tr>
+          <tr><td class="field-name">heroImage</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>1400×600px WebP. Brand page hero.</td></tr>
+          <tr><td class="field-name">color</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Primary hex. e.g. "#2D6A2D" for Juicera.</td></tr>
+          <tr><td class="field-name">usps</td><td class="field-type">string[]</td><td class="req-yes">Yes</td><td>3–4 USP strings for icon+text blocks.</td></tr>
+          <tr><td class="field-name">slug</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>URL-safe. Must match /brands/[brand] route.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="schema-card" style="margin-top:16px">
+      <div class="schema-header"><span class="badge badge-slate">ContactSubmission</span><h4>ContactSubmission — server-side only, never persisted to client</h4></div>
+      <table class="schema-table">
+        <thead><tr><th>Field</th><th>Type</th><th>Req</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td class="field-name">name</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Full name.</td></tr>
+          <tr><td class="field-name">phone</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>10-digit Indian mobile. Validated client + server.</td></tr>
+          <tr><td class="field-name">email</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Valid email. Validated client + server.</td></tr>
+          <tr><td class="field-name">brandInterest</td><td class="field-type">enum</td><td class="req-no">No</td><td>"juicera"|"fuzzy"|"refrizz"|"general"</td></tr>
+          <tr><td class="field-name">message</td><td class="field-type">string</td><td class="req-yes">Yes</td><td>Max 1000 chars.</td></tr>
+          <tr><td class="field-name">submittedAt</td><td class="field-type">datetime</td><td class="req-yes">Yes</td><td>ISO 8601 UTC. Set server-side.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 6. STACK -->
+  <div class="section" id="stack">
+    <div class="section-label">Section 6</div>
+    <div class="section-title">Tech Stack</div>
+    <div class="section-sub">Every choice made for performance, minimal bundle size, and future CMS portability.</div>
+    <div class="stack-grid">
+      <div class="stack-card"><div class="stack-layer">Framework</div><div class="stack-choice">Next.js 14+ (App Router)</div><div class="stack-why">SSG for product pages, built-in API routes, image optimisation, metadata API</div></div>
+      <div class="stack-card"><div class="stack-layer">Styling</div><div class="stack-choice">Tailwind CSS 3</div><div class="stack-why">Utility-first. Zero runtime CSS. Smallest possible CSS output via PurgeCSS</div></div>
+      <div class="stack-card"><div class="stack-layer">Components</div><div class="stack-choice">shadcn/ui</div><div class="stack-why">Radix primitives, copy-paste pattern, zero bundle bloat, accessible out of the box</div></div>
+      <div class="stack-card"><div class="stack-layer">Icons</div><div class="stack-choice">Lucide React</div><div class="stack-why">Consistent stroke-based set, tree-shakeable, no icon font overhead</div></div>
+      <div class="stack-card"><div class="stack-layer">Animations</div><div class="stack-choice">CSS transitions only</div><div class="stack-why">No Framer Motion unless strictly needed. Intersection Observer for scroll reveals</div></div>
+      <div class="stack-card"><div class="stack-layer">Data Layer</div><div class="stack-choice">Local JSON → lib/ helpers</div><div class="stack-why">All data access through typed TS functions. Drop-in CMS swap with zero component changes</div></div>
+      <div class="stack-card"><div class="stack-layer">Form Email</div><div class="stack-choice">Resend API</div><div class="stack-why">Simplest reliable email delivery from Next.js API routes. Free tier covers launch volume</div></div>
+      <div class="stack-card"><div class="stack-layer">Images</div><div class="stack-choice">next/image</div><div class="stack-why">Automatic WebP conversion, lazy loading, blur placeholder, responsive srcset</div></div>
+      <div class="stack-card"><div class="stack-layer">Hosting</div><div class="stack-choice">Vercel</div><div class="stack-why">Native Next.js support, free SSL, global CDN, automatic previews per PR</div></div>
+      <div class="stack-card"><div class="stack-layer">Analytics</div><div class="stack-choice">GA4 via @next/third-parties</div><div class="stack-why">Env-gated. Zero blocking scripts. Swap to Plausible/Fathom if privacy is priority</div></div>
+      <div class="stack-card"><div class="stack-layer">SEO</div><div class="stack-choice">Metadata API + next-sitemap</div><div class="stack-why">Type-safe metadata per page. Sitemap/robots.txt auto-generated on build</div></div>
+      <div class="stack-card"><div class="stack-layer">Validation</div><div class="stack-choice">Zod</div><div class="stack-why">Schema validation for contact form server-side. Shared types with client if needed</div></div>
+    </div>
+  </div>
+
+  <!-- 7. COMPONENTS -->
+  <div class="section" id="components">
+    <div class="section-label">Section 7</div>
+    <div class="section-title">Component Architecture</div>
+    <div class="section-sub">Folder structure maps directly to the app/components split. No component imports from app/ back into components/.</div>
+    <div class="comp-tree">
+<span class="dir">fresh360-website/</span>
+<span class="dir">  app/</span>
+<span class="dir">    (site)/</span>
+<span class="file">      page.tsx                   </span><span class="comment"># Homepage</span>
+<span class="dir">      about/</span><span class="file">page.tsx</span>
+<span class="dir">      process/</span><span class="file">page.tsx</span>
+<span class="dir">      products/</span>
+<span class="file">        page.tsx                   </span><span class="comment"># /products listing</span>
+<span class="dir">        [slug]/</span><span class="file">page.tsx           </span><span class="comment"># /products/[slug] detail (SSG)</span>
+<span class="dir">      brands/[brand]/</span><span class="file">page.tsx   </span><span class="comment"># /brands/juicera, /brands/fuzzy, etc.</span>
+<span class="dir">      contact/</span><span class="file">page.tsx</span>
+<span class="dir">    api/contact/</span>
+<span class="file">      route.ts                     </span><span class="comment"># POST handler — Zod validate → Resend email</span>
+<span class="file">    layout.tsx                     </span><span class="comment"># Root: Navbar + WhatsAppFloat + Footer</span>
+<span class="file">    not-found.tsx</span>
+<span class="dir">  components/</span>
+<span class="dir">    layout/</span>
+<span class="file">      Navbar.tsx                   </span><span class="comment"># Sticky, transparent→opaque, mobile drawer</span>
+<span class="file">      Footer.tsx</span>
+<span class="file">      WhatsAppFloat.tsx            </span><span class="comment"># Fixed bottom-right, z-9999, wa.me link</span>
+<span class="dir">    product/</span>
+<span class="file">      ProductCard.tsx              </span><span class="comment"># Image, badge, name, tagline, click → detail</span>
+<span class="file">      ProductGrid.tsx              </span><span class="comment"># Responsive grid + filter logic</span>
+<span class="file">      BenefitList.tsx              </span><span class="comment"># Icon + text bullet list</span>
+<span class="file">      IngredientChips.tsx          </span><span class="comment"># Tag chips for ingredient array</span>
+<span class="file">      RelatedProducts.tsx          </span><span class="comment"># Horizontal strip, max 3</span>
+<span class="dir">    brand/</span>
+<span class="file">      BrandHero.tsx                </span><span class="comment"># Full-width hero with brand colour accent</span>
+<span class="file">      BrandUSPGrid.tsx             </span><span class="comment"># 3-4 icon+text USP blocks</span>
+<span class="file">      BrandStrip.tsx               </span><span class="comment"># Homepage brand overview, 3 cards</span>
+<span class="dir">    shared/</span>
+<span class="file">      HeroSection.tsx              </span><span class="comment"># Homepage hero, tagline, CTAs, brand pills</span>
+<span class="file">      SectionHeader.tsx            </span><span class="comment"># label + title + subtitle pattern</span>
+<span class="file">      CTABlock.tsx                 </span><span class="comment"># WhatsApp + secondary CTA</span>
+<span class="file">      USPStrip.tsx                 </span><span class="comment"># 4-icon homepage strip</span>
+<span class="file">      ProcessTeaser.tsx            </span><span class="comment"># Video poster + summary</span>
+<span class="file">      TestimonialStrip.tsx         </span><span class="comment"># Static testimonial cards</span>
+<span class="dir">    ui/                            </span><span class="comment"># shadcn/ui primitives (Button, Input, etc.)</span>
+<span class="dir">  data/</span>
+<span class="file">    products.json</span>
+<span class="file">    brands.json</span>
+<span class="dir">  lib/</span>
+<span class="file">    products.ts                    </span><span class="comment"># getAllProducts, getProductBySlug, getProductsByBrand</span>
+<span class="file">    brands.ts                      </span><span class="comment"># getAllBrands, getBrandById</span>
+<span class="file">    whatsapp.ts                    </span><span class="comment"># buildWhatsAppLink(productName) helper</span>
+<span class="dir">  public/images/</span>
+<span class="dir">    products/                      </span><span class="comment"># 600x600 WebP per SKU</span>
+<span class="dir">    brands/                        </span><span class="comment"># 1400x600 WebP per brand hero</span>
+    </div>
+  </div>
+
+  <!-- 8. PERFORMANCE -->
+  <div class="section" id="perf">
+    <div class="section-label">Section 8</div>
+    <div class="section-title">Performance Targets</div>
+    <div class="section-sub">Non-negotiable. Measured on Lighthouse mobile (4G, mid-range Android). Verify before every deploy.</div>
+    <div class="perf-grid">
+      <div class="perf-card"><div class="perf-metric">Largest Contentful Paint</div><div class="perf-target">&lt; 2.5s</div><div class="perf-label">On 4G, Vercel CDN</div></div>
+      <div class="perf-card"><div class="perf-metric">Cumulative Layout Shift</div><div class="perf-target">&lt; 0.1</div><div class="perf-label">All images need explicit w/h</div></div>
+      <div class="perf-card"><div class="perf-metric">First Input Delay</div><div class="perf-target">&lt; 100ms</div><div class="perf-label">No blocking JS in &lt;head&gt;</div></div>
+      <div class="perf-card"><div class="perf-metric">Lighthouse Score</div><div class="perf-target">&gt; 90</div><div class="perf-label">Mobile, Performance category</div></div>
+      <div class="perf-card"><div class="perf-metric">JS Bundle (initial)</div><div class="perf-target">&lt; 150kB</div><div class="perf-label">Gzipped. No heavy libs at root.</div></div>
+      <div class="perf-card"><div class="perf-metric">Image Format</div><div class="perf-target">WebP</div><div class="perf-label">next/image handles conversion</div></div>
+      <div class="perf-card"><div class="perf-metric">Fonts</div><div class="perf-target">next/font</div><div class="perf-label">Self-hosted. Zero FOUT.</div></div>
+      <div class="perf-card"><div class="perf-metric">Time to Interactive</div><div class="perf-target">&lt; 3.5s</div><div class="perf-label">Mid-range Android device</div></div>
+    </div>
+  </div>
+
+  <!-- 9. TIMELINE -->
+  <div class="section" id="timeline">
+    <div class="section-label">Section 9</div>
+    <div class="section-title">Build Timeline</div>
+    <div class="section-sub">6 phases. Total: ~6 weeks from kickoff to production. Assumes client provides assets by end of Week 1.</div>
+    <div class="timeline">
+      <div class="phase">
+        <div class="phase-num">1</div>
+        <div class="phase-body">
+          <div class="phase-dur">Week 1</div>
+          <div class="phase-name">Setup & Foundation</div>
+          <ul class="phase-tasks">
+            <li>Next.js 14 + Tailwind + shadcn scaffold</li>
+            <li>Folder structure, TypeScript interfaces</li>
+            <li>JSON population: Juicera products + brands</li>
+            <li>lib/ helper functions + Zod schemas</li>
+            <li>Vercel project + domain + env setup</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">2</div>
+        <div class="phase-body">
+          <div class="phase-dur">Weeks 2–3</div>
+          <div class="phase-name">Core Pages</div>
+          <ul class="phase-tasks">
+            <li>Homepage (all 7 zones)</li>
+            <li>Product Listing + Product Detail pages</li>
+            <li>Juicera Brand page</li>
+            <li>Design system: colours, typography, shared components</li>
+            <li>Global Nav + Footer + WhatsApp float</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">3</div>
+        <div class="phase-body">
+          <div class="phase-dur">Week 4</div>
+          <div class="phase-name">Remaining Pages & Fuzzy / Refrizz</div>
+          <ul class="phase-tasks">
+            <li>About, Process, Contact pages</li>
+            <li>Contact API route (Resend email)</li>
+            <li>Fuzzy + Refrizz brand pages + product data</li>
+            <li>404 page</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">4</div>
+        <div class="phase-body">
+          <div class="phase-dur">Week 5</div>
+          <div class="phase-name">QA, Polish & SEO</div>
+          <ul class="phase-tasks">
+            <li>Mobile QA: 375px, 390px, 414px breakpoints</li>
+            <li>Lighthouse audit → hit all perf targets</li>
+            <li>Accessibility: axe-core, keyboard nav, focus states</li>
+            <li>SEO: Metadata API per page, OG images, sitemap, robots</li>
+            <li>Cross-browser: Chrome, Safari (iOS), Firefox</li>
+          </ul>
+        </div>
+      </div>
+      <div class="phase">
+        <div class="phase-num">5</div>
+        <div class="phase-body">
+          <div class="phase-dur">Week 6</div>
+          <div class="phase-name">Launch</div>
+          <ul class="phase-tasks">
+            <li>Vercel production deploy + custom domain + SSL</li>
+            <li>GA4 tracking verification</li>
+            <li>Post-launch smoke test (all routes, form, WhatsApp links)</li>
+            <li>Hand off: CMS migration guide + content update docs</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- OPEN ITEMS -->
+  <div class="section">
+    <div class="section-label">Appendix</div>
+    <div class="section-title">Open Items — Client Action Required</div>
+    <div class="section-sub">Block on Phase 1 kickoff until these are resolved.</div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-top:16px">
+      <div class="stack-card"><div class="stack-layer">🚨 Blocker</div><div class="stack-choice">Product photos</div><div class="stack-why">Min 600×600px per SKU. WebP preferred. Required before any product page can go live.</div></div>
+      <div class="stack-card"><div class="stack-layer">🚨 Blocker</div><div class="stack-choice">Fuzzy & Refrizz variant list</div><div class="stack-why">Final product names, ingredients, descriptions. Cannot populate /data without this.</div></div>
+      <div class="stack-card"><div class="stack-layer">⚠️ Week 1</div><div class="stack-choice">Process video</div><div class="stack-why">Existing footage, new shoot, or animated explainer? Determines embed approach.</div></div>
+      <div class="stack-card"><div class="stack-layer">⚠️ Week 1</div><div class="stack-choice">WhatsApp Business number</div><div class="stack-why">Must be a WhatsApp Business account. Confirm number + desired pre-filled message.</div></div>
+      <div class="stack-card"><div class="stack-layer">⚠️ Week 1</div><div class="stack-choice">Social media handles</div><div class="stack-why">Instagram, Facebook, YouTube links for footer.</div></div>
+      <div class="stack-card"><div class="stack-layer">⚠️ Week 2</div><div class="stack-choice">Analytics choice</div><div class="stack-why">GA4 (free, Google data) vs Plausible/Fathom (paid, privacy-first). Client decision.</div></div>
+      <div class="stack-card"><div class="stack-layer">⚠️ Week 2</div><div class="stack-choice">Brand colours for Fuzzy & Refrizz</div><div class="stack-why">Juicera = green. What are the primary accent colours for the other two brands?</div></div>
+      <div class="stack-card"><div class="stack-layer">📋 Nice to have</div><div class="stack-choice">FSSAI licence + certifications</div><div class="stack-why">For About/Process pages. Builds trust. Can be added post-launch.</div></div>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</body>
+</html>
