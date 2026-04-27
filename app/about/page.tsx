@@ -1,123 +1,230 @@
-import Link from 'next/link'
-import { Metadata } from 'next'
-import { Heart, ShieldCheck, Target, Zap } from 'lucide-react'
+'use client'
 
-export const metadata: Metadata = {
-  title: 'About Us | Our Story | Fresh 360 Degrees Foods',
-  description: 'Learn about the journey of Fresh 360 Degrees Foods LLP and our commitment to bringing you the purest cold-pressed beverages.',
+import { motion, useScroll, useTransform, Variants } from 'motion/react'
+import Link from 'next/link'
+import { useRef } from 'react'
+import { Heart, ShieldCheck, Target, Zap, ArrowRight, Sparkles, Droplets, MapPin } from 'lucide-react'
+
+const containerVariants: Variants = {
+  initial: { opacity: 0 },
+  animate: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.2
+    }
+  }
+}
+
+const itemVariants: Variants = {
+  initial: { opacity: 0, y: 40 },
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: { duration: 1, ease: [0.22, 1, 0.36, 1] }
+  }
 }
 
 export default function AboutPage() {
+  const containerRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  })
+
   return (
-    <div className="pt-20">
-      {/* Story Hero */}
-      <section className="bg-white py-24 md:py-32">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-            <div>
-              <span className="text-[var(--color-juicera)] font-bold uppercase tracking-[0.2em] text-sm mb-4 block">Our Story</span>
-              <h1 className="text-5xl md:text-7xl font-bold mb-8 font-[family-name:var(--font-heading)] text-slate-900 leading-tight">
-                Crafting <span className="italic text-slate-400">Purity</span> in Every Bottle
-              </h1>
-              <div className="space-y-6 text-lg text-slate-600 leading-relaxed">
-                <p>
-                  Fresh 360 Degrees Foods LLP was born out of a simple realization: the beverages we consume daily are often stripped of their natural goodness through heat pasteurization and artificial additives.
-                </p>
-                <p>
-                  We decided to change that. By bringing together traditional methods and modern cold-press technology, we created a system that preserves 100% of the nutrients, flavors, and life found in nature&apos;s bounty.
-                </p>
-              </div>
-            </div>
-            <div className="relative aspect-square rounded-[64px] bg-slate-100 overflow-hidden shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-[var(--color-juicera)]/20 to-transparent z-10" />
-              <div className="flex items-center justify-center h-full text-9xl">🥭</div>
-              <div className="absolute bottom-12 left-12 right-12 bg-white/80 backdrop-blur-md p-8 rounded-3xl z-20 border border-white/40">
-                <p className="text-slate-900 font-bold text-xl mb-1">Founded in Hyderabad</p>
-                <p className="text-slate-600">Committed to local farmers and sustainable sourcing.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+    <main ref={containerRef} className="relative min-h-screen bg-stone-950 text-stone-200 overflow-x-hidden pt-32 md:pt-56 pb-24 md:pb-40 selection:bg-amber-600 selection:text-stone-900 w-full">
+      {/* Cinematic Background */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          style={{ opacity: useTransform(scrollYProgress, [0, 0.5], [0.1, 0.05]) }}
+          className="absolute top-0 right-0 w-[80%] h-[80%] bg-amber-600/10 rounded-full blur-[160px] -translate-y-1/2 translate-x-1/2" 
+        />
+        <div className="absolute inset-0 opacity-[0.03] mix-blend-overlay pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')]" />
+      </div>
 
-      {/* Values Section */}
-      <section className="py-24 bg-slate-50 border-y border-slate-100">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 font-[family-name:var(--font-heading)]">The Pillars of Fresh 360</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Our commitment to quality isn&apos;t just a promise; it&apos;s the foundation of everything we do.
+      <div className="max-w-7xl mx-auto px-6 md:px-12 relative z-10">
+        {/* Story Hero */}
+        <section className="mb-32 md:mb-56">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center">
+            <motion.div 
+              variants={containerVariants}
+              initial="initial"
+              animate="animate"
+              className="space-y-10 md:space-y-14"
+            >
+              <motion.div variants={itemVariants} className="inline-flex items-center space-x-3 px-6 py-2.5 rounded-full bg-white/5 text-amber-600 text-[10px] font-black uppercase tracking-[0.4em] border border-white/5 shadow-2xl backdrop-blur-xl">
+                <Sparkles className="w-4 h-4" />
+                <span>The Origin Story</span>
+              </motion.div>
+              
+              <motion.h1 variants={itemVariants} className="text-5xl sm:text-6xl md:text-7xl lg:text-7xl font-black text-white leading-[0.8] tracking-tighter uppercase">
+                CRAFTING <br />
+                <span className="text-amber-600">PURITY.</span>
+              </motion.h1>
+              
+              <motion.div variants={itemVariants} className="space-y-8 text-xl md:text-2xl lg:text-2xl text-stone-400 leading-tight font-black uppercase tracking-tighter">
+                <p>
+                  Fresh 360 Degrees Foods LLP was born out of a simple realization: the beverages we consume daily are often stripped of their natural goodness.
+                </p>
+                <p className="text-stone-500">
+                  By bringing together traditional methods and modern cold-press technology, we created a system that preserves 100% of the nutrients exactly as nature intended.
+                </p>
+              </motion.div>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9, rotate: 5 }}
+              animate={{ opacity: 1, scale: 1, rotate: 0 }}
+              transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
+              className="relative aspect-square w-full max-w-[550px] lg:justify-self-end group"
+            >
+              <div className="absolute -inset-10 bg-amber-600/5 rounded-full blur-[100px] opacity-0 group-hover:opacity-100 transition-opacity duration-1000" />
+              <div className="relative h-full w-full rounded-[60px] md:rounded-[100px] bg-stone-900 border border-white/10 shadow-3xl overflow-hidden flex items-center justify-center p-12 md:p-20 group">
+                <motion.div 
+                  animate={{ y: [0, -20, 0], scale: [1, 1.05, 1] }}
+                  transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                  className="text-6xl md:text-8xl select-none filter drop-shadow-[0_40px_80px_rgba(217,119,6,0.25)]"
+                >
+                  🥭
+                </motion.div>
+                
+                {/* Floating Info Tag */}
+                <motion.div 
+                  initial={{ x: 20, opacity: 0 }}
+                  animate={{ x: 0, opacity: 1 }}
+                  transition={{ delay: 1 }}
+                  className="absolute bottom-10 left-6 right-6 md:bottom-12 md:left-12 md:right-12 bg-white/5 backdrop-blur-3xl p-6 md:p-10 rounded-[40px] border border-white/10 shadow-2xl"
+                >
+                  <div className="flex items-center space-x-4 mb-2">
+                    <MapPin className="w-4 h-4 text-amber-500" />
+                    <p className="text-white font-black text-xl md:text-2xl uppercase tracking-tighter">HYDERABAD FOUNDED</p>
+                  </div>
+                  <p className="text-amber-600 font-black text-[9px] md:text-[10px] uppercase tracking-[0.4em] ml-8">Small Batch. Premium Sourcing.</p>
+                </motion.div>
+              </div>
+            </motion.div>
+          </div>
+        </section>
+
+        {/* Pillars Section */}
+        <section className="mb-32 md:mb-56">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-24 md:mb-40"
+          >
+            <h2 className="text-4xl sm:text-5xl md:text-5xl lg:text-6xl font-black text-white mb-10 tracking-tighter uppercase leading-[0.8]">OUR <br /> <span className="text-amber-600">PILLARS</span></h2>
+            <p className="text-stone-500 max-w-2xl mx-auto text-[10px] md:text-xs font-black uppercase tracking-[0.5em] leading-relaxed">
+              PRECISION • PURITY • PERFORMANCE
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {[
               { icon: Heart, title: 'Zero Additives', desc: 'No sugar, no water, no preservatives. Just 100% pure nature.' },
-              { icon: ShieldCheck, title: 'Cold-Pressed', desc: 'No heat involved. We keep the enzymes alive and the vitamins intact.' },
-              { icon: Target, title: 'Precision Sourcing', desc: 'We hand-pick the finest produce from verified sustainable farms.' },
-              { icon: Zap, title: 'Fresh Daily', desc: 'Small batch production to ensure you get the freshest bottle possible.' }
+              { icon: ShieldCheck, title: 'Cold-Pressed', desc: 'No heat involved. We keep the enzymes and vitamins alive.' },
+              { icon: Target, title: 'Precision Sourcing', desc: 'Hand-picked produce from verified sustainable local farms.' },
+              { icon: Zap, title: 'Fresh Daily', desc: 'Small batch production ensuring the absolute freshest experience.' }
             ].map((value, i) => (
-              <div key={i} className="bg-white p-8 rounded-[32px] shadow-sm border border-slate-100 hover:shadow-xl transition-all group">
-                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform text-[var(--color-juicera)]">
-                  <value.icon className="w-7 h-7" />
+              <motion.div 
+                key={i} 
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.1 }}
+                className="group p-10 md:p-12 rounded-[50px] md:rounded-[60px] border border-white/5 bg-white/[0.02] backdrop-blur-2xl transition-all duration-700 hover:bg-white/[0.05] hover:border-amber-600/20 hover:-translate-y-4"
+              >
+                <div className="w-16 h-16 md:w-20 md:h-20 rounded-[24px] md:rounded-[28px] flex items-center justify-center mb-10 bg-stone-900 border border-white/5 shadow-xl group-hover:bg-amber-600 group-hover:text-stone-950 transition-all duration-500">
+                  <value.icon className="w-7 h-7 md:w-8 md:h-8" />
                 </div>
-                <h3 className="text-xl font-bold mb-4 text-slate-900">{value.title}</h3>
-                <p className="text-slate-500 leading-relaxed">{value.desc}</p>
-              </div>
+                <h3 className="text-2xl md:text-3xl font-black mb-4 text-white uppercase tracking-tighter group-hover:text-amber-600 transition-colors">{value.title}</h3>
+                <p className="text-stone-500 text-base md:text-lg font-black uppercase tracking-tight leading-snug group-hover:text-stone-300 transition-colors">{value.desc}</p>
+              </motion.div>
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      {/* Brands Philosophy */}
-      <section className="py-24 bg-white">
-        <div className="max-w-7xl mx-auto px-4 md:px-8">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-6 font-[family-name:var(--font-heading)]">One Vision, Three Flavors</h2>
-            <p className="text-slate-500 max-w-2xl mx-auto text-lg">
-              Across our three distinct brands, we maintain the same uncompromising standard of excellence.
-            </p>
+        {/* Vision Section */}
+        <section className="mb-32 md:mb-56">
+          <div className="bg-stone-900 rounded-[60px] md:rounded-[120px] p-8 md:p-24 lg:p-32 border border-white/5 relative overflow-hidden group">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-[10vw] md:text-[10vw] font-black text-white/[0.02] whitespace-nowrap pointer-events-none uppercase select-none">
+               Vision
+            </div>
+
+            <div className="relative z-10">
+              <div className="text-center mb-24 md:mb-32">
+                <h2 className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-black text-white mb-8 tracking-tighter uppercase leading-[0.8]">
+                  ONE UNCOMPROMISING <br /> <span className="text-amber-600">STANDARD</span>
+                </h2>
+                <div className="w-20 h-1 bg-amber-600 mx-auto rounded-full" />
+              </div>
+
+              <div className="grid grid-cols-1 gap-6 md:gap-8">
+                {[
+                  { brand: 'Juicera', desc: 'The purist choice. 100% cold-pressed fruit and vegetable juices designed for health and vitality.', tag: 'NATURE UNFILTERED', icon: Droplets },
+                  { brand: 'Fuzzy', desc: 'Innovation meets tradition. Carbonated cold-pressed beverages that bring a healthy fizz to your life.', tag: 'HEALTHY EFFERVESCENCE', icon: Sparkles },
+                  { brand: 'Refrizz', desc: 'A nostalgic tribute. Reimagining the classic Goli Soda with premium ingredients and natural flavors.', tag: 'CLASSIC REIMAGINED', icon: Zap }
+                ].map((item, i) => (
+                  <motion.div 
+                    key={i} 
+                    initial={{ opacity: 0, x: i % 2 === 0 ? -40 : 40 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true }}
+                    className="group flex flex-col md:flex-row items-center gap-8 md:gap-12 p-8 md:p-12 rounded-[50px] md:rounded-[60px] border border-white/5 bg-white/[0.02] hover:bg-white/[0.04] hover:border-amber-600/30 transition-all duration-700"
+                  >
+                    <div className="w-full md:w-80 h-44 rounded-[40px] bg-stone-950 flex flex-col items-center justify-center text-3xl md:text-4xl font-black text-white shrink-0 shadow-3xl border border-white/5 relative overflow-hidden">
+                      <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-amber-600/50 to-transparent" />
+                      <span className="uppercase tracking-tighter leading-none mb-3 z-10">{item.brand}</span>
+                      <span className="text-[8px] md:text-[9px] tracking-[0.4em] font-black text-amber-600/80 uppercase z-10">{item.tag}</span>
+                      <item.icon className="absolute right-[-10%] bottom-[-10%] w-32 h-32 text-white/[0.02] -rotate-12" />
+                    </div>
+                    
+                    <div className="flex-1 text-center md:text-left space-y-6">
+                      <p className="text-xl md:text-2xl lg:text-2xl text-stone-400 font-black uppercase tracking-tighter leading-tight group-hover:text-stone-200 transition-colors">
+                        {item.desc}
+                      </p>
+                      <Link href={`/brands/${item.brand.toLowerCase()}`} className="inline-flex items-center space-x-3 text-amber-600 text-[10px] md:text-xs font-black uppercase tracking-[0.3em] hover:text-white transition-colors">
+                        <span>View Catalog</span>
+                        <ArrowRight className="w-4 h-4" />
+                      </Link>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
           </div>
+        </section>
 
-          <div className="space-y-12">
-            {[
-              { brand: 'Juicera', color: 'var(--color-juicera)', desc: 'The purist choice. 100% cold-pressed fruit and vegetable juices designed for health and vitality.' },
-              { brand: 'Fuzzy', color: 'var(--color-fuzzy)', desc: 'Innovation meets tradition. Carbonated cold-pressed beverages that bring a healthy fizz to your life.' },
-              { brand: 'Refrizz', color: 'var(--color-refrizz)', desc: 'A nostalgic tribute. Reimagining the classic Goli Soda with premium ingredients and natural flavors.' }
-            ].map((item, i) => (
-              <div key={i} className="flex flex-col md:flex-row items-center gap-8 p-8 rounded-[32px] border border-slate-100 bg-slate-50/30">
-                <div 
-                  className="w-full md:w-48 h-24 rounded-2xl flex items-center justify-center text-3xl font-bold text-white shrink-0 shadow-lg"
-                  style={{ backgroundColor: item.color }}
+        {/* CTA Section */}
+        <section className="text-center">
+          <div className="relative rounded-[60px] md:rounded-[120px] bg-amber-600 py-32 md:py-48 px-8 text-center overflow-hidden shadow-3xl">
+            <div className="absolute inset-0 bg-stone-950 opacity-0 group-hover:opacity-5 transition-opacity duration-1000" />
+            
+            <div className="relative z-10 space-y-12">
+              <h2 className="text-4xl sm:text-6xl md:text-5xl lg:text-7xl font-black text-stone-950 mb-12 tracking-tighter leading-[0.8] uppercase">
+                JOIN THE <br /> REVOLUTION
+              </h2>
+              <p className="text-stone-900/70 text-lg md:text-xl lg:text-2xl max-w-2xl mx-auto font-black uppercase tracking-tighter leading-tight">
+                Experience the difference that true uncompromising purity makes. Your journey to vitality starts here.
+              </p>
+              <div className="pt-8">
+                <Link 
+                  href="/products"
+                  className="inline-flex items-center space-x-4 md:space-x-6 px-12 md:px-20 py-7 md:py-10 bg-stone-950 text-white rounded-full text-lg md:text-2xl font-black uppercase tracking-[0.4em] hover:scale-105 transition-all duration-500 shadow-3xl active:scale-95 group"
                 >
-                  {item.brand}
-                </div>
-                <p className="text-lg text-slate-700 leading-relaxed">
-                  {item.desc}
-                </p>
+                  <span>Explore All</span>
+                  <ArrowRight className="w-6 h-6 md:w-10 md:h-10 group-hover:translate-x-3 transition-transform" />
+                </Link>
               </div>
-            ))}
-          </div>
-        </div>
-      </section>
+            </div>
 
-      {/* Call to Action */}
-      <section className="py-24 bg-slate-900 text-white relative overflow-hidden">
-        <div className="max-w-4xl mx-auto px-4 md:px-8 text-center relative z-10">
-          <h2 className="text-4xl md:text-5xl font-bold mb-8 font-[family-name:var(--font-heading)]">Join the Fresh Revolution</h2>
-          <p className="text-xl text-slate-400 mb-12">
-            Experience the difference that true purity makes. Your journey to a healthier lifestyle starts with a single sip.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link 
-              href="/products"
-              className="bg-[var(--color-juicera)] text-white px-10 py-5 rounded-2xl font-bold text-lg hover:scale-105 transition-transform shadow-xl shadow-[var(--color-juicera)]/20"
-            >
-              Explore Our Products
-            </Link>
+            <div className="absolute bottom-[-5%] left-[-5%] text-[8vw] md:text-[10vw] font-black text-stone-950/[0.05] select-none pointer-events-none whitespace-nowrap tracking-tighter uppercase">
+              EST. 2025
+            </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+      </div>
+    </main>
   )
 }

@@ -1,20 +1,20 @@
 import type { Metadata } from 'next'
-import { Playfair_Display, DM_Sans, JetBrains_Mono } from 'next/font/google'
+import { Syne, Outfit, JetBrains_Mono } from 'next/font/google'
 import './globals.css'
 import Navbar from '@/components/layout/Navbar'
 import Footer from '@/components/layout/Footer'
 import WhatsAppFloat from '@/components/layout/WhatsAppFloat'
 
-const playfair = Playfair_Display({
+const syne = Syne({
   subsets: ['latin'],
-  variable: '--font-playfair',
-  weight: ['400', '700'],
+  variable: '--font-syne',
+  weight: ['400', '500', '600', '700', '800'],
 })
 
-const dmSans = DM_Sans({
+const outfit = Outfit({
   subsets: ['latin'],
-  variable: '--font-dm-sans',
-  weight: ['300', '400', '500', '600'],
+  variable: '--font-outfit',
+  weight: ['300', '400', '500', '600', '700', '800', '900'],
 })
 
 const jetbrainsMono = JetBrains_Mono({
@@ -24,8 +24,9 @@ const jetbrainsMono = JetBrains_Mono({
 })
 
 export const metadata: Metadata = {
-  title: 'Fresh 360 — Taste the Freshness',
-  description: 'Premium cold-pressed juices, nut milks, and beverages by Fresh 360 Degrees Foods LLP',
+  title: 'Fresh 360 | Premium Cold-Pressed Juices & Crafted Beverages',
+  description: 'Experience the gold standard of purity. Fresh 360 Degrees Foods LLP delivers artisanal cold-pressed juices, organic nut milks, and signature refreshments across Hyderabad.',
+  keywords: 'cold-pressed juice, organic nut milk, fresh 360, juicera, fuzzy, refrizz, hyderabad beverages, premium drinks',
 }
 
 export default function RootLayout({
@@ -34,13 +35,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${playfair.variable} ${dmSans.variable} ${jetbrainsMono.variable}`}>
-      <body className="min-h-screen flex flex-col">
+    <html lang="en" className={`${syne.variable} ${outfit.variable} ${jetbrainsMono.variable}`}>
+      <body className="min-h-screen flex flex-col overflow-x-hidden relative">
         <Navbar />
-        <main className="flex-grow page-enter">
-          {children}
-        </main>
-        <Footer />
+        <div className="flex-grow flex flex-col">
+          <main className="flex-grow">
+            {children}
+          </main>
+          <Footer />
+        </div>
         <WhatsAppFloat />
       </body>
     </html>

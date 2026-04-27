@@ -1,423 +1,412 @@
+'use client'
+
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { CheckCircle, Leaf, ShieldCheck, Droplets, Heart, PlayCircle, ArrowRight } from 'lucide-react'
+import { motion, useScroll, useTransform } from 'motion/react'
+import { 
+  ArrowRight, 
+  Leaf, 
+  Sparkles, 
+  Droplets, 
+  Zap, 
+  ShieldCheck,
+  ChevronRight,
+  Plus,
+  Heart
+} from 'lucide-react'
 import { getFeaturedProducts } from '@/lib/sanity'
 import urlFor from '@/sanity/lib/image'
 import { Product } from '@/lib/types'
-import ScrollReveal from '@/components/shared/ScrollReveal'
+import { cn } from '@/lib/utils'
 
-export default async function HomePage() {
-  const featuredProducts = await getFeaturedProducts()
+export default function HomePage() {
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const containerRef = useRef<HTMLDivElement>(null)
+  
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start start", "end end"]
+  })
+
+  const heroY = useTransform(scrollYProgress, [0, 0.2], [0, -100])
+  const heroOpacity = useTransform(scrollYProgress, [0, 0.15], [1, 0])
+  const pureTextX = useTransform(scrollYProgress, [0.6, 0.9], ["20%", "-20%"])
+
+  const brands = [
+    { 
+      name: 'JUICERA', 
+      slug: 'juicera', 
+      tagline: 'The Purest Essence', 
+      desc: '100% cold-pressed purity. No additives, no compromises.',
+      color: 'bg-green-600'
+    },
+    { 
+      name: 'FUZZY', 
+      slug: 'fuzzy', 
+      tagline: 'The Modern Spark', 
+      desc: 'Cold-pressed complexity meets elegant effervescence.',
+      color: 'bg-cyan-600'
+    },
+    { 
+      name: 'REFRIZZ', 
+      slug: 'refrizz', 
+      tagline: 'The Bold Classic', 
+      desc: 'Intense flavors and dynamic fizz for the daring.',
+      color: 'bg-orange-600'
+    }
+  ]
+
+  useEffect(() => {
+    getFeaturedProducts().then(products => {
+      setFeaturedProducts(products)
+      setLoading(false)
+    })
+  }, [])
 
   return (
-    <div className="flex flex-col w-full overflow-x-hidden">
-      {/* SECTION 1: Hero */}
-      <section className="relative min-h-screen flex items-center pt-[120px] pb-20 px-4 md:px-8 bg-white">
-        <div className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Left Side: Content */}
-          <div className="flex flex-col space-y-8 max-w-xl">
-            <div>
-              <span className="inline-block text-[12px] font-medium uppercase tracking-[0.2em] text-[var(--color-amber)] font-[family-name:var(--font-dm-sans)] mb-4">
-                Premium Cold Pressed Beverages
-              </span>
-              <h1 className="text-[48px] md:text-[72px] font-bold text-[var(--color-slate)] font-[family-name:var(--font-playfair)] leading-[1.1] whitespace-pre-line">
-                Taste the{"\n"}Freshness.
-              </h1>
-              <p className="mt-6 text-[18px] text-[var(--color-muted)] font-[family-name:var(--font-dm-sans)] leading-relaxed max-w-[480px]">
-                Three brands. One promise. No compromises on quality, freshness, or your health.
-              </p>
+    <main ref={containerRef} className="relative min-h-screen bg-stone-950 text-stone-200 selection:bg-amber-600 selection:text-white overflow-x-hidden w-full">
+      {/* Loading Overlay — keeps ref mounted so useScroll never complains */}
+      {loading && (
+        <div className="fixed inset-0 z-[999] bg-stone-950 flex items-center justify-center">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="relative w-24 h-24"
+          >
+            <div className="absolute inset-0 rounded-full border-t-2 border-amber-600 animate-spin" />
+            <div className="absolute inset-4 rounded-full border-b-2 border-stone-800 animate-spin-slow" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <span className="text-[10px] font-black uppercase tracking-widest text-amber-600">360</span>
             </div>
-
-            {/* Brand Pills */}
-            <div className="flex flex-wrap gap-3">
-              <Link 
-                href="/brands/juicera"
-                className="px-4 py-1.5 rounded-[20px] text-[14px] font-semibold transition-all hover:scale-105 border border-[#B6E2B6] bg-[var(--color-juicera-light)] text-[var(--color-juicera)]"
-              >
-                Juicera
-              </Link>
-              <Link 
-                href="/brands/fuzzy"
-                className="px-4 py-1.5 rounded-[20px] text-[14px] font-semibold transition-all hover:scale-105 border border-[#99F6E4] bg-[var(--color-fuzzy-light)] text-[var(--color-fuzzy)]"
-              >
-                Fuzzy
-              </Link>
-              <Link 
-                href="/brands/refrizz"
-                className="px-4 py-1.5 rounded-[20px] text-[14px] font-semibold transition-all hover:scale-105 border border-[#FDBA74] bg-[var(--color-refrizz-light)] text-[var(--color-refrizz)]"
-              >
-                Refrizz
-              </Link>
-            </div>
-
-            {/* CTAs */}
-            <div className="flex flex-col sm:flex-row gap-4 pt-4">
-              <Link
-                href="/products"
-                className="bg-[var(--color-juicera)] text-white font-semibold px-8 py-4 rounded-[8px] hover:opacity-90 transition-opacity text-center"
-              >
-                Explore Products
-              </Link>
-              <Link
-                href="https://wa.me/919110328633?text=Hi%2C%20I%27m%20interested%20in%20Fresh%20360%20products"
-                target="_blank"
-                className="border-2 border-[#25D366] text-[#25D366] font-semibold px-8 py-3.5 rounded-[8px] hover:bg-[#25D366] hover:text-white transition-all text-center"
-              >
-                WhatsApp Us
-              </Link>
-            </div>
-
-            {/* USP Strip */}
-            <div className="grid grid-cols-2 sm:flex sm:flex-wrap items-center gap-x-6 gap-y-3 pt-4">
-              {[
-                "No Preservatives",
-                "No Added Sugar",
-                "Cold Pressed",
-                "Farm Sourced"
-              ].map((usp) => (
-                <div key={usp} className="flex items-center space-x-2 text-[13px] text-[var(--color-muted)] font-[family-name:var(--font-dm-sans)]">
-                  <CheckCircle className="w-3.5 h-3.5 text-[var(--color-juicera)]" />
-                  <span>{usp}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Side: Visual */}
-          <div className="relative h-[400px] md:h-[500px] flex items-center justify-center lg:justify-end">
-            <div className="absolute inset-0 bg-radial-gradient from-[var(--color-juicera-light)] to-transparent opacity-50 pointer-events-none" />
-            
-            <div className="relative w-full max-w-[400px] aspect-square flex items-center justify-center">
-              {/* Card 2 (Left, behind) */}
-              <div className="absolute left-[10%] -rotate-[8deg] z-10 w-[140px] h-[200px] bg-[var(--color-fuzzy)] rounded-[16px] shadow-xl flex items-center justify-center p-4">
-                <span className="text-white font-[family-name:var(--font-playfair)] text-lg text-center">Elixir Fizz</span>
-              </div>
-              
-              {/* Card 3 (Right, behind) */}
-              <div className="absolute right-[10%] rotate-[8deg] z-10 w-[140px] h-[200px] bg-[var(--color-refrizz)] rounded-[16px] shadow-xl flex items-center justify-center p-4 text-center">
-                <span className="text-white font-[family-name:var(--font-playfair)] text-lg">Jeera Soda</span>
-              </div>
-
-              {/* Card 1 (Front, Center) */}
-              <div className="relative z-20 w-[160px] h-[220px] bg-[var(--color-juicera)] rounded-[16px] shadow-2xl flex items-center justify-center p-4">
-                <span className="text-white font-[family-name:var(--font-playfair)] text-2xl">Elixir</span>
-              </div>
-            </div>
-          </div>
+          </motion.div>
         </div>
-      </section>
+      )}
+      {/* Background Atmosphere */}
+      <div className="fixed inset-0 z-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ 
+            scale: [1, 1.2, 1],
+            opacity: [0.05, 0.1, 0.05],
+            x: [0, 50, 0],
+            y: [0, -50, 0]
+          }}
+          transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+          className="absolute top-[-10%] right-[-10%] w-[80vw] h-[80vw] rounded-full blur-[150px] bg-amber-600/10" 
+        />
+        <motion.div 
+          animate={{ 
+            scale: [1.2, 1, 1.2],
+            opacity: [0.03, 0.08, 0.03],
+            x: [0, -50, 0],
+            y: [0, 50, 0]
+          }}
+          transition={{ duration: 30, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-[-10%] left-[-10%] w-[60vw] h-[60vw] rounded-full blur-[120px] bg-stone-500/10" 
+        />
+        <div className="absolute inset-0 bg-[url('https://www.transparenttextures.com/patterns/natural-paper.png')] opacity-[0.03] mix-blend-overlay" />
+      </div>
 
-      {/* SECTION 2: Brand Overview Strip */}
-      <section className="bg-[var(--color-slate)] py-16 px-4">
-        <div className="max-w-7xl mx-auto flex flex-col items-center">
-          <ScrollReveal direction="up" className="flex flex-col items-center">
-            <h2 className="text-[36px] font-bold text-white text-center font-[family-name:var(--font-playfair)]">
-              Three Brands. One Family.
-            </h2>
-            <p className="mt-4 text-[16px] text-[#94A3B8] text-center max-w-2xl mb-12">
-              Each crafted for a different moment, all made with the same obsession for quality.
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 w-full">
-            {[
-              { 
-                name: 'Juicera', 
-                slug: 'juicera', 
-                color: '#2D6A2D', 
-                tagline: '100% Cold Pressed. Nothing Added. Nothing Removed.' 
-              },
-              { 
-                name: 'Fuzzy', 
-                slug: 'fuzzy', 
-                color: '#0F766E', 
-                tagline: 'Cold Pressed Freshness. Now With a Fizz.' 
-              },
-              { 
-                name: 'Refrizz', 
-                slug: 'refrizz', 
-                color: '#C2410C', 
-                tagline: 'Bold Flavours. Big Fizz. Real Fun.' 
-              }
-            ].map((brand) => (
-              <Link 
-                key={brand.slug}
-                href={`/brands/${brand.slug}`}
-                className="group p-8 bg-[#263244] rounded-[16px] border border-white/10 transition-all duration-300 hover:-translate-y-1 hover:border-[var(--color-brand)]"
-                style={{ '--color-brand': brand.color } as React.CSSProperties}
-              >
-                <div className="flex items-center space-x-3 mb-6">
-                  <div 
-                    className="w-6 h-6 rounded-full" 
-                    style={{ backgroundColor: brand.color }}
-                  />
-                  <h3 className="text-2xl font-bold text-white font-[family-name:var(--font-playfair)]">
-                    {brand.name}
-                  </h3>
-                </div>
-                <p className="text-[14px] text-[#94A3B8] leading-relaxed mb-8 h-10">
-                  {brand.tagline}
-                </p>
-                <div 
-                  className="flex items-center text-[14px] font-semibold transition-colors"
-                  style={{ color: brand.color }}
-                >
-                  Explore <ArrowRight className="w-4 h-4 ml-2 transition-transform group-hover:translate-x-1" />
-                </div>
-              </Link>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 3: Featured Products */}
-      <section className="bg-[#FAFAFA] py-20 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
-            <div className="flex flex-col">
-              <span className="text-[12px] font-bold text-[var(--color-amber)] tracking-[0.2em] uppercase mb-3">
-                Our Products
-              </span>
-              <h2 className="text-[40px] font-bold text-[var(--color-slate)] leading-tight">
-                Handpicked Favourites
-              </h2>
-              <p className="mt-4 text-[16px] text-[var(--color-muted)]">
-                A selection from across our three brands.
-              </p>
-            </div>
-            <Link 
-              href="/products"
-              className="flex items-center text-[15px] font-semibold text-[var(--color-juicera)] hover:underline"
+      {/* Hero Section */}
+      <section className="relative min-h-screen flex items-center pt-32 pb-20 px-6 md:px-12 z-10 overflow-hidden">
+        <motion.div 
+          style={{ y: heroY, opacity: heroOpacity }}
+          className="max-w-7xl mx-auto w-full grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-24 items-center"
+        >
+          <div className="space-y-8 md:space-y-12 text-center lg:text-left">
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="inline-flex items-center space-x-4 px-6 py-2 bg-white/5 backdrop-blur-xl border border-white/10 rounded-full"
             >
-              View All Products <ArrowRight className="w-4 h-4 ml-2" />
-            </Link>
+              <Sparkles className="w-4 h-4 text-amber-500" />
+              <span className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.5em] text-stone-400">The Future of Freshness</span>
+            </motion.div>
+
+            <div className="space-y-6 md:space-y-8">
+              <motion.h1 
+                initial={{ opacity: 0, y: 40 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                className="text-6xl sm:text-7xl md:text-[5rem] lg:text-[7rem] font-black leading-[0.9] tracking-tighter uppercase text-white"
+              >
+                PURE <br /> 
+                <span className="text-amber-600">360.</span>
+              </motion.h1>
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.2, duration: 0.8 }}
+                className="text-lg md:text-xl lg:text-3xl font-black text-stone-500 uppercase tracking-tighter leading-none max-w-xl mx-auto lg:mx-0"
+              >
+                Experience the pinnacle of cold-pressed craft. Three legendary brands. One definitive standard.
+              </motion.p>
+            </div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.4 }}
+              className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start pt-4"
+            >
+              <Link 
+                href="/products" 
+                className="px-10 md:px-12 py-5 md:py-7 bg-amber-600 text-stone-950 rounded-full font-black text-[10px] md:text-[11px] uppercase tracking-[0.4em] shadow-2xl hover:bg-white hover:-translate-y-2 transition-all duration-500 active:scale-95 group text-center"
+              >
+                Shop Collection 
+                <ArrowRight className="inline-block ml-5 w-5 h-5 transition-transform group-hover:translate-x-1" />
+              </Link>
+              <Link 
+                href="/contact" 
+                className="px-10 md:px-12 py-5 md:py-7 border border-stone-800 text-white rounded-full font-black text-[10px] md:text-[11px] uppercase tracking-[0.4em] hover:bg-white hover:text-stone-950 transition-all duration-500 active:scale-95 text-center"
+              >
+                Quick Connect
+              </Link>
+            </motion.div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-            {featuredProducts.map((product: Product) => {
-              const brandId = product.brand?.id?.current || 'juicera'
-              const brandColorLight = `var(--color-${brandId}-light)`
-              const brandColorMain = `var(--color-${brandId})`
-              const hasImage = product.image?.asset?._ref && product.image.asset._ref !== ''
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 1.5, type: "spring", bounce: 0.2 }}
+            className="relative aspect-square lg:aspect-[4/5] group"
+          >
+            <div className="absolute inset-0 bg-white/5 backdrop-blur-3xl rounded-[60px] md:rounded-[100px] border border-white/10 transform rotate-3 scale-95" />
+            <div className="relative h-full w-full rounded-[60px] md:rounded-[100px] overflow-hidden border border-white/10 flex items-center justify-center p-12 md:p-20 bg-stone-900/50">
+              <motion.div 
+                animate={{ y: [0, -20, 0] }}
+                transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
+                className="relative w-full h-full"
+              >
+                <Image
+                  src="/logo.svg"
+                  alt="Fresh 360"
+                  fill
+                  className="object-contain opacity-20 invert"
+                />
+              </motion.div>
+              <div className="absolute bottom-10 md:bottom-20 left-0 right-0 text-center">
+                <p className="text-[60px] md:text-[80px] font-black text-white/5 leading-none uppercase select-none">360°</p>
+              </div>
+            </div>
+          </motion.div>
+        </motion.div>
+      </section>
 
-              return (
+      {/* Brands Grid */}
+      <section className="py-24 md:py-40 bg-white rounded-[40px] md:rounded-[120px] relative z-10 text-stone-900 px-6 md:px-12 overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-20 md:space-y-32">
+          <div className="text-center space-y-6 md:space-y-8">
+            <h2 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] text-amber-600">The Portfolio</h2>
+            <p className="text-4xl sm:text-5xl md:text-[4rem] font-black uppercase tracking-tighter leading-[0.8] break-words">
+              THREE BRANDS. <br />
+              <span className="text-stone-200">ONE MASTERPIECE.</span>
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 md:gap-12">
+            {brands.map((brand, i) => (
+              <motion.div
+                key={brand.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
                 <Link 
-                  key={product._id}
-                  href={`/products/${product.slug.current}`}
-                  className="group bg-white rounded-[12px] border border-[var(--color-border)] overflow-hidden transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 product-card-hover"
+                  href={`/brands/${brand.slug}`}
+                  className="group relative block p-8 md:p-12 bg-stone-50 rounded-[48px] md:rounded-[64px] border border-stone-100 transition-all duration-700 hover:bg-stone-900 hover:border-stone-800 hover:-translate-y-4"
                 >
-                  <div 
-                    className="relative h-[200px] flex items-center justify-center p-6"
-                    style={{ backgroundColor: brandColorLight }}
-                  >
-                    {hasImage ? (
-                      <Image
-                        src={urlFor(product.image).url()}
-                        alt={product.name}
-                        fill
-                        className="object-contain p-4 transition-transform duration-300 group-hover:scale-110"
-                      />
-                    ) : (
-                      <span className="text-[var(--color-slate)] font-[family-name:var(--font-playfair)] text-xl text-center opacity-40">
-                        {product.name}
-                      </span>
-                    )}
-                  </div>
-                  <div className="p-4">
-                    <span 
-                      className="inline-block px-2.5 py-0.5 rounded-[12px] text-[10px] font-bold uppercase tracking-wider mb-3"
-                      style={{ backgroundColor: brandColorLight, color: brandColorMain }}
-                    >
-                      {product.brand?.name || 'Brand'}
-                    </span>
-                    <h3 className="text-[18px] font-bold text-[var(--color-slate)] font-[family-name:var(--font-playfair)] mb-1">
-                      {product.name}
-                    </h3>
-                    <p className="text-[13px] text-[var(--color-muted)] line-clamp-2 h-10">
-                      {product.tagline}
+                  <div className="space-y-8 md:space-y-12 relative z-10">
+                    <div className={cn("w-12 h-12 md:w-16 md:h-16 rounded-[18px] md:rounded-[24px] flex items-center justify-center shadow-xl group-hover:rotate-12 transition-transform duration-700", brand.color)}>
+                      <Zap className="w-6 h-6 md:w-8 md:h-8 text-white" />
+                    </div>
+                    <div className="space-y-3 md:space-y-4">
+                      <h3 className="text-2xl md:text-3xl font-black uppercase tracking-tighter group-hover:text-white transition-colors">{brand.name}</h3>
+                      <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.3em] text-amber-600">{brand.tagline}</p>
+                    </div>
+                    <p className="text-stone-500 group-hover:text-stone-400 transition-colors font-medium text-sm md:text-base">
+                      {brand.desc}
                     </p>
-                    <div className="mt-4 text-[13px] font-bold" style={{ color: brandColorMain }}>
-                      View Details →
+                    <div className="flex items-center text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-stone-900 group-hover:text-white transition-colors">
+                      Enter Brand <ArrowRight className="ml-4 w-4 h-4 transition-transform group-hover:translate-x-2" />
                     </div>
                   </div>
                 </Link>
-              )
-            })}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 4: Why Choose Us */}
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          <ScrollReveal direction="up" className="text-center mb-16">
-            <span className="text-[12px] font-bold text-[var(--color-amber)] tracking-[0.2em] uppercase mb-3">
-              Why Fresh 360
-            </span>
-            <h2 className="text-[40px] font-bold text-[var(--color-slate)]">
-              Obsessed With Freshness
-            </h2>
-            <p className="mt-4 text-[16px] text-[var(--color-muted)]">
-              Every bottle is a commitment to quality you can taste.
-            </p>
-          </ScrollReveal>
-
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-12">
-            {[
-              { 
-                icon: Leaf, 
-                title: 'Cold Pressed Process', 
-                desc: 'Hydraulic cold press extracts juice without heat, preserving every enzyme and nutrient.' 
-              },
-              { 
-                icon: ShieldCheck, 
-                title: 'Zero Additives', 
-                desc: 'No preservatives, no stabilisers, no artificial flavours or colours. Ever.' 
-              },
-              { 
-                icon: Droplets, 
-                title: 'Farm Sourced', 
-                desc: 'Ingredients handpicked from trusted growers. We know where every fruit comes from.' 
-              },
-              { 
-                icon: Heart, 
-                title: 'Made Fresh Daily', 
-                desc: 'Small batches, maximum freshness. Your order is never sitting on a shelf for months.' 
-              }
-            ].map((usp, idx) => (
-              <div key={idx} className="flex flex-col items-center text-center">
-                <usp.icon className="w-8 h-8 text-[var(--color-juicera)]" />
-                <h3 className="mt-4 text-[16px] font-bold text-[var(--color-slate)]">
-                  {usp.title}
-                </h3>
-                <p className="mt-2 text-[14px] text-[var(--color-muted)] leading-relaxed">
-                  {usp.desc}
-                </p>
-              </div>
+              </motion.div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* SECTION 5: Process Teaser */}
-      <section className="bg-[var(--color-juicera-light)] py-20 px-4">
-        <div className="max-w-[1200px] mx-auto grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          <div className="flex flex-col">
-            <span className="text-[12px] font-bold text-[var(--color-amber)] tracking-[0.2em] uppercase mb-3">
-              Our Process
-            </span>
-            <h2 className="text-[40px] font-bold text-[var(--color-slate)] leading-tight mb-8">
-              From Farm to{"\n"}Your Doorstep
-            </h2>
+      {/* Featured Products */}
+      <section className="py-24 md:py-40 bg-stone-900 px-6 md:px-12 relative z-10">
+        <div className="max-w-7xl mx-auto space-y-20 md:space-y-32">
+          <div className="flex flex-col md:flex-row items-end justify-between gap-12">
+            <div className="space-y-6 md:space-y-8 text-center md:text-left">
+              <h2 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] text-amber-600">The Archive</h2>
+              <p className="text-4xl sm:text-6xl md:text-[4rem] font-black text-white uppercase tracking-tighter leading-[0.8]">
+                CURATED <br />
+                <span className="text-stone-700">COLLECTION.</span>
+              </p>
+            </div>
+            <Link 
+              href="/products"
+              className="px-10 py-6 bg-white text-stone-950 rounded-full font-black text-[10px] uppercase tracking-[0.4em] hover:bg-amber-600 transition-colors duration-500 w-full md:w-auto text-center"
+            >
+              View Full Archive
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-12 md:gap-16">
+            {featuredProducts.length > 0 ? featuredProducts.map((product, i) => (
+              <motion.div
+                key={product._id}
+                initial={{ opacity: 0, y: 40 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.8, delay: i * 0.1, ease: [0.22, 1, 0.36, 1] }}
+              >
+                <Link 
+                  href={`/products/${product.slug.current}`}
+                  className="group block space-y-8 md:space-y-10"
+                >
+                  <div className="relative aspect-[3/4] rounded-[60px] md:rounded-[80px] bg-white/5 border border-white/5 overflow-hidden flex items-center justify-center p-12 md:p-16 transition-all duration-700 group-hover:bg-white/10 group-hover:-translate-y-4">
+                    {product.image?.asset?._ref && (
+                      <div className="relative w-full h-full transform transition-transform duration-700 group-hover:scale-110">
+                        <Image
+                          src={urlFor(product.image).width(800).url()}
+                          alt={product.name}
+                          fill
+                          className="object-contain drop-shadow-[0_40px_80px_rgba(0,0,0,0.6)]"
+                        />
+                      </div>
+                    )}
+                    <div className="absolute top-10 right-10 w-12 h-12 rounded-full bg-white text-stone-900 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-500 scale-50 group-hover:scale-100">
+                      <ChevronRight className="w-6 h-6" />
+                    </div>
+                  </div>
+                  
+                  <div className="px-6 space-y-3 md:space-y-4">
+                    <div className="flex items-center space-x-3 text-[9px] md:text-[10px] font-black uppercase tracking-[0.4em] text-stone-500">
+                      <span>{product.brand.name}</span>
+                      <div className="w-1 h-1 rounded-full bg-amber-600" />
+                      <span className="text-amber-600">Featured</span>
+                    </div>
+                    <h4 className="text-2xl md:text-3xl font-black text-white uppercase tracking-tighter group-hover:text-amber-600 transition-colors">
+                      {product.name}
+                    </h4>
+                  </div>
+                </Link>
+              </motion.div>
+            )) : (
+              <div className="col-span-full py-20 text-center text-stone-500 font-black uppercase tracking-widest">
+                Curating the next batch...
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Philosophy Section */}
+      <section className="py-32 md:py-64 px-6 md:px-12 bg-white text-stone-900 relative overflow-hidden">
+        <motion.div 
+          style={{ x: pureTextX }}
+          className="absolute top-0 right-0 h-full opacity-[0.03] pointer-events-none select-none flex items-center overflow-hidden"
+        >
+          <p className="text-[10vw] md:text-[12vw] font-black text-stone-950 leading-none whitespace-nowrap">PURE</p>
+        </motion.div>
+
+        <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-16 md:gap-32 items-center relative z-10">
+          <div className="space-y-12 md:space-y-16">
+            <div className="space-y-6 md:space-y-8">
+              <h2 className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.6em] text-amber-600">The Obsession</h2>
+              <p className="text-4xl md:text-6xl font-black uppercase tracking-tighter leading-[0.9]">
+                BEYOND THE <br /> BOTTLE<span className="text-amber-600">.</span>
+              </p>
+            </div>
+            <p className="text-lg md:text-xl font-medium text-stone-500 leading-relaxed max-w-xl">
+              Our commitment to freshness isn&apos;t just a process; it&apos;s an art form. We harvest, press, and bottle within hours to ensure every drop carries the vibrant energy of nature.
+            </p>
             
-            <div className="space-y-8">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 pt-4 md:pt-8">
               {[
-                { step: '01', title: 'Sourcing', desc: 'Handpicked fruits from trusted farms across India.' },
-                { step: '02', title: 'Cold Pressing', desc: 'Hydraulic press at zero heat. Maximum nutrition retained.' },
-                { step: '03', title: 'Bottling', desc: 'Glass bottles, sealed fresh within hours of pressing.' },
-                { step: '04', title: 'Delivery', desc: 'Cold storage delivery by 8:30 AM at your doorstep.' }
-              ].map((item) => (
-                <div key={item.step} className="flex items-start space-x-4">
-                  <span className="text-[12px] font-mono text-[var(--color-amber)] pt-1">{item.step}</span>
-                  <div>
-                    <h4 className="text-[15px] font-bold text-[var(--color-slate)] mb-1">{item.title}</h4>
-                    <p className="text-[13px] text-[var(--color-muted)] leading-relaxed">{item.desc}</p>
+                { icon: Leaf, title: "Farm Direct", desc: "Handpicked at peak ripeness" },
+                { icon: Droplets, title: "Cold Pressed", desc: "Preserving every enzyme" },
+                { icon: ShieldCheck, title: "Zero Additives", desc: "Purely natural goodness" },
+                { icon: Heart, title: "Made Fresh", desc: "Daily production cycles" }
+              ].map((item, i) => (
+                <div key={i} className="flex items-start space-x-6">
+                  <div className="w-10 h-10 md:w-12 md:h-12 rounded-xl bg-stone-100 flex items-center justify-center flex-shrink-0">
+                    <item.icon className="w-4 h-4 md:w-5 md:h-5 text-amber-600" />
+                  </div>
+                  <div className="space-y-1">
+                    <p className="text-[10px] md:text-sm font-black uppercase tracking-widest">{item.title}</p>
+                    <p className="text-[9px] md:text-xs text-stone-400 font-medium">{item.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
-
-            <Link 
-              href="/process"
-              className="inline-block mt-10 px-6 py-3 border-2 border-[var(--color-juicera)] text-[var(--color-juicera)] font-semibold rounded-[8px] hover:bg-[var(--color-juicera)] hover:text-white transition-all w-fit"
-            >
-              See Full Process →
-            </Link>
           </div>
 
-          <div className="relative group cursor-pointer aspect-video bg-[var(--color-juicera)]/80 rounded-[16px] overflow-hidden flex flex-col items-center justify-center shadow-lg">
-            <PlayCircle className="w-16 h-16 text-white mb-2 transition-transform duration-300 group-hover:scale-110" />
-            <span className="text-white font-medium text-[14px]">Watch Our Process</span>
-          </div>
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="relative aspect-square rounded-[40px] md:rounded-[80px] overflow-hidden group shadow-2xl"
+          >
+            <Image 
+              src="https://images.unsplash.com/photo-1622597467822-47000d68019b?q=80&w=2000&auto=format&fit=crop" 
+              alt="Freshness"
+              fill
+              className="object-cover transition-transform duration-1000 group-hover:scale-110"
+              unoptimized
+            />
+            <div className="absolute inset-0 bg-stone-900/20 mix-blend-multiply" />
+            <div className="absolute inset-0 flex items-center justify-center">
+              <motion.div 
+                whileHover={{ scale: 1.1 }}
+                className="w-24 h-24 md:w-32 md:h-32 rounded-full bg-white/10 backdrop-blur-3xl border border-white/20 flex items-center justify-center"
+              >
+                <Plus className="w-8 h-8 md:w-12 md:h-12 text-white" />
+              </motion.div>
+            </div>
+          </motion.div>
         </div>
       </section>
 
-      {/* SECTION 6: Testimonials */}
-      <section className="bg-white py-20 px-4">
-        <div className="max-w-[1200px] mx-auto">
-          <div className="mb-16">
-            <span className="text-[12px] font-bold text-[var(--color-amber)] tracking-[0.2em] uppercase mb-3">
-              What People Say
-            </span>
-            <h2 className="text-[40px] font-bold text-[var(--color-slate)]">
-              Real People. Real Results.
+      {/* Final CTA */}
+      <section className="py-32 md:py-64 px-6 md:px-12 bg-stone-950 relative overflow-hidden">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[100vw] h-[100vw] rounded-full blur-[180px] bg-amber-600/5 pointer-events-none" />
+        
+        <div className="max-w-5xl mx-auto text-center space-y-12 md:space-y-16 relative z-10">
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="space-y-8 md:space-y-12"
+          >
+            <h2 className="text-4xl sm:text-6xl md:text-[6rem] font-black text-white leading-[0.8] uppercase tracking-tighter">
+              LIVE THE <br /> <span className="text-stone-700">360 LIFE.</span>
             </h2>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {[
-              { 
-                text: "Switched to Juicera Elixir three months ago and my skin has genuinely transformed. The pomegranate juice is incredible.", 
-                name: 'Priya S.', 
-                loc: 'Hyderabad' 
-              },
-              { 
-                text: "My kids love the Refresh Fizz. Finally a fizzy drink I don't feel guilty giving them.", 
-                name: 'Arjun M.', 
-                loc: 'Bangalore' 
-              },
-              { 
-                text: "The Almond Crush is my morning ritual now. Best almond milk I've ever had, and I've tried them all.", 
-                name: 'Sneha R.', 
-                loc: 'Mumbai' 
-              }
-            ].map((t, idx) => (
-              <div key={idx} className="bg-white border border-[var(--color-border)] rounded-[12px] p-8 flex flex-col relative transition-shadow hover:shadow-lg">
-                <span className="absolute top-4 left-6 text-[48px] font-bold text-[var(--color-juicera)] opacity-20 font-[family-name:var(--font-playfair)]">&quot;</span>
-                <p className="text-[15px] text-[var(--color-slate)] italic leading-relaxed mb-8 z-10 pt-4">
-                  {t.text}
-                </p>
-                <div className="flex items-center space-x-3 mt-auto">
-                  <div className="w-10 h-10 rounded-full bg-[var(--color-juicera-light)] flex items-center justify-center text-[var(--color-juicera)] font-bold">
-                    {t.name[0]}
-                  </div>
-                  <div>
-                    <h5 className="text-[14px] font-bold text-[var(--color-slate)]">{t.name}</h5>
-                    <p className="text-[12px] text-[var(--color-muted)]">{t.loc}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION 7: Final CTA Banner */}
-      <section className="bg-[var(--color-slate)] py-20 px-4">
-        <div className="max-w-[1200px] mx-auto text-center">
-          <h2 className="text-[40px] font-bold text-white font-[family-name:var(--font-playfair)] mb-4">
-            Ready to Live Healthy?
-          </h2>
-          <p className="text-[16px] text-[#94A3B8] mb-10 max-w-lg mx-auto">
-            Join thousands of customers who start their day with Fresh 360.
-          </p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/products"
-              className="bg-[var(--color-juicera)] text-white font-semibold px-10 py-4 rounded-[8px] hover:opacity-90 transition-opacity"
+            <p className="text-xl md:text-2xl lg:text-4xl font-black text-stone-500 uppercase tracking-tighter leading-tight max-w-3xl mx-auto">
+              Ready to elevate your standards? Discover the ultimate collection of premium refreshments.
+            </p>
+          </motion.div>
+          
+          <div className="flex flex-col sm:flex-row gap-8 justify-center items-center pt-8">
+            <Link 
+              href="/products" 
+              className="px-16 md:px-20 py-6 md:py-8 bg-amber-600 text-stone-950 rounded-full font-black text-[10px] md:text-xs uppercase tracking-[0.5em] shadow-[0_24px_48px_-12px_rgba(217,119,6,0.3)] hover:bg-white hover:-translate-y-2 transition-all duration-500 active:scale-95 w-full sm:w-auto text-center"
             >
-              Explore Products
-            </Link>
-            <Link
-              href="https://wa.me/919110328633?text=Hi%2C%20I%27m%20interested%20in%20Fresh%20360%20products"
-              target="_blank"
-              className="border-2 border-white text-white font-semibold px-10 py-3.5 rounded-[8px] hover:bg-white hover:text-[var(--color-slate)] transition-all"
-            >
-              WhatsApp Us
+              Start Exploring
             </Link>
           </div>
         </div>
       </section>
-    </div>
+    </main>
   )
 }
+
+

@@ -25,7 +25,7 @@ export async function POST(req: NextRequest) {
 
     const { name, phone, email, brandInterest, message } = result.data
 
-    const { data, error } = await resend.emails.send({
+    const { error } = await resend.emails.send({
       from: 'Fresh 360 <onboarding@resend.dev>', // Should use verified domain in production
       to: process.env.CONTACT_EMAIL || 'support@fresh360.com',
       subject: `New Enquiry from ${name} — Fresh 360`,

@@ -6,7 +6,9 @@ interface ProductPlaceholderProps {
   className?: string
 }
 
-export function hasProductImage(image: any): boolean {
+import { SanityImageAsset } from '@/lib/types'
+
+export function hasProductImage(image: SanityImageAsset | null | undefined): boolean {
   return !!(image?.asset?._ref && image.asset._ref !== '')
 }
 

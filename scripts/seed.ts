@@ -1,5 +1,4 @@
 import './load-env'
-import type { SanityImageSource } from '@sanity/image-url'
 import { writeClient } from '../sanity/client'
 
 const brands = [
