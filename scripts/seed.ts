@@ -1,4 +1,5 @@
 import './load-env'
+import type { SanityImageSource } from '@sanity/image-url'
 import { writeClient } from '../sanity/client'
 
 const brands = [
@@ -194,6 +195,7 @@ const products = [
     tagline: 'Classic fizz, bold orange',
     description: 'The classic orange soda, reimagined as a goli soda. Bold citrus flavour, maximum fizz, and the nostalgic feeling of your favourite street-side drink. Refrizz Orange is pure joy in a bottle.',
     ingredients: ['Carbonated Water', 'Orange Flavour', 'Sugar', 'Citric Acid'],
+    benefits: [],
     featured: false,
     sortOrder: 1,
   },
@@ -207,6 +209,7 @@ const products = [
     tagline: 'Tangy tropical pop',
     description: 'Tangy, tropical, and irresistibly fizzy. Refrizz Pineapple brings the best of the tropics to your fingertips. The drink that tastes like summer, no matter the season.',
     ingredients: ['Carbonated Water', 'Pineapple Flavour', 'Sugar', 'Citric Acid'],
+    benefits: [],
     featured: false,
     sortOrder: 2,
   },
@@ -220,6 +223,7 @@ const products = [
     tagline: 'The desi classic, reimagined',
     description: 'Jeera soda is the OG Indian street drink, and Refrizz does it justice. Earthy cumin, a hint of tang, and a satisfying fizz that hits different. The one that makes you feel at home.',
     ingredients: ['Carbonated Water', 'Jeera Flavour', 'Sugar', 'Black Salt', 'Citric Acid'],
+    benefits: [],
     featured: true,
     sortOrder: 3,
   },
@@ -233,6 +237,7 @@ const products = [
     tagline: 'Mystery fizz, maximum cool',
     description: 'You do not know exactly what it is, but you know you want more. Refrizz Blue is bold, mysterious, and intensely fizzy. The conversation starter of the Refrizz lineup.',
     ingredients: ['Carbonated Water', 'Blue Raspberry Flavour', 'Sugar', 'Citric Acid'],
+    benefits: [],
     featured: false,
     sortOrder: 4,
   },
