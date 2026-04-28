@@ -83,7 +83,7 @@ export default function ContactPage() {
 
               <motion.h1 
                 variants={itemVariants}
-                className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black leading-[0.8] tracking-tighter uppercase text-white break-words"
+                className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black leading-[0.85] tracking-tighter uppercase text-white break-words"
               >
                 LET&apos;S <br />
                 <span className="text-amber-600">CONNECT.</span>
@@ -91,7 +91,7 @@ export default function ContactPage() {
 
               <motion.p 
                 variants={itemVariants}
-                className="text-xl md:text-2xl lg:text-3xl text-stone-400 font-black leading-tight uppercase tracking-tighter max-w-xl"
+                className="text-base md:text-xl lg:text-2xl text-stone-400 font-medium leading-relaxed max-w-xl"
               >
                 Whether it&apos;s a bulk order, partnership, or a simple question, we&apos;re here to refresh your perspective on quality.
               </motion.p>
