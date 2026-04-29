@@ -61,7 +61,7 @@ export async function submitEnquiry(formData: FormData) {
 
   try {
     // 1. Send Email via Resend
-    const contactEmail = process.env.CONTACT_EMAIL || 'info@fresh360.com'
+    const contactEmail = process.env.CONTACT_EMAIL || 'support@fresh360degrees.in'
     const { error: resendError } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || 'Fresh 360 <onboarding@resend.dev>',
       to: contactEmail,

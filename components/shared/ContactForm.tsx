@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react'
 import { Send, CheckCircle2, AlertCircle } from 'lucide-react'
+import { CustomSelect } from './CustomSelect'
 import { submitEnquiry } from '@/app/actions'
 
 export function ContactForm() {
@@ -87,15 +88,16 @@ export function ContactForm() {
         </div>
         <div className="space-y-2">
           <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Subject</label>
-          <select 
+          <CustomSelect 
             name="subject"
-            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all appearance-none"
-          >
-            <option value="General Inquiry">General Inquiry</option>
-            <option value="Bulk/Business Order">Bulk/Business Order</option>
-            <option value="Feedback">Feedback</option>
-            <option value="Other">Other</option>
-          </select>
+            defaultValue="General Inquiry"
+            options={[
+              { value: "General Inquiry", label: "General Inquiry" },
+              { value: "Bulk/Business Order", label: "Bulk/Business Order" },
+              { value: "Feedback", label: "Feedback" },
+              { value: "Other", label: "Other" }
+            ]}
+          />
         </div>
       </div>
 

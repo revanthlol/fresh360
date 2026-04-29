@@ -114,7 +114,7 @@ export default async function ProductDetailPage({
 
             <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-6">
               <Link 
-                href={`https://wa.me/919110328633?text=Hi, I'm interested in ${product.name}`}
+                href={`https://wa.me/919391311652?text=Hi, I'm interested in ${product.name}`}
                 target="_blank"
                 className="w-full sm:w-auto bg-brand-green text-white px-10 py-5 rounded-full font-bold text-lg flex items-center justify-center gap-3 transition-all hover:bg-brand-green/90 hover:scale-105 active:scale-95 shadow-xl shadow-brand-green/20"
               >

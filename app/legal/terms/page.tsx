@@ -10,9 +10,9 @@ export const metadata: Metadata = {
 
 const EFFECTIVE_DATE = '29 April 2025'
 const COMPANY_NAME = 'Fresh 360 Degrees Foods LLP'
-const COMPANY_ADDRESS = 'Bangalore, Karnataka, India'
-const CONTACT_EMAIL = 'info@fresh360.com'
-const WHATSAPP = '+91 91103 28633'
+const COMPANY_ADDRESS = '#1- 21-223, West Venkata Puram, Tirumalagiri, Hyderabad, 500015'
+const CONTACT_EMAIL = 'support@fresh360degrees.in'
+const WHATSAPP = '+91 93913 11652'
 
 export default function TermsOfServicePage() {
   return (
@@ -275,7 +275,7 @@ function ContactBlock() {
       </p>
       <p>
         WhatsApp:{' '}
-        <a href="https://wa.me/919110328633" className="text-brand-green font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/919391311652" className="text-brand-green font-medium hover:underline" target="_blank" rel="noopener noreferrer">
           {WHATSAPP}
         </a>
       </p>

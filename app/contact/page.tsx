@@ -29,7 +29,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Phone</p>
-                        <p className="text-slate-900 font-medium">+91 91103 28633</p>
+                        <p className="text-slate-900 font-medium">+91 93913 11652</p>
                       </div>
                     </li>
                     <li className="flex gap-4">
@@ -38,7 +38,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                        <p className="text-slate-900 font-medium">info@fresh360.com</p>
+                        <p className="text-slate-900 font-medium">support@fresh360degrees.in</p>
                       </div>
                     </li>
                     <li className="flex gap-4">
@@ -47,36 +47,21 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Address</p>
-                        <p className="text-slate-900 font-medium leading-relaxed">
-                          Fresh 360 Degrees Foods LLP, <br />
-                          Bangalore, KA 560001
+                        <p className="text-slate-900 font-medium text-sm leading-relaxed">
+                          #1- 21-223, West Venkata Puram,<br />
+                          Near Hanuman Temple,<br />
+                          Venkateshwara Nagar, Road No. 9,<br />
+                          Tirumalagiri, Hyderabad,<br />
+                          TELANGANA-500015
                         </p>
                       </div>
-                    </li>
-                  </ul>
-                </div>
-
-                <div className="space-y-6 pt-10 border-t border-slate-200">
-                  <h3 className="text-2xl font-display font-bold text-slate-900">Business Hours</h3>
-                  <ul className="space-y-4">
-                    <li className="flex justify-between text-sm">
-                      <span className="text-slate-500 font-medium">Monday - Friday</span>
-                      <span className="text-slate-900 font-bold">9:00 AM - 6:00 PM</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span className="text-slate-500 font-medium">Saturday</span>
-                      <span className="text-slate-900 font-bold">10:00 AM - 4:00 PM</span>
-                    </li>
-                    <li className="flex justify-between text-sm">
-                      <span className="text-slate-500 font-medium">Sunday</span>
-                      <span className="text-red-500 font-bold">Closed</span>
                     </li>
                   </ul>
                 </div>
               </div>
 
               <Link 
-                href="https://wa.me/919110328633"
+                href="https://wa.me/919391311652"
                 target="_blank"
                 className="block bg-[#25D366] text-white p-8 rounded-[2.5rem] text-center space-y-4 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >
@@ -105,14 +90,21 @@ export default function ContactPage() {
         </div>
       </section>
       
-      {/* Map Placeholder */}
-      <section className="h-[400px] w-full bg-slate-100 relative overflow-hidden grayscale opacity-50">
-         <div className="absolute inset-0 flex items-center justify-center">
-            <div className="text-center space-y-2">
-               <MapPin size={48} className="text-slate-400 mx-auto" />
-               <p className="font-bold text-slate-500 uppercase tracking-widest text-xs">Map Loading...</p>
-            </div>
-         </div>
+      {/* Map Section */}
+      <section className="h-[450px] w-full relative overflow-hidden border-t border-slate-100">
+        <iframe 
+          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d444.2907879279642!2d78.49975443457429!3d17.495327649069804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDI5JzQyLjYiTiA3OMKwMzAnMDAuOSJF!5e0!3m2!1sen!2sin!4v1777458243548!5m2!1sen!2sin" 
+          width="100%" 
+          height="100%" 
+          style={{ border: 0 }} 
+          allowFullScreen 
+          loading="lazy" 
+          referrerPolicy="no-referrer-when-downgrade"
+          className="grayscale hover:grayscale-0 transition-all duration-500"
+        />
+        <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-wider pointer-events-none">
+          FGW2+339 Secunderabad, Telangana
+        </div>
       </section>
     </div>
   )

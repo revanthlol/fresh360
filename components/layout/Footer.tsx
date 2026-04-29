@@ -144,8 +144,9 @@ export function Footer() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Address</span>
-                  <address className="text-slate-600 text-sm not-italic">
-                    Bengaluru, Karnataka,<br />India
+                  <address className="text-slate-600 text-sm not-italic leading-relaxed">
+                    #1- 21-223, West Venkata Puram,<br />
+                    Tirumalagiri, Hyderabad, 500015
                   </address>
                 </div>
               </li>
@@ -155,7 +156,7 @@ export function Footer() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Call Us</span>
-                  <a href="tel:+919110328633" className="text-slate-600 text-sm hover:text-brand-teal transition-colors">+91 91103 28633</a>
+                  <a href="tel:+919391311652" className="text-slate-600 text-sm hover:text-brand-teal transition-colors">+91 93913 11652</a>
                 </div>
               </li>
               <li className="flex gap-4 group">
@@ -164,7 +165,7 @@ export function Footer() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Email</span>
-                  <a href="mailto:info@fresh360.com" className="text-slate-600 text-sm hover:text-brand-orange transition-colors">info@fresh360.com</a>
+                  <a href="mailto:support@fresh360degrees.in" className="text-slate-600 text-sm hover:text-brand-orange transition-colors">support@fresh360degrees.in</a>
                 </div>
               </li>
             </ul>
