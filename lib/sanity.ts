@@ -1,92 +1,86 @@
-import { client } from '../sanity/client'
-import type { Brand, Product } from './types'
+import { createClient } from 'next-sanity'
+import { createImageUrlBuilder } from '@sanity/image-url'
 
-// Helper fragment for brand to satisfy the Brand interface which expects both id and slug
-const BRAND_FIELDS = `
-  _id,
-  name,
-  id,
-  "slug": id,
-  tagline,
-  description,
-  color,
-  heroImage,
-  usps,
-  primaryColor
-`
+export const client = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  apiVersion: '2024-01-01',
+  useCdn: true,
+})
 
-// Get all brands
-export async function getAllBrands(): Promise<Brand[]> {
-  return await client.fetch(`*[_type == "brand"] | order(name asc) {
-    ${BRAND_FIELDS}
-  }`)
+export const sanityWriteClient = createClient({
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
+  apiVersion: '2024-01-01',
+  useCdn: false,
+  token: process.env.SANITY_API_TOKEN,
+})
+
+const builder = createImageUrlBuilder(client)
+
+export function urlFor(source: any) { // eslint-disable-line @typescript-eslint/no-explicit-any
+  return builder.image(source)
 }
 
-// Get single brand by slug
-export async function getBrandBySlug(slug: string): Promise<Brand | null> {
-  return await client.fetch(
-    `*[_type == "brand" && id.current == $slug][0] {
-      ${BRAND_FIELDS}
-    }`,
-    { slug }
-  )
+export interface Brand {
+  _id: string
+  name: string
+  id: { current: string }
+  tagline: string
+  description: string
+  color: string
+  heroImage: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  usps: string[]
+  primaryColor: string
 }
 
-// Get all products (with brand data expanded via ->)
-export async function getAllProducts(): Promise<Product[]> {
-  return await client.fetch(`*[_type == "product"] | order(sortOrder asc, name asc) {
+export interface Product {
+  _id: string
+  name: string
+  slug: { current: string }
+  brand: Brand
+  category: string
+  tagline: string
+  description: string
+  ingredients: string[]
+  benefits: string[]
+  image: any // eslint-disable-line @typescript-eslint/no-explicit-any
+  featured: boolean
+  sortOrder: number
+}
+
+export async function getBrands(): Promise<Brand[]> {
+  return client.fetch(`*[_type == "brand"] | order(name asc)`)
+}
+
+export async function getBrand(slug: string): Promise<Brand> {
+  return client.fetch(`*[_type == "brand" && id.current == $slug][0]`, { slug })
+}
+
+export async function getProducts(): Promise<Product[]> {
+  return client.fetch(`*[_type == "product"] | order(sortOrder asc, name asc) {
     ...,
-    brand-> {
-      ${BRAND_FIELDS}
-    }
+    brand->
   }`)
 }
 
-// Get products filtered by brand slug
-export async function getProductsByBrand(brandSlug: string): Promise<Product[]> {
-  return await client.fetch(
-    `*[_type == "product" && brand->id.current == $brandSlug] | order(sortOrder asc) {
-      ...,
-      brand-> {
-        ${BRAND_FIELDS}
-      }
-    }`,
-    { brandSlug }
-  )
+export async function getProduct(slug: string): Promise<Product> {
+  return client.fetch(`*[_type == "product" && slug.current == $slug][0] {
+    ...,
+    brand->
+  }`, { slug })
 }
 
-// Get single product by slug
-export async function getProductBySlug(slug: string): Promise<Product | null> {
-  return await client.fetch(
-    `*[_type == "product" && slug.current == $slug][0] {
-      ...,
-      brand-> {
-        ${BRAND_FIELDS}
-      }
-    }`,
-    { slug }
-  )
+export async function getProductsByBrand(brandId: string): Promise<Product[]> {
+  return client.fetch(`*[_type == "product" && brand->id.current == $brandId] | order(sortOrder asc, name asc) {
+    ...,
+    brand->
+  }`, { brandId })
 }
 
-// Get featured products for homepage
 export async function getFeaturedProducts(): Promise<Product[]> {
-  return await client.fetch(`*[_type == "product" && featured == true] | order(sortOrder asc) [0...6] {
+  return client.fetch(`*[_type == "product" && featured == true] | order(sortOrder asc, name asc) [0...6] {
     ...,
-    brand-> {
-      ${BRAND_FIELDS}
-    }
+    brand->
   }`)
-}
-
-// Get related products (same brand, excluding current product, max 3)
-export async function getRelatedProducts(productSlug: string, brandId: string): Promise<Product[]> {
-  return await client.fetch(
-    `*[_type == "product" && brand->id.current == $brandId && slug.current != $productSlug] | order(sortOrder asc) [0...3] {
-      ...,
-      brand-> {
-        ${BRAND_FIELDS}
-      }
-    }`,
-    { productSlug, brandId }
-  )
 }
