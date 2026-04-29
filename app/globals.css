@@ -124,4 +124,83 @@
     letter-spacing: -0.04em;
     line-height: 1.05;
   }
+
+  /* Legal page prose — Privacy Policy & Terms of Service */
+  .prose-legal p {
+    color: #475569;
+    line-height: 1.8;
+    margin-bottom: 1rem;
+    font-size: 0.9625rem;
+  }
+
+  .prose-legal ul {
+    list-style: none;
+    padding: 0;
+    margin: 0.75rem 0 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .prose-legal ul li {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.625rem;
+    color: #475569;
+    font-size: 0.9625rem;
+    line-height: 1.7;
+    padding-left: 0;
+  }
+
+  .prose-legal ul li::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: #2D6A2D;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 0.55rem;
+  }
+
+  .prose-legal strong {
+    color: #1e293b;
+    font-weight: 600;
+  }
+
+  .prose-legal table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.875rem;
+    margin: 1.25rem 0;
+    border-radius: 0.75rem;
+    overflow: hidden;
+  }
+
+  .prose-legal table th {
+    background-color: #f1f5f9;
+    color: #475569;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    font-size: 0.7rem;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    border-bottom: 1px solid #e2e8f0;
+  }
+
+  .prose-legal table td {
+    padding: 0.875rem 1rem;
+    color: #475569;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+  }
+
+  .prose-legal table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .prose-legal table tr:nth-child(even) td {
+    background-color: #f8fafc;
+  }
 }

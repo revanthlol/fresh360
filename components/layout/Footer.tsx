@@ -177,8 +177,8 @@ export function Footer() {
             © {new Date().getFullYear()} Fresh 360 Degrees Foods LLP. All rights reserved.
           </p>
           <div className="flex gap-8 text-sm font-medium text-slate-400">
-            <Link href="/privacy" className="hover:text-brand-green transition-colors">Privacy Policy</Link>
-            <Link href="/terms" className="hover:text-brand-green transition-colors">Terms of Service</Link>
+            <Link href="/legal/privacy" className="hover:text-brand-green transition-colors">Privacy Policy</Link>
+            <Link href="/legal/terms" className="hover:text-brand-green transition-colors">Terms of Service</Link>
             <button 
               onClick={scrollToTop}
               className="hover:text-brand-green transition-colors flex items-center gap-2 group"
