@@ -1,83 +1,151 @@
 "use client"
 
-import React from 'react'
+import React, { useRef } from 'react'
 import Link from 'next/link'
-import { Play, ArrowRight, ShieldCheck, Microscope, ThermometerSnowflake } from 'lucide-react'
-import { motion } from 'motion/react'
+import { motion, useScroll, useTransform } from 'motion/react'
+import { ArrowRight, Cherry, ThermometerSnowflake, FlaskConical, Truck } from 'lucide-react'
+
+const steps = [
+  {
+    icon: Cherry,
+    title: 'Source',
+    desc: 'Hand-picked organic fruits from trusted local farms across Karnataka.',
+    color: 'text-brand-green',
+    bg: 'bg-brand-green/10',
+    dot: 'bg-brand-green',
+  },
+  {
+    icon: ThermometerSnowflake,
+    title: 'Press',
+    desc: 'Cold-pressed at 4°C to preserve every vitamin, mineral, and enzyme.',
+    color: 'text-brand-teal',
+    bg: 'bg-brand-teal/10',
+    dot: 'bg-brand-teal',
+  },
+  {
+    icon: FlaskConical,
+    title: 'Test',
+    desc: 'Lab-tested in our ISO-certified facility for purity and safety.',
+    color: 'text-brand-orange',
+    bg: 'bg-brand-orange/10',
+    dot: 'bg-brand-orange',
+  },
+  {
+    icon: Truck,
+    title: 'Deliver',
+    desc: 'Cold-chain delivery to your doorstep within 24 hours of pressing.',
+    color: 'text-brand-green',
+    bg: 'bg-brand-green/10',
+    dot: 'bg-brand-green',
+  },
+]
 
 export function ProcessTeaser() {
+  const sectionRef = useRef<HTMLDivElement>(null)
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start end", "end start"],
+  })
+
+  // Progress line fills as you scroll through the section
+  const lineHeight = useTransform(scrollYProgress, [0.15, 0.85], ["0%", "100%"])
+
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section ref={sectionRef} className="py-28 md:py-36 bg-[#FAFAFA] overflow-hidden">
       <div className="container mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <motion.div
-            initial={{ opacity: 0, x: -30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="relative"
-          >
-            <div className="aspect-video bg-slate-100 rounded-[2.5rem] overflow-hidden relative group cursor-pointer shadow-2xl">
-               <div className="absolute inset-0 bg-brand-green/20 group-hover:bg-brand-green/10 transition-colors z-10" />
-               <div className="absolute inset-0 flex items-center justify-center z-20">
-                  <div className="w-20 h-20 bg-white rounded-full flex items-center justify-center text-brand-green shadow-xl transition-transform group-hover:scale-110">
-                    <Play size={32} fill="currentColor" />
-                  </div>
-               </div>
-               <div className="absolute bottom-6 left-6 z-20 text-white font-bold text-lg">
-                  Watch Our Process
-               </div>
-            </div>
-            
-            {/* Decorative blobs */}
-            <div className="absolute -top-10 -left-10 w-40 h-40 bg-brand-green/5 rounded-full blur-3xl -z-10" />
-            <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-brand-teal/5 rounded-full blur-3xl -z-10" />
-          </motion.div>
+        {/* Heading */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="max-w-2xl mx-auto text-center mb-20 space-y-4"
+        >
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Our Process</span>
+          <h2 className="text-4xl md:text-5xl lg:text-6xl text-display text-slate-900">
+            From farm to bottle,{' '}
+            <span className="font-accent text-slate-500">the healthy way.</span>
+          </h2>
+        </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 30 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            className="space-y-8"
-          >
-            <div className="space-y-4">
-              <span className="text-brand-green font-bold uppercase tracking-widest text-xs">Quality First</span>
-              <h2 className="text-4xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
-                From Farm to Bottle, <br /> 
-                The Healthy Way.
-              </h2>
-              <p className="text-slate-500 text-lg">
-                We take our process seriously. From sourcing the finest organic produce to high-pressure processing that keeps nutrients intact.
-              </p>
-            </div>
+        {/* Timeline — tree layout */}
+        <div className="relative max-w-2xl mx-auto">
+          {/*
+            Layout:
+            [vertical line + dot node] ←─ left column (w-12)
+            [icon card + text]         ←─ right column (flex-1)
+          */}
 
-            <div className="grid sm:grid-cols-2 gap-6">
-              {[
-                { icon: ShieldCheck, title: 'Safe & Clean', desc: 'ISO certified facility' },
-                { icon: ThermometerSnowflake, title: 'Cold Chain', desc: 'Maintained at 4°C' },
-                { icon: Microscope, title: 'Lab Tested', desc: 'Zero contamination' },
-                { icon: ArrowRight, title: 'Pure Yield', desc: 'Maximized nutrition' },
-              ].map((item, idx) => (
-                <div key={idx} className="flex gap-4 items-start">
-                  <div className="w-10 h-10 bg-brand-green-light rounded-xl flex items-center justify-center text-brand-green shrink-0">
-                    <item.icon size={20} />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-slate-900">{item.title}</h4>
-                    <p className="text-slate-500 text-sm">{item.desc}</p>
-                  </div>
+          {/* Track line — sits in the left column, vertically centered on icons */}
+          <div className="absolute left-[23px] top-6 bottom-6 w-[2px] bg-slate-100 rounded-full" />
+          {/* Animated fill */}
+          <motion.div
+            style={{ height: lineHeight }}
+            className="absolute left-[23px] top-6 w-[2px] bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange rounded-full origin-top"
+          />
+
+          <div className="space-y-10 md:space-y-14">
+            {steps.map((step, idx) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, x: -30 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{
+                  delay: idx * 0.1,
+                  duration: 0.6,
+                  ease: [0.22, 1, 0.36, 1],
+                }}
+                className="relative flex items-start gap-6"
+              >
+                {/* Left column: dot node on the line */}
+                <div className="relative flex flex-col items-center shrink-0 w-12">
+                  {/* The dot that sits on the line */}
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    whileInView={{ scale: 1 }}
+                    viewport={{ once: true, margin: "-60px" }}
+                    transition={{ delay: idx * 0.1 + 0.2, duration: 0.4, type: "spring", stiffness: 300 }}
+                    className={`relative z-10 w-4 h-4 rounded-full ${step.dot} ring-4 ring-white mt-[14px]`}
+                  />
+                  {/* Horizontal connector arm from dot to icon */}
+                  <div className="absolute left-[15px] top-[21px] w-[calc(100%-15px)] h-[1.5px] bg-slate-200" />
                 </div>
-              ))}
-            </div>
 
-            <Link 
-              href="/process"
-              className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-full font-bold hover:bg-slate-800 transition-all group"
-            >
-              Learn More About Our Process
-              <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </motion.div>
+                {/* Icon */}
+                <div className={`relative z-10 w-14 h-14 rounded-2xl flex items-center justify-center shrink-0 shadow-sm ${step.bg} ${step.color}`}>
+                  <step.icon size={22} />
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 pt-1 pb-2">
+                  <span className="text-[10px] font-bold text-slate-300 uppercase tracking-widest">
+                    Step {String(idx + 1).padStart(2, '0')}
+                  </span>
+                  <h3 className="text-2xl md:text-3xl font-display font-bold text-slate-900 mb-1.5 mt-0.5">{step.title}</h3>
+                  <p className="text-slate-500 leading-relaxed text-sm md:text-base">{step.desc}</p>
+                </div>
+              </motion.div>
+            ))}
+          </div>
         </div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-center mt-16"
+        >
+          <Link
+            href="/process"
+            className="inline-flex items-center gap-2 bg-slate-900 text-white px-8 py-4 rounded-full font-bold hover:bg-brand-green transition-all group active:scale-[0.97]"
+          >
+            See Full Process
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+          </Link>
+        </motion.div>
       </div>
     </section>
   )

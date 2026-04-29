@@ -1,37 +1,37 @@
 import React from 'react'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
-import { SectionHeader } from '@/components/shared/SectionHeader'
-import { ProductCard } from './ProductCard'
+import { AnimatedProductGrid } from './AnimatedProductGrid'
 import { getFeaturedProducts } from '@/lib/sanity'
 
 export async function FeaturedProducts() {
   const products = await getFeaturedProducts()
 
+  if (!products || products.length === 0) return null
+
   return (
-    <section className="py-24 bg-slate-50">
+    <section className="py-28 md:py-36 bg-white">
       <div className="container mx-auto px-6">
         <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <SectionHeader 
-            label="Curated Selection"
-            title="Fan Favorites"
-            subtitle="The most loved bottles from our cold-pressed and sparkling collections."
-            centered={false}
-          />
-          <Link 
-            href="/products" 
-            className="group flex items-center gap-2 text-brand-green font-bold hover:underline mb-8"
+          <div className="max-w-xl space-y-3">
+            <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Curated Selection</span>
+            <h2 className="text-4xl md:text-5xl text-display text-slate-900">
+              Fan Favorites
+            </h2>
+            <p className="text-slate-500 text-lg">
+              The most loved bottles from our cold-pressed and sparkling collections.
+            </p>
+          </div>
+          <Link
+            href="/products"
+            className="group flex items-center gap-2 text-brand-green font-bold hover:underline shrink-0"
           >
             View All Products
-            <ArrowRight size={20} className="group-hover:translate-x-1 transition-transform" />
+            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
           </Link>
         </div>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-          {products.map((product) => (
-            <ProductCard key={product._id} product={product} />
-          ))}
-        </div>
+        <AnimatedProductGrid products={products} />
       </div>
     </section>
   )
