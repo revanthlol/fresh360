@@ -54,7 +54,7 @@ export default async function ProductDetailPage({
                 sizes="(max-width: 1024px) 100vw, 50vw"
                 placeholder="blur"
                 blurDataURL={urlFor(product.image).width(20).blur(50).url()}
-                className="object-contain p-12 drop-shadow-2xl"
+                className="object-cover drop-shadow-2xl"
                 priority
               />
             )}

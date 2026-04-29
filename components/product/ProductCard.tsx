@@ -44,7 +44,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
               sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
               placeholder="blur"
               blurDataURL={urlFor(product.image).width(20).blur(50).url()}
-              className="object-contain p-8 transition-transform duration-500 group-hover:scale-110"
+              className="object-cover transition-transform duration-500 group-hover:scale-110"
             />
           ) : (
              <div className="w-full h-full flex items-center justify-center text-4xl grayscale opacity-20">

@@ -79,7 +79,15 @@ export async function getProductsByBrand(brandId: string): Promise<Product[]> {
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  return client.fetch(`*[_type == "product" && featured == true] | order(sortOrder asc, name asc) [0...6] {
+  const featured = await client.fetch<Product[]>(`*[_type == "product" && featured == true] | order(sortOrder asc, name asc) [0...6] {
+    ...,
+    brand->
+  }`)
+
+  if (featured && featured.length > 0) return featured
+
+  // Fallback: return first 6 products when none are flagged as featured
+  return client.fetch<Product[]>(`*[_type == "product"] | order(sortOrder asc, name asc) [0...6] {
     ...,
     brand->
   }`)

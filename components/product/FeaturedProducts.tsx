@@ -7,8 +7,6 @@ import { getFeaturedProducts } from '@/lib/sanity'
 export async function FeaturedProducts() {
   const products = await getFeaturedProducts()
 
-  if (!products || products.length === 0) return null
-
   return (
     <section className="py-28 md:py-36 bg-white">
       <div className="container mx-auto px-6">
@@ -31,7 +29,7 @@ export async function FeaturedProducts() {
           </Link>
         </div>
 
-        <AnimatedProductGrid products={products} />
+        <AnimatedProductGrid products={products ?? []} />
       </div>
     </section>
   )
