@@ -21,7 +21,6 @@ export default async function ProductDetailPage({
   const brandColors = {
     juicera: 'from-brand-green/20 to-brand-green/5 text-brand-green border-brand-green/20',
     fuzzy: 'from-brand-teal/20 to-brand-teal/5 text-brand-teal border-brand-teal/20',
-    refrizz: 'from-brand-orange/20 to-brand-orange/5 text-brand-orange border-brand-orange/20',
   }
 
   const brandId = (product.brand?.id?.current || 'juicera') as keyof typeof brandColors

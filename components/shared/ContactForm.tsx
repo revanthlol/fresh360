@@ -87,18 +87,33 @@ export function ContactForm() {
           />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Subject</label>
+          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Brand Interest</label>
           <CustomSelect 
-            name="subject"
-            defaultValue="General Inquiry"
+            name="brandInterest"
+            defaultValue="Juicera"
             options={[
-              { value: "General Inquiry", label: "General Inquiry" },
-              { value: "Bulk/Business Order", label: "Bulk/Business Order" },
-              { value: "Feedback", label: "Feedback" },
-              { value: "Other", label: "Other" }
+              { value: "Juicera", label: "Juicera (100% Pure Cold-Pressed)" },
+              { value: "Fuzzy", label: "Fuzzy (Goli Soda + Juice)" },
+              { value: "Both", label: "Interested in Both" },
+              { value: "General", label: "General Inquiry / Other" }
             ]}
           />
         </div>
+      </div>
+
+      <div className="space-y-2">
+        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">How can we help?</label>
+        <CustomSelect 
+          name="subject"
+          defaultValue="Partnership Inquiry"
+          options={[
+            { value: "Partnership Inquiry", label: "Partnership Inquiry" },
+            { value: "Bulk/Business Order", label: "Bulk/Business Order" },
+            { value: "Franchise Opportunity", label: "Franchise Opportunity" },
+            { value: "Feedback", label: "General Feedback" },
+            { value: "Other", label: "Something Else" }
+          ]}
+        />
       </div>
 
       <div className="space-y-2">

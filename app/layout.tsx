@@ -48,10 +48,9 @@ export const metadata: Metadata = {
     "healthy drinks", 
     "Juicera", 
     "Fuzzy", 
-    "Refrizz", 
-    "Bangalore juice company",
+    "Hyderabad juice company",
     "cold pressed nut milk",
-    "goli soda bangalore"
+    "goli soda Hyderabad"
   ],
   authors: [{ name: "Fresh 360 Degrees Foods LLP" }],
   creator: "Fresh 360",

@@ -48,11 +48,7 @@ export default function ContactPage() {
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Address</p>
                         <p className="text-slate-900 font-medium text-sm leading-relaxed">
-                          #1- 21-223, West Venkata Puram,<br />
-                          Near Hanuman Temple,<br />
-                          Venkateshwara Nagar, Road No. 9,<br />
-                          Tirumalagiri, Hyderabad,<br />
-                          TELANGANA-500015
+                          #1- 21-223, West Venkata Puram, Road No. 9, Tirumalagiri, Secunderabad, Telangana-500015
                         </p>
                       </div>
                     </li>

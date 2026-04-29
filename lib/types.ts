@@ -1,5 +1,5 @@
-export type BrandId = 'juicera' | 'fuzzy' | 'refrizz'
-export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated' | 'goli-soda'
+export type BrandId = 'juicera' | 'fuzzy'
+export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated'
 
 export interface SanityImageAsset {
   _type: 'image'

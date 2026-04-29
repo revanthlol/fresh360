@@ -73,8 +73,8 @@ export function Navbar() {
             onClick={() => handleNavClick('/')}
             className="flex items-center cursor-pointer group"
           >
-            <span className="font-display font-extrabold text-[1.35rem] tracking-tight leading-none text-slate-900 transition-opacity duration-200 group-hover:opacity-80">
-              Fresh<span className="text-brand-green">360°</span>
+            <span className="font-display font-extrabold text-3xl tracking-tight leading-none text-slate-900 transition-opacity duration-200 group-hover:opacity-80">
+              Fresh<span className="text-brand-green">360</span>
             </span>
           </button>
 

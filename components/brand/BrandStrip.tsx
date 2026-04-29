@@ -9,8 +9,8 @@ import { cn } from '@/lib/utils'
 const brands = [
   {
     name: 'Juicera',
-    tagline: 'Pure. Pressed. Potent.',
-    desc: '100% cold-pressed fruit juices & nut milks with zero additives. Designed for the health-conscious.',
+    tagline: '100% Pure. Cold-Pressed.',
+    desc: 'Juicera is 100% pure cold-pressed juice. Nature in its most potent form—zero sugar, no preservatives, and absolutely no artificial colors. Just pure fruit and vegetable goodness.',
     color: 'brand-green',
     bgGradient: 'from-brand-green/10 to-brand-green/5',
     borderColor: 'border-brand-green/20',
@@ -18,21 +18,12 @@ const brands = [
   },
   {
     name: 'Fuzzy',
-    tagline: 'Fizz meets freshness.',
-    desc: 'Cold-pressed juice blended with sparkling water—a guilt-free fizzy experience that tastes alive.',
+    tagline: 'Goli Soda Meets Cold-Pressed.',
+    desc: 'Fuzzy is a refreshing mix of classic goli soda and pure cold-pressed juice. A natural, fizzy experience with 0 added sugar and no preservatives. The best of both worlds.',
     color: 'brand-teal',
     bgGradient: 'from-brand-teal/10 to-brand-teal/5',
     borderColor: 'border-brand-teal/20',
     href: '/brands/fuzzy',
-  },
-  {
-    name: 'Refrizz',
-    tagline: 'Nostalgia, reimagined.',
-    desc: 'Fun, affordable flavoured goli soda for the masses—bringing back childhood in every pop.',
-    color: 'brand-orange',
-    bgGradient: 'from-brand-orange/10 to-brand-orange/5',
-    borderColor: 'border-brand-orange/20',
-    href: '/brands/refrizz',
   },
 ]
 
@@ -67,13 +58,13 @@ export function BrandStrip() {
         >
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Our Brands</span>
           <h2 className="text-4xl md:text-5xl lg:text-6xl text-display text-slate-900">
-            Three lines.{' '}
+            Two lines.{' '}
             <span className="font-accent text-slate-500">One philosophy.</span>
           </h2>
         </motion.div>
 
         {/* Brand Cards */}
-        <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
           {brands.map((brand, idx) => (
             <motion.div
               key={brand.name}

@@ -56,8 +56,8 @@ export function Footer() {
           {/* Brand Column */}
           <div className="space-y-8">
             <button onClick={() => handleInternalLink('/')} className="flex items-center group cursor-pointer">
-              <span className="font-display font-extrabold text-2xl tracking-tight leading-none text-slate-900 transition-opacity duration-200 group-hover:opacity-80">
-                Fresh<span className="text-brand-green">360°</span>
+              <span className="font-display font-extrabold text-4xl tracking-tight leading-none text-slate-900 transition-opacity duration-200 group-hover:opacity-80">
+                Fresh<span className="text-brand-green">360</span>
               </span>
             </button>
             <p className="text-slate-500 text-base leading-relaxed max-w-xs">
@@ -114,9 +114,8 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               {[
-                { name: 'Juicera (Cold Pressed)', href: '/brands/juicera' },
-                { name: 'Fuzzy (Sparkling)', href: '/brands/fuzzy' },
-                { name: 'Refrizz (Goli Soda)', href: '/brands/refrizz' },
+                { name: 'Juicera (Pure Cold Pressed)', href: '/brands/juicera' },
+                { name: 'Fuzzy (Goli Soda with Juice)', href: '/brands/fuzzy' },
               ].map((brand) => (
                 <li key={brand.name}>
                   <button
@@ -145,8 +144,8 @@ export function Footer() {
                 <div>
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Address</span>
                   <address className="text-slate-600 text-sm not-italic leading-relaxed">
-                    #1- 21-223, West Venkata Puram,<br />
-                    Tirumalagiri, Hyderabad, 500015
+                    #1- 21-223, West Venkata Puram, Road No. 9, Tirumalagiri,<br />
+                    Secunderabad, Telangana-500015
                   </address>
                 </div>
               </li>

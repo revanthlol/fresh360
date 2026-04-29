@@ -31,6 +31,11 @@ export default defineType({
       type: 'text',
     }),
     defineField({
+      name: 'brandInterest',
+      title: 'Brand Interest',
+      type: 'string',
+    }),
+    defineField({
       name: 'status',
       title: 'Status',
       type: 'string',

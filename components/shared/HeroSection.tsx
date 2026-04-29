@@ -45,18 +45,6 @@ export function HeroSection() {
             style={{ y: heroTextY, opacity: heroOpacity }}
             className="text-center lg:text-left space-y-6 order-1"
           >
-            {/* Status pill */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-              className="inline-flex items-center gap-2 bg-white/80 backdrop-blur-md px-4 py-2 rounded-full border border-slate-200/60 shadow-sm"
-            >
-              <span className="w-2 h-2 rounded-full bg-brand-green animate-pulse shrink-0" />
-              <span className="text-slate-500 uppercase text-[10px] font-bold tracking-wider leading-none">
-                Cold-Pressed · Zero Sugar · Pure
-              </span>
-            </motion.div>
 
             {/* Headline */}
             <motion.h1
@@ -90,7 +78,7 @@ export function HeroSection() {
               transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
               className="text-base sm:text-lg md:text-xl text-slate-500 max-w-md mx-auto lg:mx-0 leading-relaxed"
             >
-              100% cold-pressed vibrancy. No preservatives, no added sugar—just the raw, unfiltered power of nature in every bottle.
+              Your Partner in Fresh Beverage Needs. 100% cold-pressed vibrancy with 0 added sugar and no preservatives—just pure, raw nature.
             </motion.p>
 
             {/* CTAs */}

@@ -10,6 +10,7 @@ const enquirySchema = z.object({
   name: z.string().min(2, 'Name must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
   phone: z.string().regex(/^(?:\+91|0)?[6-9]\d{9}$/, 'Please enter a valid 10-digit mobile number'),
+  brandInterest: z.string().optional(),
   subject: z.string().optional(),
   message: z.string().min(10, 'Message must be at least 10 characters'),
 })
@@ -37,6 +38,7 @@ export async function submitEnquiry(formData: FormData) {
     name: formData.get('name'),
     email: formData.get('email'),
     phone: formData.get('phone'),
+    brandInterest: formData.get('brandInterest'),
     subject: formData.get('subject'),
     message: formData.get('message'),
   }
@@ -52,10 +54,11 @@ export async function submitEnquiry(formData: FormData) {
     }
   }
 
-  const { name, email, phone, subject, message } = validatedFields.data
+  const { name, email, phone, brandInterest, subject, message } = validatedFields.data
 
   const safeName = escapeHtml(name)
   const safeEmail = escapeHtml(email)
+  const safeBrand = escapeHtml(brandInterest || 'General')
   const safeSubject = escapeHtml(subject || 'General Inquiry')
   const safeMessage = escapeHtml(message)
 
@@ -86,7 +89,7 @@ export async function submitEnquiry(formData: FormData) {
         <body>
           <div class="container">
             <div class="header">
-              <div class="logo">Fresh 360°</div>
+              <div class="logo">Fresh 360</div>
               <h2 style="color: #1e293b; margin: 0; font-size: 24px;">New Enquiry Received</h2>
               <p style="color: #64748b; margin-top: 8px;">A new visitor has reached out through the website.</p>
             </div>
@@ -108,8 +111,18 @@ export async function submitEnquiry(formData: FormData) {
                 </tr>
               </table>
               
-              <span class="label">Inquiry Subject</span>
-              <p class="value" style="margin-bottom: 0;">${safeSubject}</p>
+              <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td width="50%" valign="top">
+                    <span class="label">Brand Interest</span>
+                    <p class="value">${safeBrand}</p>
+                  </td>
+                  <td width="50%" valign="top">
+                    <span class="label">Inquiry Subject</span>
+                    <p class="value">${safeSubject}</p>
+                  </td>
+                </tr>
+              </table>
             </div>
 
             <div class="message-box">
@@ -139,6 +152,7 @@ export async function submitEnquiry(formData: FormData) {
           name,
           email,
           phone,
+          brandInterest: brandInterest || 'General',
           subject: subject || 'General Inquiry',
           message,
           status: 'new',

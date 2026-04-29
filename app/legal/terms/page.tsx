@@ -26,7 +26,7 @@ export default function TermsOfServicePage() {
           </h1>
           <p className="text-slate-500">
             Effective date: <strong>{EFFECTIVE_DATE}</strong> &nbsp;·&nbsp;
-            Governing law: Laws of India (Karnataka jurisdiction)
+            Governing law: Laws of India (Telangana jurisdiction)
           </p>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function TermsOfServicePage() {
             intended to:
           </p>
           <ul>
-            <li>Present information about our beverage brands (Juicera, Fuzzy, and Refrizz).</li>
+            <li>Present information about our beverage brands (Juicera and Fuzzy).</li>
             <li>Enable visitors to make product or wholesale enquiries via the contact form or WhatsApp.</li>
             <li>Serve as a digital marketing and brand identity platform.</li>
           </ul>
@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
         <Section id="ip" title="4. Intellectual Property">
           <p>
             All content on the Site — including but not limited to text, photographs, product images,
-            logos, brand names (Juicera, Fuzzy, Refrizz), graphics, and the overall layout — is the
+            logos, brand names (Juicera, Fuzzy), graphics, and the overall layout — is the
             exclusive property of <strong>{COMPANY_NAME}</strong> or its licensors and is protected
             under applicable Indian and international intellectual property laws.
           </p>
@@ -219,7 +219,7 @@ export default function TermsOfServicePage() {
           <p>
             These Terms are governed by and construed in accordance with the <strong>laws of India</strong>.
             Any dispute arising out of or in connection with these Terms shall be subject to the
-            exclusive jurisdiction of the courts located in <strong>Bangalore, Karnataka, India</strong>.
+            exclusive jurisdiction of the courts located in <strong>Hyderabad, Telangana, India</strong>.
           </p>
           <p>
             Before initiating formal legal proceedings, both parties agree to attempt to resolve
