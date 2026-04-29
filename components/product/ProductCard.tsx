@@ -34,9 +34,16 @@ export function ProductCard({ product, className }: ProductCardProps) {
         <div className="relative aspect-square overflow-hidden bg-slate-50">
           {product.image ? (
             <Image
-              src={urlFor(product.image).url()}
+              src={urlFor(product.image)
+                .width(500)
+                .height(500)
+                .quality(80)
+                .url()}
               alt={product.name}
               fill
+              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+              placeholder="blur"
+              blurDataURL={urlFor(product.image).width(20).blur(50).url()}
               className="object-contain p-8 transition-transform duration-500 group-hover:scale-110"
             />
           ) : (

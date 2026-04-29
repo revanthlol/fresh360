@@ -45,9 +45,15 @@ export default async function ProductDetailPage({
           )}>
             {product.image && (
               <Image
-                src={urlFor(product.image).url()}
+                src={urlFor(product.image)
+                  .width(1200)
+                  .quality(90)
+                  .url()}
                 alt={product.name}
                 fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
+                placeholder="blur"
+                blurDataURL={urlFor(product.image).width(20).blur(50).url()}
                 className="object-contain p-12 drop-shadow-2xl"
                 priority
               />
