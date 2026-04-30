@@ -64,7 +64,7 @@ export const metadata: Metadata = {
     description: "Experience the pure taste of nature with premium cold-pressed juices and natural beverages. Zero preservatives, zero added sugar.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/fresh360-3_4.png",
         width: 1200,
         height: 630,
         alt: "Fresh 360 Beverages",
@@ -75,7 +75,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Fresh 360 | Pure Natural Beverages",
     description: "Zero preservatives. Zero added sugar. 100% natural cold-pressed juices.",
-    images: ["/og-image.png"],
+    images: ["/fresh360-3_4.png"],
   },
   robots: {
     index: true,

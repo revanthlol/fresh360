@@ -29,7 +29,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Phone</p>
-                        <p className="text-slate-900 font-medium">+91 93913 11652</p>
+                        <p className="text-slate-900 font-medium">+91 97055 22020</p>
                       </div>
                     </li>
                     <li className="flex gap-4">
@@ -57,7 +57,7 @@ export default function ContactPage() {
               </div>
 
               <Link 
-                href="https://wa.me/919391311652"
+                href="https://wa.me/919705522020"
                 target="_blank"
                 className="block bg-[#25D366] text-white p-8 rounded-[2.5rem] text-center space-y-4 shadow-xl hover:shadow-2xl transition-all hover:-translate-y-1"
               >

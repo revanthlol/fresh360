@@ -91,6 +91,7 @@ export function Footer() {
                 { name: 'Our Story', href: '/about' },
                 { name: 'The Process', href: '/process' },
                 { name: 'Product List', href: '/products' },
+                { name: 'Certifications', href: '/certifications' },
                 { name: 'Contact Us', href: '/contact' },
               ].map((link) => (
                 <li key={link.name}>
@@ -155,7 +156,7 @@ export function Footer() {
                 </div>
                 <div>
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Call Us</span>
-                  <a href="tel:+919391311652" className="text-slate-600 text-sm hover:text-brand-teal transition-colors">+91 93913 11652</a>
+                  <a href="tel:+919705522020" className="text-slate-600 text-sm hover:text-brand-teal transition-colors">+91 97055 22020</a>
                 </div>
               </li>
               <li className="flex gap-4 group">

@@ -12,7 +12,7 @@ const EFFECTIVE_DATE = '29 April 2025'
 const COMPANY_NAME = 'Fresh 360 Degrees Foods LLP'
 const COMPANY_ADDRESS = '#1- 21-223, West Venkata Puram, Tirumalagiri, Hyderabad, 500015'
 const CONTACT_EMAIL = 'support@fresh360degrees.in'
-const WHATSAPP = '+91 93913 11652'
+const WHATSAPP = '+91 97055 22020'
 
 export default function PrivacyPolicyPage() {
   return (
@@ -252,7 +252,7 @@ function ContactBlock() {
       </p>
       <p>
         WhatsApp:{' '}
-        <a href="https://wa.me/919391311652" className="text-brand-green font-medium hover:underline" target="_blank" rel="noopener noreferrer">
+        <a href="https://wa.me/919705522020" className="text-brand-green font-medium hover:underline" target="_blank" rel="noopener noreferrer">
           {WHATSAPP}
         </a>
       </p>

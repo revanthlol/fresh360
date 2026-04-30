@@ -103,7 +103,7 @@ export function Navbar() {
               </button>
             ))}
             <Link
-              href="https://wa.me/919391311652"
+              href="https://wa.me/919705522020"
               target="_blank"
               rel="noopener noreferrer"
               className={cn(
@@ -191,7 +191,7 @@ export function Navbar() {
                 className="mt-2 pb-2"
               >
                 <Link
-                  href="https://wa.me/919391311652"
+                  href="https://wa.me/919705522020"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="bg-brand-green text-white px-4 py-3.5 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-brand-green/90 transition-colors active:scale-[0.98]"
