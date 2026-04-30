@@ -52,7 +52,7 @@ export default function CertificationsPage() {
                 <div className="bg-white/60 backdrop-blur-sm border border-slate-100 rounded-2xl p-6">
                   <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest mb-1">License Number</span>
                   <p className="text-2xl font-display font-bold text-slate-900 tracking-tight">
-                    &lt;PLACEHOLDER_LICENSE_NUMBER&gt;
+                    {process.env.NEXT_PUBLIC_FSSAI_LICENSE_NUMBER || "Registration in Progress"}
                   </p>
                 </div>
 

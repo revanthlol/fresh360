@@ -1,4 +1,4 @@
-export type BrandId = 'juicera' | 'fuzzy'
+export type BrandId = 'juicera' | 'fuzzy' | 'refrizz'
 export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated'
 
 export interface SanityImageAsset {
@@ -18,13 +18,12 @@ export interface SanityImageAsset {
 export interface Brand {
   _id: string
   name: string
-  id: { current: string }
+  id: { current: string } // This is the slug field in the schema named 'id'
   tagline: string
   description: string
   color: string
   heroImage: SanityImageAsset
   usps: string[]
-  slug: { current: string }
   primaryColor: string
 }
 
@@ -33,14 +32,14 @@ export interface Product {
   name: string
   slug: { current: string }
   brand: Brand
-  category: CategoryId
+  category: string
   tagline: string
   description: string
   ingredients: string[]
-  benefits?: string[]
+  benefits: string[]
   image: SanityImageAsset
-  featured?: boolean
-  sortOrder?: number
+  featured: boolean
+  sortOrder: number
 }
 
 export interface ContactFormData {

@@ -22,32 +22,10 @@ export function urlFor(source: any) { // eslint-disable-line @typescript-eslint/
   return builder.image(source).auto('format')
 }
 
-export interface Brand {
-  _id: string
-  name: string
-  id: { current: string }
-  tagline: string
-  description: string
-  color: string
-  heroImage: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  usps: string[]
-  primaryColor: string
-}
+import { Brand, Product } from './types'
 
-export interface Product {
-  _id: string
-  name: string
-  slug: { current: string }
-  brand: Brand
-  category: string
-  tagline: string
-  description: string
-  ingredients: string[]
-  benefits: string[]
-  image: any // eslint-disable-line @typescript-eslint/no-explicit-any
-  featured: boolean
-  sortOrder: number
-}
+export type { Brand, Product }
+
 
 export async function getBrands(): Promise<Brand[]> {
   return client.fetch(`*[_type == "brand"] | order(name asc)`)

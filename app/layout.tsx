@@ -35,6 +35,10 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+const baseUrl =
+  process.env.NEXT_PUBLIC_SITE_URL ||
+  (process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : 'http://localhost:3000')
+
 export const metadata: Metadata = {
   title: {
     default: "Fresh 360 | Premium Cold-Pressed Juices & Natural Beverages",
@@ -54,11 +58,11 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Fresh 360 Degrees Foods LLP" }],
   creator: "Fresh 360",
-  metadataBase: new URL("https://fresh360.com"),
+  metadataBase: new URL(baseUrl),
   openGraph: {
     type: "website",
     locale: "en_IN",
-    url: "https://fresh360.com",
+    url: baseUrl,
     siteName: "Fresh 360",
     title: "Fresh 360 | Pure, Cold-Pressed, Natural",
     description: "Experience the pure taste of nature with premium cold-pressed juices and natural beverages. Zero preservatives, zero added sugar.",

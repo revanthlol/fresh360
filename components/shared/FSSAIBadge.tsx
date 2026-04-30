@@ -15,7 +15,7 @@ export function FSSAIBadge({ className, variant = 'small' }: FSSAIBadgeProps) {
       className
     )}>
       <CheckCircle size={variant === 'large' ? 18 : 14} />
-      <span>FSSAI Certified ✓</span>
+      <span>FSSAI Certified</span>
     </div>
   )
 }
