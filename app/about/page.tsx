@@ -184,41 +184,103 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Re-using Values but with fresh styling */}
-      <section className="py-24 bg-white">
+      {/* The Non-Negotiables (Pillars) Section */}
+      <section className="py-32 bg-white relative">
         <div className="container mx-auto px-6">
-          <div className="text-center max-w-2xl mx-auto mb-16 space-y-4">
-            <h2 className="text-4xl font-display font-bold text-slate-900">The Pillars of Fresh 360</h2>
-            <p className="text-slate-500">Grounded in values that prioritize your well-being and the planet.</p>
+          <div className="max-w-3xl mb-24 space-y-4">
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="space-y-4"
+            >
+              <span className="text-xs font-black uppercase tracking-[0.3em] text-brand-green bg-brand-green/5 px-3 py-1 rounded-full">
+                The Foundation
+              </span>
+              <h2 className="text-5xl md:text-7xl font-display font-black text-slate-900 tracking-tight leading-[0.95]">
+                Our promise is built on <span className="text-brand-green">four non-negotiable truths.</span>
+              </h2>
+              <p className="text-xl text-slate-500 font-sans max-w-xl pt-4">
+                We believe that modern refreshment shouldn&apos;t come at the cost of your health or the planet&apos;s future.
+              </p>
+            </motion.div>
           </div>
           
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={containerVariants}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6 md:gap-8">
             {[
-              { icon: ShieldCheck, title: "Quality Control", desc: "Every batch is tested in our certified labs to ensure the highest safety standards." },
-              { icon: Heart, title: "Healthy First", desc: "No harmful additives, ever. We believe nature provides everything we need." },
-              { icon: Leaf, title: "Sustainability", desc: "Sourcing responsibly from local organic farms to support our communities." },
-              { icon: Users, title: "Transparency", desc: "Honest labels and clear processes. You deserve to know what you consume." }
+              { 
+                icon: ShieldCheck, 
+                title: "Quality Control", 
+                desc: "Every batch is tested in our certified labs to ensure the highest safety standards.",
+                highlight: "Safety without compromise.",
+                cols: "md:col-span-7",
+                bg: "bg-[#F0F7F0]",
+                color: "text-brand-green"
+              },
+              { 
+                icon: Heart, 
+                title: "Healthy First", 
+                desc: "No harmful additives, ever. We believe nature provides everything we need.",
+                highlight: "Purely nutritious.",
+                cols: "md:col-span-5",
+                bg: "bg-[#FDFCFB]",
+                color: "text-brand-orange"
+              },
+              { 
+                icon: Leaf, 
+                title: "Sustainability", 
+                desc: "Sourcing responsibly from local organic farms to support our communities.",
+                highlight: "Rooted in nature.",
+                cols: "md:col-span-5",
+                bg: "bg-[#F0F9F9]",
+                color: "text-brand-teal"
+              },
+              { 
+                icon: Users, 
+                title: "Transparency", 
+                desc: "Honest labels and clear processes. You deserve to know what you consume.",
+                highlight: "Truth in every sip.",
+                cols: "md:col-span-7",
+                bg: "bg-slate-50",
+                color: "text-slate-900"
+              }
             ].map((v, i) => (
               <motion.div 
                 key={i} 
-                variants={itemVariants}
-                whileHover={{ y: -10 }}
-                className="bg-[#F8FAF8] p-8 rounded-[2rem] space-y-4 border border-slate-50 hover:border-brand-green/20 hover:shadow-xl hover:shadow-brand-green/5 transition-all duration-300"
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ delay: i * 0.1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className={`${v.cols} relative group overflow-hidden rounded-[2.5rem] p-10 md:p-14 ${v.bg} border border-black/[0.03] transition-all duration-500 hover:shadow-2xl hover:shadow-black/5 hover:-translate-y-2`}
               >
-                <div className="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-brand-green shadow-sm">
-                  <v.icon size={28} />
+                {/* Visual Marker */}
+                <div className="absolute top-10 right-10 opacity-5 font-display font-black text-8xl md:text-9xl select-none group-hover:scale-110 transition-transform duration-700">
+                  0{i + 1}
                 </div>
-                <h3 className="font-display font-bold text-xl text-slate-900">{v.title}</h3>
-                <p className="text-slate-500 text-sm leading-relaxed">{v.desc}</p>
+
+                <div className="relative z-10 space-y-8">
+                  <div className={`w-16 h-16 bg-white rounded-2xl flex items-center justify-center ${v.color} shadow-sm group-hover:scale-110 transition-transform duration-500`}>
+                    <v.icon size={32} />
+                  </div>
+                  
+                  <div className="space-y-4">
+                    <h3 className="font-display font-bold text-3xl text-slate-900">{v.title}</h3>
+                    <p className="text-slate-500 text-lg leading-relaxed max-w-sm">
+                      {v.desc}
+                    </p>
+                  </div>
+
+                  <div className="pt-4 flex items-center gap-2">
+                    <div className={`h-px w-8 ${v.color} opacity-30`} />
+                    <p className={`font-accent italic text-xl ${v.color} opacity-80`}>{v.highlight}</p>
+                  </div>
+                </div>
+
+                {/* Decorative blob on hover */}
+                <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-white/20 blur-3xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-700 pointer-events-none" />
               </motion.div>
             ))}
-          </motion.div>
+          </div>
         </div>
       </section>
       
