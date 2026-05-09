@@ -94,7 +94,7 @@ function FeatureBlock({ feature, index }: { feature: typeof features[0]; index: 
       whileInView="visible"
       // Once the element enters view it animates and is done — no ongoing scroll cost
       viewport={{ once: true, margin: '-80px' }}
-      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-10 md:gap-20 py-16 md:py-24`}
+      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 py-12 md:py-24`}
     >
       {/* Icon & index */}
       <motion.div
@@ -102,9 +102,9 @@ function FeatureBlock({ feature, index }: { feature: typeof features[0]; index: 
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="shrink-0 flex flex-col items-center gap-4"
       >
-        <div className={`relative w-20 h-20 md:w-28 md:h-28 rounded-3xl ${feature.light} flex items-center justify-center`}>
-          <Icon size={32} className={`md:w-10 md:h-10 ${feature.color}`} />
-          <span className="absolute -top-2 -right-2 w-7 h-7 rounded-full bg-white border border-slate-100 shadow-sm text-[10px] font-black text-slate-400 flex items-center justify-center">
+        <div className={`relative w-16 h-16 md:w-28 md:h-28 rounded-2xl md:rounded-3xl ${feature.light} flex items-center justify-center`}>
+          <Icon size={24} className={`md:w-10 md:h-10 ${feature.color}`} />
+          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-white border border-slate-100 shadow-sm text-[9px] md:text-[10px] font-black text-slate-400 flex items-center justify-center">
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
@@ -119,25 +119,25 @@ function FeatureBlock({ feature, index }: { feature: typeof features[0]; index: 
       </motion.div>
 
       {/* Text */}
-      <div className={`space-y-4 max-w-xl ${isEven ? 'text-left' : 'text-left md:text-right'}`}>
+      <div className={`space-y-3 md:space-y-4 max-w-xl ${isEven ? 'text-center md:text-left' : 'text-center md:text-right'}`}>
         <motion.span
           variants={kickerVariants}
           transition={{ duration: 0.4, ease: 'easeOut' }}
-          className={`block text-xs font-black uppercase tracking-[0.25em] ${feature.color}`}
+          className={`block text-[10px] md:text-xs font-black uppercase tracking-[0.25em] ${feature.color}`}
         >
           {feature.kicker}
         </motion.span>
         <motion.h2
           variants={headlineVariants}
           transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="font-display font-extrabold text-5xl sm:text-6xl md:text-7xl lg:text-8xl leading-[0.95] text-slate-900"
+          className="font-display font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-slate-900"
         >
           {feature.headline}
         </motion.h2>
         <motion.p
           variants={subVariants}
           transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="text-base md:text-lg text-slate-500 leading-relaxed max-w-md"
+          className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-md mx-auto md:mx-0"
         >
           {feature.sub}
         </motion.p>
@@ -157,30 +157,42 @@ export function PhilosophyStrip() {
   const introY = useTransform(scrollYProgress, [0, 1], [30, 0])
 
   return (
-    <section className="relative bg-white overflow-hidden">
+    <section className="relative bg-white overflow-hidden py-12 md:py-24">
+      {/* Cinematic Background Elements */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-green/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" />
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />
+      
       {/* Section intro */}
       <motion.div
         ref={introRef}
         style={{ opacity: introOpacity, y: introY }}
-        className="container mx-auto px-6 max-w-6xl pt-24 pb-4 text-center"
+        className="container mx-auto px-6 max-w-6xl pt-12 pb-8 text-center relative z-10"
       >
-        <span className="text-xs font-black uppercase tracking-[0.25em] text-slate-400">
+        <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-4 block">
           Our Promise to You
         </span>
-        <p className="mt-3 font-accent text-2xl md:text-3xl text-slate-600 max-w-2xl mx-auto">
+        <h2 className="font-display font-bold text-3xl md:text-5xl text-slate-900 leading-tight">
           Five things we will{' '}
-          <span className="text-brand-green">never compromise</span> on.
-        </p>
+          <span className="relative inline-block">
+            <span className="relative z-10 text-brand-green">never compromise</span>
+            <motion.span 
+              initial={{ scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="absolute bottom-1 left-0 w-full h-3 bg-brand-green/10 -rotate-1 origin-left"
+            />
+          </span>
+          {' '}on.
+        </h2>
       </motion.div>
 
       {/* Feature blocks — intersection-observer driven, zero scroll cost */}
-      <div className="container mx-auto px-6 max-w-6xl">
+      <div className="container mx-auto px-6 max-w-6xl relative z-10">
         {features.map((feature, i) => (
           <FeatureBlock key={feature.headline} feature={feature} index={i} />
         ))}
       </div>
-
-      <div className="h-16" />
     </section>
   )
 }

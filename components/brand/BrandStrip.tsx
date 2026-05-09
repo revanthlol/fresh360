@@ -49,71 +49,101 @@ export function BrandStrip() {
   }
 
   return (
-    <section ref={sectionRef} className="py-28 md:py-36 bg-[#FAFAFA] overflow-hidden">
-      <div className="container mx-auto px-6">
+    <section ref={sectionRef} className="py-24 md:py-36 bg-[#FAFAFA] overflow-hidden relative">
+      {/* Decorative patterns */}
+      <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none select-none overflow-hidden">
+        <div className="absolute top-10 right-10 text-[20vw] font-black leading-none rotate-12">FRESH</div>
+        <div className="absolute bottom-10 left-10 text-[20vw] font-black leading-none -rotate-12">360</div>
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10">
         {/* Section heading */}
         <motion.div
           style={{ y: headingY, opacity: headingOpacity }}
-          className="text-center max-w-2xl mx-auto mb-20 space-y-4"
+          className="text-center max-w-3xl mx-auto mb-16 md:mb-24 space-y-4 md:space-y-6"
         >
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Our Brands</span>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl text-display text-slate-900">
-            Two lines.{' '}
-            <span className="font-accent text-slate-500">One philosophy.</span>
+          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-brand-green bg-brand-green/10 px-4 py-2 rounded-full inline-block">
+            Our Premium Lines
+          </span>
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-display font-extrabold text-slate-900 leading-[1.1]">
+            Two distinct paths.{' '}
+            <span className="text-slate-400 font-accent block md:inline">One pure obsession.</span>
           </h2>
         </motion.div>
 
         {/* Brand Cards */}
-        <div className="grid md:grid-cols-2 gap-6 lg:gap-8 max-w-5xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-6xl mx-auto">
           {brands.map((brand, idx) => (
             <motion.div
               key={brand.name}
-              initial={{ opacity: 0, y: 50, scale: 0.95 }}
-              whileInView={{ opacity: 1, y: 0, scale: 1 }}
-              viewport={{ once: true, margin: "-60px" }}
+              initial={{ opacity: 0, y: 60 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
               transition={{
-                delay: idx * 0.15,
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1],
+                delay: idx * 0.2,
+                duration: 0.8,
+                ease: [0.16, 1, 0.3, 1],
               }}
               className={cn(
-                "group relative p-8 md:p-10 rounded-[2rem] overflow-hidden cursor-pointer",
-                "bg-gradient-to-br", brand.bgGradient,
-                "border", brand.borderColor,
-                "hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                "group relative p-8 md:p-12 rounded-[2.5rem] overflow-hidden cursor-pointer",
+                "bg-white border border-slate-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]",
+                "hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)] hover:-translate-y-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
               )}
               onClick={() => handleNav(brand.href)}
               role="button"
               tabIndex={0}
               onKeyDown={(e) => e.key === 'Enter' && handleNav(brand.href)}
             >
-              <div className="relative z-10 space-y-5">
-                {/* Brand name */}
-                <h3 className={cn("text-3xl md:text-4xl font-display font-extrabold", `text-${brand.color}`)}>
-                  {brand.name}
-                </h3>
+              {/* Dynamic Gradient Background Overlay */}
+              <div className={cn(
+                "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700",
+                "bg-gradient-to-br", brand.bgGradient
+              )} />
 
-                {/* Tagline in accent font */}
-                <p className="font-accent text-lg text-slate-600">{brand.tagline}</p>
+              <div className="relative z-10 h-full flex flex-col justify-between">
+                <div className="space-y-6 md:space-y-8">
+                  {/* Brand name & Kicker */}
+                  <div className="space-y-2">
+                    <span className={cn("text-[10px] font-black uppercase tracking-widest", `text-${brand.color}`)}>
+                      Signature Series
+                    </span>
+                    <h3 className={cn("text-4xl md:text-6xl font-display font-black tracking-tight", `text-${brand.color}`)}>
+                      {brand.name}
+                    </h3>
+                  </div>
 
-                {/* Description */}
-                <p className="text-slate-500 text-sm leading-relaxed">{brand.desc}</p>
+                  {/* Tagline & Description */}
+                  <div className="space-y-4">
+                    <p className="font-accent text-xl md:text-2xl text-slate-800 leading-tight">
+                      {brand.tagline}
+                    </p>
+                    <p className="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
+                      {brand.desc}
+                    </p>
+                  </div>
+                </div>
 
-                {/* CTA */}
-                <div className={cn("inline-flex items-center gap-2 font-bold text-sm", `text-${brand.color}`)}>
-                  Explore Brand
+                {/* CTA - Fixed bottom */}
+                <div className="mt-10 md:mt-12">
                   <div className={cn(
-                    "p-1 rounded-full transition-transform group-hover:translate-x-1 group-hover:-translate-y-1",
-                    `bg-${brand.color}`, "text-white"
+                    "inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-sm transition-all duration-500",
+                    `bg-${brand.color} text-white shadow-lg shadow-${brand.color}/20`,
+                    "group-hover:scale-105 group-hover:gap-5"
                   )}>
-                    <ArrowUpRight size={14} />
+                    Explore {brand.name}
+                    <ArrowUpRight size={18} className="transition-transform group-hover:rotate-45" />
                   </div>
                 </div>
               </div>
 
-              {/* Decorative circle */}
+              {/* Decorative Vibrant Elements */}
               <div className={cn(
-                "absolute -bottom-16 -right-16 w-48 h-48 rounded-full opacity-[0.07] group-hover:scale-[2] transition-transform duration-700",
+                "absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[80px] opacity-0 group-hover:opacity-40 transition-opacity duration-1000",
+                `bg-${brand.color}`
+              )} />
+              
+              <div className={cn(
+                "absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-[0.02] group-hover:opacity-[0.08] group-hover:scale-150 transition-all duration-1000",
                 `bg-${brand.color}`
               )} />
             </motion.div>
