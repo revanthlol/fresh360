@@ -1,10 +1,10 @@
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MessageCircle, CheckCircle2, FlaskConical } from 'lucide-react'
-import { getProduct, urlFor } from '@/lib/sanity'
+import { getProduct } from '@/lib/sanity'
 import { cn } from '@/lib/utils'
+import { ProductMediaFrame } from '@/components/product/ProductMediaFrame'
 
 export default async function ProductDetailPage({ 
   params 
@@ -40,25 +40,18 @@ export default async function ProductDetailPage({
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Image Section */}
           <div className={cn(
-            "relative aspect-square rounded-[3rem] overflow-hidden bg-gradient-to-br border shadow-sm",
+            "relative rounded-[3rem] overflow-hidden bg-gradient-to-br border shadow-sm",
             themeClass
           )}>
-            {product.image && (
-              <Image
-                src={urlFor(product.image)
-                  .width(1200)
-                  .quality(90)
-                  .url()}
-                alt={product.name}
-                fill
-                sizes="(max-width: 1024px) 100vw, 50vw"
-                placeholder="blur"
-                blurDataURL={urlFor(product.image).width(20).blur(50).url()}
-                className="object-cover drop-shadow-2xl"
-                priority
-              />
-            )}
-            
+            <ProductMediaFrame
+              image={product.image}
+              alt={product.name}
+              sizes="(max-width: 1024px) 100vw, 50vw"
+              priority
+              className="rounded-[3rem] bg-transparent"
+              imageClassName="drop-shadow-2xl"
+            />
+
             <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
               <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20">
                 <span className="text-xs font-bold uppercase tracking-widest block opacity-60">Brand</span>

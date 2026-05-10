@@ -1,12 +1,12 @@
 "use client"
 
 import React from 'react'
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
-import { urlFor, Product } from '@/lib/sanity'
+import { Product } from '@/lib/sanity'
 import { cn } from '@/lib/utils'
+import { ProductMediaFrame } from './ProductMediaFrame'
 
 interface ProductCardProps {
   product: Product
@@ -31,29 +31,17 @@ export function ProductCard({ product, className }: ProductCardProps) {
       )}
     >
       <Link href={`/products/${product.slug.current}`} className="block">
-        <div className="relative aspect-square overflow-hidden bg-slate-50">
-          {product.image ? (
-            <Image
-              src={urlFor(product.image)
-                .width(500)
-                .height(500)
-                .quality(80)
-                .url()}
-              alt={product.name}
-              fill
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-              placeholder="blur"
-              blurDataURL={urlFor(product.image).width(20).blur(50).url()}
-              className="object-cover transition-transform duration-500 group-hover:scale-110"
-            />
-          ) : (
-             <div className="w-full h-full flex items-center justify-center text-4xl grayscale opacity-20">
-                🥤
-             </div>
-          )}
-          
+        <div className="relative">
+          <ProductMediaFrame
+            image={product.image}
+            alt={product.name}
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
+            className="rounded-none bg-slate-50"
+            imageClassName="group-hover:scale-[1.04]"
+          />
+
           <div className={cn(
-            "absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider",
+            "absolute top-4 left-4 z-10 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider backdrop-blur-md",
             brandColors[brandId]
           )}>
             {product.brand?.name || 'Fresh 360'}

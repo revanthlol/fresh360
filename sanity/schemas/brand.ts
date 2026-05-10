@@ -4,6 +4,7 @@ export default defineType({
   name: 'brand',
   title: 'Brand',
   type: 'document',
+
   fields: [
     defineField({
       name: 'name',
@@ -11,6 +12,7 @@ export default defineType({
       type: 'string',
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: 'id',
       title: 'ID',
@@ -20,18 +22,21 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: 'tagline',
       title: 'Tagline',
       type: 'string',
       validation: (Rule) => Rule.required().max(100),
     }),
+
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
       validation: (Rule) => Rule.required().max(600),
     }),
+
     defineField({
       name: 'color',
       title: 'Color',
@@ -39,6 +44,7 @@ export default defineType({
       description: 'Hex color for UI accents (e.g., #2D6A2D)',
       validation: (Rule) => Rule.required(),
     }),
+
     defineField({
       name: 'heroImage',
       title: 'Hero Image',
@@ -48,6 +54,17 @@ export default defineType({
       },
       validation: (Rule) => Rule.required(),
     }),
+
+    // NEW VIDEO FIELD
+    defineField({
+      name: 'heroVideo',
+      title: 'Hero Video',
+      type: 'file',
+      options: {
+        accept: 'video/mp4',
+      },
+    }),
+
     defineField({
       name: 'usps',
       title: 'USPs',
@@ -55,6 +72,7 @@ export default defineType({
       of: [{ type: 'string' }],
       validation: (Rule) => Rule.required().min(3).max(4),
     }),
+
     defineField({
       name: 'primaryColor',
       title: 'Primary Color',

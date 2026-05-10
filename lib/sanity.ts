@@ -1,6 +1,10 @@
 import { createClient } from 'next-sanity'
 import { createImageUrlBuilder } from '@sanity/image-url'
 
+import { Brand, Product } from './types'
+
+export type { Brand, Product }
+
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
   dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
@@ -22,51 +26,112 @@ export function urlFor(source: any) { // eslint-disable-line @typescript-eslint/
   return builder.image(source).auto('format')
 }
 
-import { Brand, Product } from './types'
-
-export type { Brand, Product }
-
-
 export async function getBrands(): Promise<Brand[]> {
-  return client.fetch(`*[_type == "brand"] | order(name asc)`)
+  return client.fetch(`
+    *[_type == "brand"] | order(name asc) {
+      ...,
+      heroVideo{
+        asset->{
+          url
+        }
+      }
+    }
+  `)
 }
 
 export async function getBrand(slug: string): Promise<Brand> {
-  return client.fetch(`*[_type == "brand" && id.current == $slug][0]`, { slug })
+  return client.fetch(`
+    *[_type == "brand" && id.current == $slug][0] {
+      ...,
+      heroVideo{
+        asset->{
+          url
+        }
+      }
+    }
+  `, { slug })
 }
 
 export async function getProducts(): Promise<Product[]> {
-  return client.fetch(`*[_type == "product"] | order(sortOrder asc, name asc) {
-    ...,
-    brand->
-  }`)
+  return client.fetch(`
+    *[_type == "product"] | order(sortOrder asc, name asc) {
+      ...,
+      brand->{
+        ...,
+        heroVideo{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
 }
 
 export async function getProduct(slug: string): Promise<Product> {
-  return client.fetch(`*[_type == "product" && slug.current == $slug][0] {
-    ...,
-    brand->
-  }`, { slug })
+  return client.fetch(`
+    *[_type == "product" && slug.current == $slug][0] {
+      ...,
+      brand->{
+        ...,
+        heroVideo{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `, { slug })
 }
 
 export async function getProductsByBrand(brandId: string): Promise<Product[]> {
-  return client.fetch(`*[_type == "product" && brand->id.current == $brandId] | order(sortOrder asc, name asc) {
-    ...,
-    brand->
-  }`, { brandId })
+  return client.fetch(`
+    *[_type == "product" && brand->id.current == $brandId]
+    | order(sortOrder asc, name asc) {
+      ...,
+      brand->{
+        ...,
+        heroVideo{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `, { brandId })
 }
 
 export async function getFeaturedProducts(): Promise<Product[]> {
-  const featured = await client.fetch<Product[]>(`*[_type == "product" && featured == true] | order(sortOrder asc, name asc) [0...6] {
-    ...,
-    brand->
-  }`)
+  const featured = await client.fetch<Product[]>(`
+    *[_type == "product" && featured == true]
+    | order(sortOrder asc, name asc) [0...6] {
+      ...,
+      brand->{
+        ...,
+        heroVideo{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
 
   if (featured && featured.length > 0) return featured
 
-  // Fallback: return first 6 products when none are flagged as featured
-  return client.fetch<Product[]>(`*[_type == "product"] | order(sortOrder asc, name asc) [0...6] {
-    ...,
-    brand->
-  }`)
+  // Fallback
+  return client.fetch<Product[]>(`
+    *[_type == "product"]
+    | order(sortOrder asc, name asc) [0...6] {
+      ...,
+      brand->{
+        ...,
+        heroVideo{
+          asset->{
+            url
+          }
+        }
+      }
+    }
+  `)
 }
