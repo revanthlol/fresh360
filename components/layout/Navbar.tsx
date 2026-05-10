@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
@@ -11,31 +11,32 @@ const navLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Process', href: '/process' },
-  { name: 'Products', href: '/products' },
   { name: 'Contact', href: '/contact' },
+]
+
+const brandLinks = [
+  { name: 'Juicera', href: '/brands/juicera', tone: 'text-brand-green' },
+  { name: 'Fuzzy', href: '/brands/fuzzy', tone: 'text-brand-teal' },
 ]
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
-  // ✅ Always start false (safe server default), sync on first client paint via useEffect
-  const [scrolled, setScrolled] = useState(false)
-  const [mounted, setMounted] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
 
-  useEffect(() => {
-    setMounted(true)
-    const handleScroll = () => setScrolled(window.scrollY > 20)
-    handleScroll() // sync immediately on mount
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  // Auto-close mobile menu on route change
-  useEffect(() => { setIsOpen(false) }, [pathname])
+  const getScrollSnapshot = () => (typeof window === 'undefined' ? false : window.scrollY > 20)
+  const scrolled = useSyncExternalStore(
+    (onStoreChange) => {
+      if (typeof window === 'undefined') return () => {}
+      window.addEventListener('scroll', onStoreChange, { passive: true })
+      return () => window.removeEventListener('scroll', onStoreChange)
+    },
+    getScrollSnapshot,
+    () => false
+  )
 
   // Lock body scroll when menu is open
-  useEffect(() => {
+  React.useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -50,7 +51,7 @@ export function Navbar() {
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
-      window.scrollTo({ top: 0, behavior: 'instant' })
+      window.scrollTo({ top: 0, behavior: 'auto' })
       router.push(href)
     }
   }
@@ -62,7 +63,7 @@ export function Navbar() {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 px-6",
           "transition-[padding,background-color,backdrop-filter,box-shadow] duration-300 ease-[cubic-bezier(0.4,0,0.2,1)]",
-          mounted && scrolled
+          scrolled
             ? "bg-white/80 backdrop-blur-xl py-3 shadow-sm shadow-black/5 border-b border-slate-100/80"
             : "bg-transparent py-5"
         )}
@@ -102,6 +103,43 @@ export function Navbar() {
                 )}
               </button>
             ))}
+
+            <div className="group relative">
+              <button
+                className={cn(
+                  "relative text-sm font-medium py-1 cursor-pointer",
+                  "transition-colors duration-200 hover:text-brand-green",
+                  pathname.startsWith('/products') || pathname.startsWith('/brands')
+                    ? "text-brand-green font-bold"
+                    : "text-slate-600"
+                )}
+              >
+                Products
+                {(pathname.startsWith('/products') || pathname.startsWith('/brands')) && (
+                  <motion.span
+                    layoutId="nav-active-pill"
+                    className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-brand-green rounded-full"
+                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  />
+                )}
+              </button>
+
+              <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
+                <div className="overflow-hidden rounded-[1.25rem] border border-slate-100 bg-white/96 p-1.5 shadow-[0_20px_50px_-22px_rgba(15,23,42,0.22)] backdrop-blur-xl">
+                  {brandLinks.map((brand) => (
+                    <Link
+                      key={brand.href}
+                      href={brand.href}
+                      className="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
+                    >
+                      <span>{brand.name}</span>
+                      <span className={cn("text-[10px] uppercase tracking-[0.28em]", brand.tone)}>{brand.name}</span>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
             <Link
               href="https://wa.me/919705522020"
               target="_blank"
@@ -154,8 +192,8 @@ export function Navbar() {
 
         {/* Mobile Dropdown — always has solid background regardless of page scroll */}
         <AnimatePresence>
-          {isOpen && (
-            <motion.div
+              {isOpen && (
+                <motion.div
               initial={{ opacity: 0, y: -8, scaleY: 0.95 }}
               animate={{ opacity: 1, y: 0, scaleY: 1 }}
               exit={{ opacity: 0, y: -8, scaleY: 0.95 }}
@@ -183,6 +221,20 @@ export function Navbar() {
                   </button>
                 </motion.div>
               ))}
+
+              <div className="mt-2 rounded-2xl border border-slate-100 bg-slate-50 p-2">
+                <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Brands</p>
+                {brandLinks.map((brand) => (
+                  <Link
+                    key={brand.href}
+                    href={brand.href}
+                    onClick={() => setIsOpen(false)}
+                    className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white"
+                  >
+                    {brand.name}
+                  </Link>
+                ))}
+              </div>
 
               <motion.div
                 initial={{ opacity: 0, y: 6 }}

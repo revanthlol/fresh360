@@ -116,7 +116,7 @@ export default function CertificationsPage() {
         {/* Compliance Statement */}
         <section className="max-w-3xl mx-auto text-center border-t border-slate-100 pt-16">
           <p className="text-slate-500 italic leading-relaxed text-lg mb-8">
-            "Fresh 360 follows all applicable food safety regulations and maintains hygiene and quality standards throughout sourcing, preparation, and delivery."
+            Fresh 360 follows all applicable food safety regulations and maintains hygiene and quality standards throughout sourcing, preparation, and delivery.
           </p>
           <div className="space-y-2">
             <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">Inquiries</p>

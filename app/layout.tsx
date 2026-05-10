@@ -102,7 +102,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
       <body className={`${jakarta.variable} ${outfit.variable} ${fraunces.variable} font-sans antialiased text-slate-900 bg-white selection:bg-brand-green selection:text-white`}>
         <a 
           href="#main-content" 

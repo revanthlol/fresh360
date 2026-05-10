@@ -12,7 +12,7 @@ export function Footer() {
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
-      window.scrollTo({ top: 0, behavior: 'instant' })
+      window.scrollTo({ top: 0, behavior: 'auto' })
       router.push(href)
     }
   }

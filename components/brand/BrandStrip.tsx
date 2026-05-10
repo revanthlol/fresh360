@@ -2,7 +2,7 @@
 
 import React, { useRef } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
-import { motion, useScroll, useTransform } from 'motion/react'
+import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -10,145 +10,158 @@ const brands = [
   {
     name: 'Juicera',
     tagline: '100% Pure. Cold-Pressed.',
-    desc: 'Juicera is 100% pure cold-pressed juice. Nature in its most potent form—zero sugar, no preservatives, and absolutely no artificial colors. Just pure fruit and vegetable goodness.',
-    color: 'brand-green',
-    bgGradient: 'from-brand-green/10 to-brand-green/5',
-    borderColor: 'border-brand-green/20',
+    desc: 'Juicera is 100% pure cold-pressed juice. Nature in its most potent form, with zero sugar, no preservatives, and absolutely no artificial colors.',
+    colorClass: 'text-brand-green',
+    badgeClass: 'bg-brand-green/10 text-brand-green border-brand-green/20',
+    hoverClass: 'group-hover:bg-brand-green/10',
+    glowClass: 'bg-brand-green',
     href: '/brands/juicera',
   },
   {
     name: 'Fuzzy',
     tagline: 'Goli Soda Meets Cold-Pressed.',
-    desc: 'Fuzzy is a refreshing mix of classic goli soda and pure cold-pressed juice. A natural, fizzy experience with 0 added sugar and no preservatives. The best of both worlds.',
-    color: 'brand-teal',
-    bgGradient: 'from-brand-teal/10 to-brand-teal/5',
-    borderColor: 'border-brand-teal/20',
+    desc: 'Fuzzy blends classic goli soda energy with pure cold-pressed juice for a natural fizzy finish that still feels playful and premium.',
+    colorClass: 'text-brand-teal',
+    badgeClass: 'bg-brand-teal/10 text-brand-teal border-brand-teal/20',
+    hoverClass: 'group-hover:bg-brand-teal/10',
+    glowClass: 'bg-brand-teal',
     href: '/brands/fuzzy',
   },
 ]
 
+function BrandCard({
+  brand,
+  index,
+  progress,
+  onNavigate,
+}: {
+  brand: (typeof brands)[number]
+  index: number
+  progress: MotionValue<number>
+  onNavigate: (href: string) => void
+}) {
+  const reduceMotion = useReducedMotion()
+  const cardY = useTransform(progress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [32, 0, -18])
+  const cardOpacity = useTransform(progress, [0, 0.2, 0.9, 1], [0.45, 1, 1, 0.82])
+  const cardRotate = useTransform(progress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [index === 0 ? -1.2 : 1.2, 0, index === 0 ? 0.9 : -0.9])
+  const orbScale = useTransform(progress, [0, 0.5, 1], reduceMotion ? [1, 1, 1] : [0.95, 1, 1.08])
+
+  return (
+    <motion.div
+      style={{ y: cardY, opacity: cardOpacity, rotate: cardRotate }}
+      className={cn(
+        "group relative cursor-pointer overflow-hidden rounded-[2.5rem] border border-slate-200/60 bg-white p-8 md:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-shadow duration-500",
+        "hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)]"
+      )}
+      onClick={() => onNavigate(brand.href)}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => e.key === 'Enter' && onNavigate(brand.href)}
+    >
+      <motion.div
+        style={{ scale: orbScale }}
+        className={cn(
+          "absolute -top-20 -right-20 h-52 w-52 rounded-full blur-[90px] opacity-0 transition-opacity duration-700 group-hover:opacity-40",
+          brand.glowClass
+        )}
+      />
+      <div className={cn("absolute inset-0 opacity-0 transition-opacity duration-700 group-hover:opacity-100", brand.hoverClass)} />
+
+      <div className="relative z-10 flex h-full flex-col justify-between">
+        <div className="space-y-6 md:space-y-8">
+          <div className="space-y-2">
+            <span className={cn("inline-flex rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.35em]", brand.badgeClass)}>
+              Signature Series
+            </span>
+            <h3 className={cn("text-4xl md:text-6xl font-display font-black tracking-tight", brand.colorClass)}>
+              {brand.name}
+            </h3>
+          </div>
+
+          <div className="space-y-4">
+            <p className="font-accent text-xl md:text-2xl text-slate-800 leading-tight">
+              {brand.tagline}
+            </p>
+            <p className="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
+              {brand.desc}
+            </p>
+          </div>
+        </div>
+
+        <div className="mt-10 md:mt-12">
+          <div
+            className={cn(
+              "inline-flex items-center gap-3 rounded-2xl px-6 py-3 text-sm font-bold text-white transition-all duration-500",
+              index === 0 ? "bg-brand-green shadow-lg shadow-brand-green/20" : "bg-brand-teal shadow-lg shadow-brand-teal/20",
+              "group-hover:gap-5 group-hover:scale-105"
+            )}
+          >
+            Explore {brand.name}
+            <ArrowUpRight size={18} className="transition-transform group-hover:rotate-45" />
+          </div>
+        </div>
+      </div>
+    </motion.div>
+  )
+}
+
 export function BrandStrip() {
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const sectionRef = useRef<HTMLElement>(null)
   const router = useRouter()
   const pathname = usePathname()
+  const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start end", "end start"],
   })
 
-  const headingY = useTransform(scrollYProgress, [0, 0.3], [60, 0])
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.2], [0, 1])
+  const headingY = useTransform(scrollYProgress, [0, 0.3, 1], reduceMotion ? [0, 0, 0] : [44, 0, -20])
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.88])
+  const deckY = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [30, 0, -18])
 
   const handleNav = (href: string) => {
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
-      window.scrollTo({ top: 0, behavior: 'instant' })
+      window.scrollTo({ top: 0, behavior: 'auto' })
       router.push(href)
     }
   }
 
   return (
-    <section ref={sectionRef} className="py-24 md:py-36 bg-[#FAFAFA] overflow-hidden relative">
-      {/* Decorative patterns */}
-      <div className="absolute top-0 right-0 w-full h-full opacity-[0.03] pointer-events-none select-none overflow-hidden">
-        <div className="absolute top-10 right-10 text-[20vw] font-black leading-none rotate-12">FRESH</div>
-        <div className="absolute bottom-10 left-10 text-[20vw] font-black leading-none -rotate-12">360</div>
+    <section ref={sectionRef} className="relative overflow-hidden bg-[#FAFAFA] py-24 md:py-36">
+      <div className="absolute inset-0 pointer-events-none select-none opacity-[0.03]">
+        <div className="absolute top-8 right-6 text-[20vw] font-black leading-none rotate-12">FRESH</div>
+        <div className="absolute bottom-8 left-6 text-[20vw] font-black leading-none -rotate-12">360</div>
       </div>
 
-      <div className="container mx-auto px-6 relative z-10">
-        {/* Section heading */}
+      <div className="container relative z-10 mx-auto px-6">
         <motion.div
           style={{ y: headingY, opacity: headingOpacity }}
-          className="text-center max-w-3xl mx-auto mb-16 md:mb-24 space-y-4 md:space-y-6"
+          className="mx-auto mb-16 max-w-3xl space-y-4 text-center md:mb-24 md:space-y-6"
         >
-          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-brand-green bg-brand-green/10 px-4 py-2 rounded-full inline-block">
+          <span className="inline-block rounded-full bg-brand-green/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] text-brand-green">
             Our Premium Lines
           </span>
-          <h2 className="text-3xl md:text-5xl lg:text-7xl font-display font-extrabold text-slate-900 leading-[1.1]">
-            Two distinct paths.{' '}
-            <span className="text-slate-400 font-accent block md:inline">One pure obsession.</span>
+          <h2 className="text-3xl md:text-5xl lg:text-7xl font-display font-extrabold leading-[1.08] text-slate-900">
+            Two distinct paths. <span className="block font-accent text-slate-400 md:inline">One pure obsession.</span>
           </h2>
         </motion.div>
 
-        {/* Brand Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-10 max-w-6xl mx-auto">
+        <motion.div
+          style={{ y: deckY }}
+          className="grid grid-cols-1 gap-6 md:gap-10 max-w-6xl mx-auto md:grid-cols-2"
+        >
           {brands.map((brand, idx) => (
-            <motion.div
+            <BrandCard
               key={brand.name}
-              initial={{ opacity: 0, y: 60 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{
-                delay: idx * 0.2,
-                duration: 0.8,
-                ease: [0.16, 1, 0.3, 1],
-              }}
-              className={cn(
-                "group relative p-8 md:p-12 rounded-[2.5rem] overflow-hidden cursor-pointer",
-                "bg-white border border-slate-200/60 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)]",
-                "hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)] hover:-translate-y-3 transition-all duration-700 ease-[cubic-bezier(0.23,1,0.32,1)]"
-              )}
-              onClick={() => handleNav(brand.href)}
-              role="button"
-              tabIndex={0}
-              onKeyDown={(e) => e.key === 'Enter' && handleNav(brand.href)}
-            >
-              {/* Dynamic Gradient Background Overlay */}
-              <div className={cn(
-                "absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700",
-                "bg-gradient-to-br", brand.bgGradient
-              )} />
-
-              <div className="relative z-10 h-full flex flex-col justify-between">
-                <div className="space-y-6 md:space-y-8">
-                  {/* Brand name & Kicker */}
-                  <div className="space-y-2">
-                    <span className={cn("text-[10px] font-black uppercase tracking-widest", `text-${brand.color}`)}>
-                      Signature Series
-                    </span>
-                    <h3 className={cn("text-4xl md:text-6xl font-display font-black tracking-tight", `text-${brand.color}`)}>
-                      {brand.name}
-                    </h3>
-                  </div>
-
-                  {/* Tagline & Description */}
-                  <div className="space-y-4">
-                    <p className="font-accent text-xl md:text-2xl text-slate-800 leading-tight">
-                      {brand.tagline}
-                    </p>
-                    <p className="text-slate-500 text-sm md:text-base leading-relaxed line-clamp-3 md:line-clamp-none">
-                      {brand.desc}
-                    </p>
-                  </div>
-                </div>
-
-                {/* CTA - Fixed bottom */}
-                <div className="mt-10 md:mt-12">
-                  <div className={cn(
-                    "inline-flex items-center gap-3 px-6 py-3 rounded-2xl font-bold text-sm transition-all duration-500",
-                    `bg-${brand.color} text-white shadow-lg shadow-${brand.color}/20`,
-                    "group-hover:scale-105 group-hover:gap-5"
-                  )}>
-                    Explore {brand.name}
-                    <ArrowUpRight size={18} className="transition-transform group-hover:rotate-45" />
-                  </div>
-                </div>
-              </div>
-
-              {/* Decorative Vibrant Elements */}
-              <div className={cn(
-                "absolute -top-24 -right-24 w-64 h-64 rounded-full blur-[80px] opacity-0 group-hover:opacity-40 transition-opacity duration-1000",
-                `bg-${brand.color}`
-              )} />
-              
-              <div className={cn(
-                "absolute -bottom-20 -left-20 w-80 h-80 rounded-full opacity-[0.02] group-hover:opacity-[0.08] group-hover:scale-150 transition-all duration-1000",
-                `bg-${brand.color}`
-              )} />
-            </motion.div>
+              brand={brand}
+              index={idx}
+              progress={scrollYProgress}
+              onNavigate={handleNav}
+            />
           ))}
-        </div>
+        </motion.div>
       </div>
     </section>
   )
