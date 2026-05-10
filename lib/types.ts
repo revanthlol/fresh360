@@ -1,9 +1,10 @@
 export type BrandId = 'juicera' | 'fuzzy' | 'refrizz'
-export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated'
+export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated' | 'goli-soda'
 
 export interface SanityImageAsset {
   _type: 'image'
   asset: {
+    metadata: any
     _ref: string
     _type: 'reference'
   }
@@ -32,7 +33,7 @@ export interface Product {
   name: string
   slug: { current: string }
   brand: Brand
-  category: string
+  category: 'cold-pressed-juice' | 'nut-milk' | 'carbonated' | 'goli-soda'
   tagline: string
   description: string
   ingredients: string[]

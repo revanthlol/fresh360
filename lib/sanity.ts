@@ -4,6 +4,7 @@ import { createImageUrlBuilder } from '@sanity/image-url'
 import { Brand, Product } from './types'
 
 export type { Brand, Product }
+export type { SanityImageAsset } from './types'
 
 export const client = createClient({
   projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
