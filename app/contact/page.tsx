@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function ContactPage() {
   return (
-    <div className="bg-white">
+    <div className="home-page min-h-screen">
       <PageHeader 
         title="Get in Touch"
         subtitle="Have questions? We'd love to hear from you. Reach out to the Fresh 360 team."
@@ -19,12 +19,12 @@ export default function ContactPage() {
             
             {/* Contact Details */}
             <div className="lg:col-span-1 space-y-8">
-              <div className="bg-slate-50 p-10 rounded-[2.5rem] space-y-10">
+              <div className="home-card p-10 rounded-[2.5rem] space-y-10">
                 <div className="space-y-6">
                   <h3 className="text-2xl font-display font-bold text-slate-900">Contact Details</h3>
                   <ul className="space-y-6">
                     <li className="flex gap-4">
-                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-green shadow-sm shrink-0">
+                      <div className="w-12 h-12 bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.96))] rounded-2xl flex items-center justify-center text-brand-green shadow-sm border border-emerald-100/80 shrink-0">
                         <Phone size={20} />
                       </div>
                       <div>
@@ -33,7 +33,7 @@ export default function ContactPage() {
                       </div>
                     </li>
                     <li className="flex gap-4">
-                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-green shadow-sm shrink-0">
+                      <div className="w-12 h-12 bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.96))] rounded-2xl flex items-center justify-center text-brand-green shadow-sm border border-emerald-100/80 shrink-0">
                         <Mail size={20} />
                       </div>
                       <div>
@@ -42,7 +42,7 @@ export default function ContactPage() {
                       </div>
                     </li>
                     <li className="flex gap-4">
-                      <div className="w-12 h-12 bg-white rounded-2xl flex items-center justify-center text-brand-green shadow-sm shrink-0">
+                      <div className="w-12 h-12 bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.96))] rounded-2xl flex items-center justify-center text-brand-green shadow-sm border border-emerald-100/80 shrink-0">
                         <MapPin size={20} />
                       </div>
                       <div>
@@ -71,7 +71,7 @@ export default function ContactPage() {
 
             {/* Form Section */}
             <div className="lg:col-span-2">
-              <div className="bg-white p-6 md:p-12 border border-slate-100 rounded-[2.5rem] shadow-sm">
+              <div className="home-card p-6 md:p-12 rounded-[2.5rem]">
                 <SectionHeader 
                   label="Inquiry Form"
                   title="Send us a Message"
@@ -87,7 +87,7 @@ export default function ContactPage() {
       </section>
       
       {/* Map Section */}
-      <section className="h-[450px] w-full relative overflow-hidden border-t border-slate-100">
+      <section className="h-[450px] w-full relative overflow-hidden border-t border-emerald-100/70">
         <iframe 
           src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d444.2907879279642!2d78.49975443457429!3d17.495327649069804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDI5JzQyLjYiTiA3OMKwMzAnMDAuOSJF!5e0!3m2!1sen!2sin!4v1777458243548!5m2!1sen!2sin" 
           width="100%" 
@@ -98,7 +98,7 @@ export default function ContactPage() {
           referrerPolicy="no-referrer-when-downgrade"
           className="grayscale hover:grayscale-0 transition-all duration-500"
         />
-        <div className="absolute bottom-6 right-6 bg-white/90 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg border border-slate-200 text-[10px] font-bold text-slate-500 uppercase tracking-wider pointer-events-none">
+        <div className="absolute bottom-6 right-6 home-card backdrop-blur-sm px-4 py-2 rounded-lg text-[10px] font-bold text-slate-500 uppercase tracking-wider pointer-events-none">
           FGW2+339 Secunderabad, Telangana
         </div>
       </section>

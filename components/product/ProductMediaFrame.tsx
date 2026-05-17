@@ -25,8 +25,8 @@ export function ProductMediaFrame({
   videoSrc,
 }: ProductMediaFrameProps) {
   return (
-    <div className={cn('relative aspect-[2/3] overflow-hidden rounded-[2rem] bg-white', className)}>
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.38),transparent_34%),linear-gradient(180deg,rgba(15,23,42,0.01),rgba(15,23,42,0.04))]" />
+    <div className={cn('relative aspect-[2/3] overflow-hidden rounded-[2rem] home-media', className)}>
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.38),transparent_34%),linear-gradient(180deg,rgba(45,106,45,0.03),rgba(15,118,110,0.05))]" />
 
       {videoSrc ? (
         <video
@@ -56,7 +56,7 @@ export function ProductMediaFrame({
         </div>
       )}
 
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_60%,rgba(15,23,42,0.04)_100%)]" />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_60%,rgba(45,106,45,0.05)_100%)]" />
     </div>
   )
 }

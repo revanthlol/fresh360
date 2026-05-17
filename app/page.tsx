@@ -8,7 +8,7 @@ import { NewsletterCTA } from "@/components/shared/NewsletterCTA";
 
 export default function Home() {
   return (
-    <>
+    <div className="home-page min-h-screen">
       {/* ACT 1 — First impression, parallax hero */}
       <HeroSection />
 
@@ -29,6 +29,6 @@ export default function Home() {
 
       {/* ACT 7 — Closing CTA with scroll zoom */}
       <NewsletterCTA />
-    </>
+    </div>
   );
 }

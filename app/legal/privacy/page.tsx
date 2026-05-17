@@ -16,9 +16,9 @@ const WHATSAPP = '+91 97055 22020'
 
 export default function PrivacyPolicyPage() {
   return (
-    <main className="min-h-screen bg-[#FAFAFA]">
+    <main className="home-page min-h-screen">
       {/* Header */}
-      <div className="bg-white border-b border-slate-100 pt-28 pb-14">
+      <div className="home-surface border-b border-emerald-100/70 pt-28 pb-14">
         <div className="container mx-auto px-6 max-w-3xl">
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Legal</span>
           <h1 className="text-4xl md:text-5xl font-display font-extrabold text-slate-900 mt-3 mb-4">
@@ -213,7 +213,7 @@ export default function PrivacyPolicyPage() {
         </Section>
 
         {/* Navigation */}
-        <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row gap-4 justify-between items-start">
+        <div className="pt-8 border-t border-emerald-100/70 flex flex-col sm:flex-row gap-4 justify-between items-start">
           <Link href="/legal/terms" className="text-brand-green font-bold hover:underline text-sm">
             → Read our Terms of Service
           </Link>
@@ -229,7 +229,7 @@ export default function PrivacyPolicyPage() {
 function Section({ id, title, children }: { id: string; title: string; children: React.ReactNode }) {
   return (
     <section id={id} className="scroll-mt-24">
-      <h2 className="text-2xl font-display font-bold text-slate-900 mb-5 pb-3 border-b border-slate-100">
+      <h2 className="text-2xl font-display font-bold text-slate-900 mb-5 pb-3 border-b border-emerald-100/70">
         {title}
       </h2>
       <div className="prose-legal">
@@ -241,7 +241,7 @@ function Section({ id, title, children }: { id: string; title: string; children:
 
 function ContactBlock() {
   return (
-    <div className="mt-4 bg-white border border-slate-100 rounded-2xl p-6 space-y-2 text-sm text-slate-600 shadow-sm">
+    <div className="mt-4 home-card rounded-2xl p-6 space-y-2 text-sm text-slate-600">
       <p><strong className="text-slate-900">{COMPANY_NAME}</strong></p>
       <p>{COMPANY_ADDRESS}</p>
       <p>

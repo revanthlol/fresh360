@@ -105,9 +105,10 @@ export function Navbar() {
             ))}
 
             <div className="group relative">
-              <button
+              <Link
+                href="/products"
                 className={cn(
-                  "relative text-sm font-medium py-1 cursor-pointer",
+                  "relative text-sm font-medium py-1 cursor-pointer inline-flex items-center",
                   "transition-colors duration-200 hover:text-brand-green",
                   pathname.startsWith('/products') || pathname.startsWith('/brands')
                     ? "text-brand-green font-bold"
@@ -122,7 +123,7 @@ export function Navbar() {
                     transition={{ type: "spring", stiffness: 400, damping: 32 }}
                   />
                 )}
-              </button>
+              </Link>
 
               <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
                 <div className="overflow-hidden rounded-[1.25rem] border border-slate-100 bg-white/96 p-1.5 shadow-[0_20px_50px_-22px_rgba(15,23,42,0.22)] backdrop-blur-xl">
@@ -224,6 +225,13 @@ export function Navbar() {
 
               <div className="mt-2 rounded-2xl border border-slate-100 bg-slate-50 p-2">
                 <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Brands</p>
+                <Link
+                  href="/products"
+                  onClick={() => setIsOpen(false)}
+                  className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-white"
+                >
+                  All Products
+                </Link>
                 {brandLinks.map((brand) => (
                   <Link
                     key={brand.href}

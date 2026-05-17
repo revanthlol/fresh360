@@ -26,7 +26,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
     <motion.div
       whileHover={{ y: -8 }}
       className={cn(
-        "group relative bg-white rounded-[2rem] border border-slate-100 overflow-hidden transition-all hover:shadow-2xl",
+        "group relative home-card rounded-[2rem] overflow-hidden transition-all hover:shadow-2xl",
         className
       )}
     >
@@ -36,7 +36,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             image={product.image}
             alt={product.name}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
-            className="rounded-none bg-slate-50"
+            className="rounded-none home-media"
             imageClassName="group-hover:scale-[1.04]"
           />
 
@@ -60,7 +60,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
             <span className="text-xs font-medium text-slate-400 italic">
               {product.category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
             </span>
-            <div className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-slate-400 group-hover:bg-brand-green group-hover:text-white transition-all">
+            <div className="w-8 h-8 rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(237,247,237,0.96))] flex items-center justify-center text-slate-400 group-hover:bg-brand-green group-hover:text-white transition-all">
               <ArrowRight size={16} />
             </div>
           </div>

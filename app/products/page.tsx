@@ -21,7 +21,7 @@ export default async function ProductsPage({
     : allProducts
 
   return (
-    <div className="pt-32 pb-24 bg-white">
+    <div className="home-page min-h-screen pt-32 pb-24">
       <div className="container mx-auto px-6">
         <SectionHeader 
           label="Our Collection"
@@ -34,11 +34,11 @@ export default async function ProductsPage({
           <Link
             href="/products"
             className={cn(
-              "px-6 py-2 rounded-full font-bold text-sm transition-all",
-              !brandFilter 
+                "px-6 py-2 rounded-full font-bold text-sm transition-all",
+                !brandFilter
                 ? "bg-brand-green text-white shadow-lg scale-105" 
-                : "bg-slate-100 text-slate-600 hover:bg-slate-200"
-            )}
+                : "home-card text-slate-600 hover:shadow-md"
+              )}
           >
             All Products
           </Link>
@@ -50,7 +50,7 @@ export default async function ProductsPage({
                 "px-6 py-2 rounded-full font-bold text-sm transition-all",
                 brandFilter === brand.id.current
                   ? "bg-brand-green text-white shadow-lg scale-105"
-                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+                  : "home-card text-slate-600 hover:shadow-md"
               )}
             >
               {brand.name}

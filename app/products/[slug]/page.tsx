@@ -27,7 +27,7 @@ export default async function ProductDetailPage({
   const themeClass = brandColors[brandId] || brandColors.juicera
 
   return (
-    <div className="pt-24 pb-24 bg-white min-h-screen">
+    <div className="home-page min-h-screen pt-24 pb-24">
       <div className="container mx-auto px-6">
         <Link 
           href="/products" 
@@ -40,7 +40,7 @@ export default async function ProductDetailPage({
         <div className="grid lg:grid-cols-2 gap-16 items-start">
           {/* Image Section */}
           <div className={cn(
-            "relative rounded-[3rem] overflow-hidden bg-gradient-to-br border shadow-sm",
+            "relative rounded-[3rem] overflow-hidden home-card",
             themeClass
           )}>
             <ProductMediaFrame
@@ -53,7 +53,7 @@ export default async function ProductDetailPage({
             />
 
             <div className="absolute bottom-8 left-8 right-8 flex justify-between items-end">
-              <div className="bg-white/80 backdrop-blur-md px-4 py-2 rounded-2xl border border-white/20">
+              <div className="bg-[linear-gradient(180deg,rgba(255,255,252,0.94),rgba(239,247,239,0.94))] backdrop-blur-md px-4 py-2 rounded-2xl border border-emerald-100/80">
                 <span className="text-xs font-bold uppercase tracking-widest block opacity-60">Brand</span>
                 <span className="font-display font-bold">{product.brand?.name}</span>
               </div>
@@ -86,7 +86,7 @@ export default async function ProductDetailPage({
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {product.ingredients?.map((item, i) => (
-                    <span key={i} className="px-4 py-1.5 bg-slate-100 rounded-full text-sm font-medium text-slate-700">
+                    <span key={i} className="px-4 py-1.5 home-card rounded-full text-sm font-medium text-slate-700">
                       {item}
                     </span>
                   ))}
@@ -110,7 +110,7 @@ export default async function ProductDetailPage({
               </div>
             </div>
 
-            <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center gap-6">
+            <div className="pt-8 border-t border-emerald-100/70 flex flex-col sm:flex-row items-center gap-6">
               <Link 
                 href={`https://wa.me/${process.env.NEXT_PUBLIC_WHATSAPP_NUMBER}?text=Hi, I'm interested in ${product.name}`}
                 target="_blank"

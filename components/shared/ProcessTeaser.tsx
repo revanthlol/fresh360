@@ -60,19 +60,19 @@ function TimelineStep({
       className="relative flex items-start gap-6"
     >
       <div className="relative flex w-12 shrink-0 flex-col items-center">
-        <div className={`relative z-10 mt-[14px] h-4 w-4 rounded-full ${step.dot} ring-4 ring-white`} />
-        <div className="absolute left-[15px] top-[21px] h-[1.5px] w-[calc(100%-15px)] bg-slate-200" />
+        <div className={`relative z-10 mt-[14px] h-4 w-4 rounded-full ${step.dot} ring-4 ring-[#f5fbf5]`} />
+        <div className="absolute left-[15px] top-[21px] h-[1.5px] w-[calc(100%-15px)] bg-emerald-100/70" />
       </div>
 
       <motion.div
         style={{ scale: artScale }}
-        className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm ${step.bg} ${step.color}`}
+        className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(237,247,237,0.96))] border border-emerald-100/80 ${step.color}`}
       >
         <step.icon size={22} />
       </motion.div>
 
       <div className="flex-1 pt-1 pb-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-300">
+        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
           Step {String(index + 1).padStart(2, '0')}
         </span>
         <h3 className="mt-0.5 mb-1.5 text-2xl font-display font-bold text-slate-900 md:text-3xl">{step.title}</h3>
@@ -97,7 +97,7 @@ export function ProcessTeaser() {
   const ambientY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [14, -14])
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#FAFAFA] py-28 md:py-36">
+    <section ref={sectionRef} className="relative overflow-hidden home-surface py-28 md:py-36">
       <motion.div
         style={{ x: ambientX, y: ambientY, opacity: headingOpacity }}
         className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-brand-green/10 blur-[100px] pointer-events-none"

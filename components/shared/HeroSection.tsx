@@ -22,12 +22,12 @@ export function HeroSection() {
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden bg-[#FAFAFA]"
+      className="relative min-h-[100svh] flex flex-col justify-center overflow-hidden home-surface"
     >
       {/* Ambient background decoration */}
       <div className="absolute inset-0 z-0 pointer-events-none">
-        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-brand-green/5 rounded-full blur-[100px]" />
-        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-brand-teal/5 rounded-full blur-[100px]" />
+        <div className="absolute top-1/4 -left-20 w-96 h-96 bg-brand-green/10 rounded-full blur-[120px]" />
+        <div className="absolute bottom-1/4 -right-20 w-96 h-96 bg-brand-teal/10 rounded-full blur-[120px]" />
       </div>
 
       <div className="container relative z-10 mx-auto px-6 pt-32 pb-24 lg:pt-28 lg:pb-16">
@@ -75,7 +75,7 @@ export function HeroSection() {
               </Link>
               <Link
                 href="/contact"
-                className="w-full sm:w-auto group bg-white text-slate-900 border border-slate-200 px-8 py-5 rounded-full font-bold text-lg hover:bg-slate-50 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
+                className="w-full sm:w-auto group bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(241,249,241,0.96))] text-slate-900 border border-emerald-100 px-8 py-5 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-brand-green/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
               >
                 Wholesale
                 <Droplets size={20} className="text-brand-green" />

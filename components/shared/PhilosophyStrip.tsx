@@ -102,9 +102,9 @@ function FeatureBlock({ feature, index }: { feature: typeof features[0]; index: 
         transition={{ duration: 0.45, ease: 'easeOut' }}
         className="shrink-0 flex flex-col items-center gap-4"
       >
-        <div className={`relative w-16 h-16 md:w-28 md:h-28 rounded-2xl md:rounded-3xl ${feature.light} flex items-center justify-center`}>
+        <div className="relative w-16 h-16 md:w-28 md:h-28 rounded-2xl md:rounded-3xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(236,247,236,0.96))] border border-emerald-100/80 flex items-center justify-center shadow-[0_18px_40px_-24px_rgba(45,106,45,0.28)]">
           <Icon size={24} className={`md:w-10 md:h-10 ${feature.color}`} />
-          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-white border border-slate-100 shadow-sm text-[9px] md:text-[10px] font-black text-slate-400 flex items-center justify-center">
+          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(240,248,240,0.98))] border border-emerald-100/80 shadow-sm text-[9px] md:text-[10px] font-black text-slate-400 flex items-center justify-center">
             {String(index + 1).padStart(2, '0')}
           </span>
         </div>
@@ -157,7 +157,7 @@ export function PhilosophyStrip() {
   const introY = useTransform(scrollYProgress, [0, 1], [30, 0])
 
   return (
-    <section className="relative bg-white overflow-hidden py-12 md:py-24">
+    <section className="relative home-surface overflow-hidden py-12 md:py-24">
       {/* Cinematic Background Elements */}
       <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-green/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" />
       <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />

@@ -16,10 +16,10 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
   const products = await getProductsByBrand(slug)
 
   return (
-    <div className="bg-white">
+    <div className="home-page min-h-screen">
       <BrandHero brand={brand} />
 
-      <section id="brand-products" className="relative py-20 md:py-28">
+      <section id="brand-products" className="relative py-20 md:py-28 bg-transparent">
         <div className="container mx-auto px-6">
           <SectionHeader
             label="Product Lineup"

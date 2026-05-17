@@ -103,7 +103,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
-      <body className={`${jakarta.variable} ${outfit.variable} ${fraunces.variable} font-sans antialiased text-slate-900 bg-white selection:bg-brand-green selection:text-white`}>
+      <body className={`${jakarta.variable} ${outfit.variable} ${fraunces.variable} font-sans antialiased text-slate-900 bg-[#eff7ef] selection:bg-brand-green selection:text-white`}>
         <a 
           href="#main-content" 
           className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 z-[100] bg-brand-green text-white px-4 py-2 rounded-full font-bold shadow-xl"

@@ -50,8 +50,8 @@ function BrandCard({
     <motion.div
       style={{ y: cardY, opacity: cardOpacity, rotate: cardRotate }}
       className={cn(
-        "group relative cursor-pointer overflow-hidden rounded-[2.5rem] border border-slate-200/60 bg-white p-8 md:p-12 shadow-[0_4px_20px_-4px_rgba(0,0,0,0.05)] transition-shadow duration-500",
-        "hover:shadow-[0_32px_64px_-16px_rgba(0,0,0,0.12)]"
+        "group relative cursor-pointer overflow-hidden rounded-[2.5rem] home-card p-8 md:p-12 transition-shadow duration-500",
+        "hover:shadow-[0_32px_64px_-16px_rgba(45,106,45,0.14)]"
       )}
       onClick={() => onNavigate(brand.href)}
       role="button"
@@ -129,7 +129,7 @@ export function BrandStrip() {
   }
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden bg-[#FAFAFA] py-24 md:py-36">
+    <section ref={sectionRef} className="relative overflow-hidden home-surface py-24 md:py-36">
       <div className="absolute inset-0 pointer-events-none select-none opacity-[0.03]">
         <div className="absolute top-8 right-6 text-[20vw] font-black leading-none rotate-12">FRESH</div>
         <div className="absolute bottom-8 left-6 text-[20vw] font-black leading-none -rotate-12">360</div>

@@ -36,7 +36,7 @@ const brandColorMap: Record<string, string> = {
 
 export function TestimonialStrip() {
   return (
-    <section className="py-28 md:py-36 bg-white overflow-hidden">
+    <section className="pt-28 pb-20 md:pt-36 md:pb-24 home-surface overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Heading */}
         <motion.div
@@ -66,7 +66,7 @@ export function TestimonialStrip() {
                 duration: 0.7,
                 ease: [0.22, 1, 0.36, 1],
               }}
-              className="bg-slate-50 p-8 rounded-[2rem] border border-slate-100 flex flex-col space-y-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-400"
+              className="home-card p-8 rounded-[2rem] flex flex-col space-y-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-400"
             >
               {/* Rating */}
               <div className="flex items-center justify-between">
@@ -89,7 +89,7 @@ export function TestimonialStrip() {
               </div>
 
               {/* Author */}
-              <div className="pt-4 border-t border-slate-100 flex items-center gap-3">
+              <div className="pt-4 border-t border-emerald-100/70 flex items-center gap-3">
                 <div className="w-10 h-10 bg-brand-green/10 rounded-full flex items-center justify-center text-brand-green font-bold text-sm">
                   {t.name.charAt(0)}
                 </div>

@@ -1,150 +1,215 @@
 "use client"
 
-import React, { useRef, useState } from 'react'
-import Link from 'next/link'
+import React, { useRef, useState } from "react"
+import Link from "next/link"
 import {
   motion,
-  useInView,
   useMotionValueEvent,
   useReducedMotion,
   useScroll,
   useTransform,
   type MotionValue,
-} from 'motion/react'
-import { ArrowRight, FlaskConical, PackageCheck, Shovel, ThermometerSnowflake } from 'lucide-react'
+} from "motion/react"
+import {
+  ArrowRight,
+  CheckCircle2,
+  FlaskConical,
+  PackageCheck,
+  Shovel,
+  ThermometerSnowflake,
+} from "lucide-react"
 
-// ─── Types ───────────────────────────────────────────────────────────────────
-
-type AccentKey = 'brand-green' | 'brand-teal' | 'brand-orange'
-
-// ─── Data ────────────────────────────────────────────────────────────────────
+type AccentKey = "brand-green" | "brand-teal" | "brand-orange"
 
 const chapters = [
   {
-    kicker: 'Chapter 01',
-    title: 'Sourcing',
-    pull: 'Harvested at the exact moment nature says so.',
-    desc: 'We work with local organic farms and pick at peak ripeness so the raw ingredients arrive with maximum flavor, color, and nutritional density.',
+    kicker: "Chapter 01",
+    title: "Harvest",
+    pull: "Picked at peak ripeness, not peak convenience.",
+    desc: "We source from trusted local farms and move ingredients quickly so flavor, color, and nutrition arrive intact. The story begins where the fruit is still alive.",
     icon: Shovel,
-    accent: 'brand-green' as AccentKey,
-    blobPosition: 'top-right' as const,
+    accent: "brand-green" as AccentKey,
     stats: [
-      { label: 'Freshness', value: '100%' },
-      { label: 'Heat', value: '0%' },
-      { label: 'Cold Chain', value: '4°C' },
+      { label: "Freshness", value: "Peak" },
+      { label: "Heat", value: "0%" },
+      { label: "Chain", value: "4°C" },
     ],
+    bullets: [
+      "Local farm partnerships",
+      "Peak-ripeness selection",
+      "Cold-chain handoff",
+    ],
+    videoSrc: undefined,
   },
   {
-    kicker: 'Chapter 02',
-    title: 'Pressing',
-    pull: 'Pressure does what heat never could.',
-    desc: 'Hydraulic pressing releases the juice without thermal damage, preserving the texture and clarity that make every sip feel vivid and alive.',
+    kicker: "Chapter 02",
+    title: "Press",
+    pull: "Pressure, not heat, gives the juice its voice.",
+    desc: "Hydraulic pressing keeps the profile vivid and bright. We avoid thermal damage so the taste stays close to the source instead of drifting into something generic.",
     icon: ThermometerSnowflake,
-    accent: 'brand-teal' as AccentKey,
-    blobPosition: 'bottom-left' as const,
+    accent: "brand-teal" as AccentKey,
     stats: [
-      { label: 'Freshness', value: '100%' },
-      { label: 'Heat', value: '0%' },
-      { label: 'Cold Chain', value: '4°C' },
+      { label: "Freshness", value: "100%" },
+      { label: "Heat", value: "0%" },
+      { label: "Texture", value: "Clean" },
     ],
+    bullets: [
+      "Cold extraction",
+      "No thermal stress",
+      "Bright flavor finish",
+    ],
+    videoSrc: undefined,
   },
   {
-    kicker: 'Chapter 03',
-    title: 'Safety',
-    pull: 'Safety without the compromise.',
-    desc: 'High Pressure Processing keeps the juice safe while keeping the flavor profile bright, clean, and close to the source.',
+    kicker: "Chapter 03",
+    title: "Protect",
+    pull: "Safety that does not flatten the taste.",
+    desc: "High Pressure Processing helps preserve the juice while keeping the experience clean, safe, and stable. It is our way of protecting quality without sanding off the character.",
     icon: FlaskConical,
-    accent: 'brand-orange' as AccentKey,
-    blobPosition: 'top-left' as const,
+    accent: "brand-orange" as AccentKey,
     stats: [
-      { label: 'Freshness', value: '100%' },
-      { label: 'Heat', value: '0%' },
-      { label: 'Cold Chain', value: '4°C' },
+      { label: "Safety", value: "HPP" },
+      { label: "Preservatives", value: "None" },
+      { label: "Color", value: "Natural" },
     ],
+    bullets: [
+      "Freshness first",
+      "No preservatives",
+      "Controlled protection",
+    ],
+    videoSrc: undefined,
   },
   {
-    kicker: 'Chapter 04',
-    title: 'Delivery',
-    pull: 'The cold never breaks.',
-    desc: 'A strict cold chain keeps the final bottle in its best state from bottling room to doorstep, so the story ends exactly as intended.',
+    kicker: "Chapter 04",
+    title: "Deliver",
+    pull: "The cold chain stays unbroken until it reaches you.",
+    desc: "From bottling to doorstep, every bottle stays in a tightly managed cold chain. The final act is about preserving the same clarity and vibrance the fruit had at the start.",
     icon: PackageCheck,
-    accent: 'brand-green' as AccentKey,
-    blobPosition: 'bottom-right' as const,
+    accent: "brand-green" as AccentKey,
     stats: [
-      { label: 'Freshness', value: '100%' },
-      { label: 'Heat', value: '0%' },
-      { label: 'Cold Chain', value: '4°C' },
+      { label: "Chain", value: "Cold" },
+      { label: "Transit", value: "Fast" },
+      { label: "Result", value: "Fresh" },
     ],
+    bullets: [
+      "Protected logistics",
+      "Doorstep delivery",
+      "Final quality check",
+    ],
+    videoSrc: undefined,
   },
 ] as const
 
-// ─── Accent classes ───────────────────────────────────────────────────────────
-
-const accentClasses = {
-  'brand-green': {
-    text: 'text-brand-green',
-    bg: 'bg-brand-green-light',
-    border: 'border-brand-green/25',
-    ring: 'ring-brand-green/20',
-    dot: 'bg-brand-green',
-    blob: 'bg-brand-green/10',
-    line: 'from-brand-green via-brand-green/40 to-transparent',
-    activePill: 'border-brand-green/30 bg-brand-green-light text-brand-green',
+const themeMap = {
+  "brand-green": {
+    text: "text-brand-green",
+    border: "border-brand-green/20",
+    bg: "bg-brand-green-light",
+    soft: "bg-brand-green/10",
+    tint: "bg-brand-green/5",
+    glow: "bg-brand-green/15",
+    line: "from-brand-green via-brand-green/40 to-transparent",
   },
-  'brand-teal': {
-    text: 'text-brand-teal',
-    bg: 'bg-brand-teal-light',
-    border: 'border-brand-teal/25',
-    ring: 'ring-brand-teal/20',
-    dot: 'bg-brand-teal',
-    blob: 'bg-brand-teal/10',
-    line: 'from-brand-teal via-brand-teal/40 to-transparent',
-    activePill: 'border-brand-teal/30 bg-brand-teal-light text-brand-teal',
+  "brand-teal": {
+    text: "text-brand-teal",
+    border: "border-brand-teal/20",
+    bg: "bg-brand-teal-light",
+    soft: "bg-brand-teal/10",
+    tint: "bg-brand-teal/5",
+    glow: "bg-brand-teal/15",
+    line: "from-brand-teal via-brand-teal/40 to-transparent",
   },
-  'brand-orange': {
-    text: 'text-brand-orange',
-    bg: 'bg-brand-orange-light',
-    border: 'border-brand-orange/25',
-    ring: 'ring-brand-orange/20',
-    dot: 'bg-brand-orange',
-    blob: 'bg-brand-orange/10',
-    line: 'from-brand-orange via-brand-orange/40 to-transparent',
-    activePill: 'border-brand-orange/30 bg-brand-orange-light text-brand-orange',
+  "brand-orange": {
+    text: "text-brand-orange",
+    border: "border-brand-orange/20",
+    bg: "bg-brand-orange-light",
+    soft: "bg-brand-orange/10",
+    tint: "bg-brand-orange/5",
+    glow: "bg-brand-orange/15",
+    line: "from-brand-orange via-brand-orange/40 to-transparent",
   },
 } as const
 
-// ─── ChapterStat ─────────────────────────────────────────────────────────────
-
-function ChapterStat({
+function StatTile({
   label,
   value,
-  accent,
-  large = false,
+  tone,
 }: {
   label: string
   value: string
-  accent: AccentKey
-  large?: boolean
+  tone: AccentKey
 }) {
-  const theme = accentClasses[accent]
+  const theme = themeMap[tone]
   return (
-    <div className="rounded-2xl border border-slate-200 bg-white px-3 py-3 shadow-sm">
-      <div className={`border-t-2 pt-2 ${theme.border}`}>
-        <div className="text-[9px] font-bold uppercase tracking-[0.28em] text-slate-400">{label}</div>
-        <div className={`mt-1 font-display font-black text-slate-900 ${large ? 'text-[26px]' : 'text-[18px]'}`}>
-          {value}
+    <div className={`rounded-2xl border px-4 py-4 shadow-[0_14px_35px_-24px_rgba(15,23,42,0.25)] ${theme.border} ${theme.tint} bg-white/88`}>
+      <div className="text-[9px] font-black uppercase tracking-[0.32em] text-slate-400">
+        {label}
+      </div>
+      <div className={`mt-1 font-display text-2xl font-black ${theme.text}`}>
+        {value}
+      </div>
+    </div>
+  )
+}
+
+function StoryVideoFrame({
+  title,
+  label,
+  theme,
+  videoSrc,
+}: {
+  title: string
+  label: string
+  theme: (typeof themeMap)[AccentKey]
+  videoSrc?: string
+}) {
+  return (
+    <div className="relative aspect-[16/10] overflow-hidden rounded-[2.5rem] border border-emerald-100/80 bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.98))] shadow-[0_40px_100px_-36px_rgba(15,23,42,0.22)]">
+      {videoSrc ? (
+        <video
+          className="absolute inset-0 h-full w-full object-cover"
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="metadata"
+        >
+          <source src={videoSrc} />
+        </video>
+      ) : (
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_15%,rgba(255,255,255,0.95),transparent_26%),radial-gradient(circle_at_85%_20%,rgba(45,106,45,0.12),transparent_24%),linear-gradient(180deg,rgba(255,255,255,0)_0%,rgba(239,247,239,0.75)_100%)] pointer-events-none" />
+      )}
+
+      <div className="absolute inset-0 pointer-events-none">
+        <div className={`absolute inset-0 ${theme.soft} opacity-55`} />
+        <div className="absolute inset-x-6 top-6 flex items-center justify-between">
+          <div className="rounded-full border border-white/70 bg-white/85 px-3 py-1 text-[10px] font-black uppercase tracking-[0.32em] text-slate-400 shadow-sm">
+            {label}
+          </div>
+          <div className="rounded-full border border-white/70 bg-white/85 px-3 py-1 text-[10px] font-black uppercase tracking-[0.32em] text-slate-400 shadow-sm">
+            Scroll video
+          </div>
+        </div>
+
+        <div className="absolute inset-0 flex items-center justify-center px-8">
+            <div className={`rounded-[2rem] border px-6 py-5 text-center backdrop-blur-md ${theme.border} ${theme.bg} shadow-[0_18px_40px_-24px_rgba(15,23,42,0.25)]`}>
+              <div className={`mx-auto mb-3 flex h-14 w-14 items-center justify-center rounded-2xl ${theme.soft} ${theme.text}`}>
+                <FlaskConical size={24} />
+              </div>
+            <p className="text-[10px] font-black uppercase tracking-[0.32em] text-slate-400">
+              Video slot ready
+            </p>
+            <p className="mt-2 max-w-[16rem] text-sm leading-relaxed text-slate-600">
+              {title} will play here once the chapter video asset is added.
+            </p>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-// ─── Desktop ChapterScene ─────────────────────────────────────────────────────
-// FIX: outer motion.article IS the 2-col grid. Left col and right col are
-// direct grid children — no nested grid wrapper. pl-40 on left col clears
-// the fixed sidebar (which takes ~130px from the left edge).
-
-function DesktopChapterScene({
+function StoryScene({
   chapter,
   index,
   progress,
@@ -154,530 +219,348 @@ function DesktopChapterScene({
   progress: MotionValue<number>
 }) {
   const reduceMotion = useReducedMotion()
-  const theme = accentClasses[chapter.accent]
   const total = chapters.length
   const start = index / total
   const end = (index + 1) / total
+  const theme = themeMap[chapter.accent]
 
-  // Scene fade + slide
   const opacity = useTransform(
     progress,
-    [start, start + 0.05, end - 0.05, end],
-    [0, 1, 1, 0],
-  )
-  const translateX = useTransform(
-    progress,
-    [start, start + 0.09, end - 0.09, end],
-    reduceMotion ? [0, 0, 0, 0] : [48, 0, 0, -32],
+    [start, start + 0.025, end - 0.16, end],
+    [0, 1, 1, 0]
   )
 
-  // Card enters with subtle scale
+  const y = useTransform(
+    progress,
+    [start, start + 0.045, end - 0.16, end],
+    reduceMotion ? [0, 0, 0, 0] : [38, 0, 0, -24]
+  )
+
   const cardScale = useTransform(
     progress,
-    [start, start + 0.09, end - 0.09, end],
-    reduceMotion ? [1, 1, 1, 1] : [0.9, 1, 1, 0.96],
+    [start, start + 0.045, end - 0.16, end],
+    reduceMotion ? [1, 1, 1, 1] : [0.94, 1, 1, 0.98]
   )
 
-  // Blob fades with the scene
-  const blobOpacity = useTransform(
+  const accentShift = useTransform(
     progress,
-    [start, start + 0.04, end - 0.04, end],
-    [0, 0.75, 0.75, 0],
+    [start, end],
+    reduceMotion ? [0, 0] : [-20, 20]
   )
-
-  // Card bottom bar grows in
-  const cardBar = useTransform(
-    progress,
-    [start, start + 0.1, end - 0.1, end],
-    [0, 1, 1, 0],
-  )
-
-  const Icon = chapter.icon
-
-  const blobPositionClass = {
-    'top-right': 'top-12 right-12',
-    'bottom-left': 'bottom-12 left-12',
-    'top-left': 'top-12 left-40',
-    'bottom-right': 'bottom-12 right-12',
-  }[chapter.blobPosition]
 
   return (
-    // This IS the grid — two direct children become grid columns
     <motion.article
-      style={{ opacity, x: translateX }}
-      className="absolute inset-0 hidden lg:grid lg:grid-cols-[1.1fr_0.9fr] lg:items-center"
+      style={{ opacity, y }}
+      className="absolute inset-0 hidden lg:flex items-center"
       aria-label={`${chapter.kicker}: ${chapter.title}`}
     >
-      {/* ── Ambient blob ─────────────────────────────────────────────────── */}
       <motion.div
-        style={{ opacity: blobOpacity }}
-        className={`absolute pointer-events-none h-[28rem] w-[28rem] rounded-full blur-[120px] ${blobPositionClass} ${theme.blob}`}
+        style={{ x: accentShift, opacity }}
+        className={`absolute left-10 top-12 h-[26rem] w-[26rem] rounded-full blur-[110px] ${theme.glow} pointer-events-none`}
         aria-hidden="true"
       />
 
-      {/* ── LEFT COLUMN ──────────────────────────────────────────────────── */}
-      {/* pl-40 (160px) guarantees clearance from the 130px-wide fixed sidebar */}
-      <div className="relative flex h-full flex-col justify-center overflow-hidden pl-40 pr-8">
-        {/* Decorative chapter number — behind content, clipped by overflow-hidden */}
-        <div
-          className="pointer-events-none absolute -bottom-10 -left-2 select-none font-display font-black leading-none text-slate-100"
-          style={{ fontSize: 'clamp(10rem, 18vw, 16rem)' }}
-          aria-hidden="true"
-        >
-          {String(index + 1).padStart(2, '0')}
-        </div>
-
-        <div className="relative z-10 space-y-6">
-          {/* Kicker */}
-          <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.34em] text-slate-400">
-            <span>{chapter.kicker}</span>
-            <span className="text-slate-300">/</span>
-            <span>04</span>
-          </div>
-
-          {/* Title */}
-          <h2
-            className="font-display font-black leading-[0.88] tracking-[-0.04em] text-slate-900"
-            style={{ fontSize: 'clamp(3.5rem, 6.5vw, 5.5rem)' }}
-          >
-            {chapter.title}
-          </h2>
-
-          {/* Pull quote — Fraunces italic */}
-          <p className="font-accent text-[21px] italic leading-snug text-slate-600">
-            {chapter.pull}
-          </p>
-
-          {/* Body */}
-          <p className="max-w-sm text-[16px] leading-relaxed text-slate-500">
-            {chapter.desc}
-          </p>
-
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 max-w-xs">
-            {chapter.stats.map((stat) => (
-              <ChapterStat key={stat.label} {...stat} accent={chapter.accent} />
-            ))}
-          </div>
-        </div>
-      </div>
-
-      {/* ── RIGHT COLUMN ─────────────────────────────────────────────────── */}
-      <div className="flex h-full items-center py-10 pl-2 pr-10">
-        <motion.div
-          style={{ scale: cardScale }}
-          className="relative w-full overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_40px_100px_-30px_rgba(15,23,42,0.16)]"
-        >
-          {/* Subtle radial sheen */}
-          <div
-            className="absolute inset-0 pointer-events-none"
-            style={{
-              background:
-                'radial-gradient(circle at 80% 15%, rgba(255,255,255,0.85) 0%, transparent 35%), radial-gradient(circle at 20% 85%, rgba(255,255,255,0.55) 0%, transparent 30%)',
-            }}
-          />
-
-          <div className="relative aspect-[3/4] max-h-[500px] p-8">
-            <div className="relative z-10 flex h-full flex-col">
-              {/* Icon block */}
-              <div className="flex items-center justify-center pt-4">
-                <div
-                  className={`relative flex h-[4.5rem] w-[4.5rem] items-center justify-center rounded-2xl ${theme.bg} ${theme.text}`}
-                >
-                  <div className={`absolute inset-0 scale-[2] rounded-full blur-2xl ${theme.blob} opacity-60`} />
-                  <Icon size={40} className="relative z-10" />
-                </div>
-              </div>
-
-              {/* Chapter title */}
-              <div className="flex flex-1 items-center justify-center px-4 text-center">
-                <h3 className="max-w-[240px] font-display text-[2rem] font-black leading-[0.95] tracking-[-0.04em] text-slate-900">
-                  {chapter.title}
-                </h3>
-              </div>
-
-              {/* Stats */}
-              <div className="border-t border-slate-100 pt-5">
-                <div className="grid grid-cols-3 gap-2.5">
-                  {chapter.stats.map((stat) => (
-                    <ChapterStat key={stat.label} {...stat} accent={chapter.accent} large />
-                  ))}
-                </div>
-              </div>
+      <div className="container relative z-10 mx-auto px-6">
+        <div className="grid items-center gap-10 xl:grid-cols-[1.05fr_0.9fr]">
+          <div className="max-w-2xl space-y-6">
+            <div className="flex items-center gap-3">
+              <span className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.34em] shadow-sm ${theme.border} ${theme.soft} ${theme.text}`}>
+                {chapter.kicker}
+              </span>
+              <span className="text-[10px] font-black uppercase tracking-[0.34em] text-slate-400">
+                04 ACTS
+              </span>
             </div>
 
-            {/* Animated accent bar at card bottom */}
-            <motion.div
-              style={{ scaleX: cardBar }}
-              className={`absolute inset-x-0 bottom-0 h-[3px] origin-left bg-gradient-to-r ${theme.line}`}
-            />
+            <h2 className={`text-6xl xl:text-8xl font-display font-black leading-[0.88] tracking-[-0.05em] ${theme.text}`}>
+              {chapter.title}
+            </h2>
+
+            <p className="max-w-xl font-accent text-[clamp(1.25rem,1.8vw,1.55rem)] italic leading-snug text-slate-600">
+              {chapter.pull}
+            </p>
+
+            <p className="max-w-xl text-base leading-relaxed text-slate-500 xl:text-[17px]">
+              {chapter.desc}
+            </p>
+
+            <div className="flex flex-wrap gap-2.5 pt-1">
+              {chapter.bullets.map((bullet) => (
+                <span
+                  key={bullet}
+                  className={`inline-flex items-center gap-2 rounded-full border px-4 py-2 text-sm font-semibold ${theme.border} ${theme.bg} ${theme.text}`}
+                >
+                  <CheckCircle2 size={14} />
+                  {bullet}
+                </span>
+              ))}
+            </div>
+
+            <div className="grid grid-cols-3 gap-3 pt-3 max-w-2xl">
+              {chapter.stats.map((stat) => (
+                <StatTile key={stat.label} {...stat} tone={chapter.accent} />
+              ))}
+            </div>
           </div>
-        </motion.div>
+
+          <motion.div
+            style={{ scale: cardScale }}
+            className="relative"
+          >
+            <div className="absolute inset-0 translate-y-5 rounded-[2.5rem] bg-black/5 blur-3xl" aria-hidden="true" />
+            <div className="relative overflow-hidden rounded-[2.5rem] border border-emerald-100/80 bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.98))] shadow-[0_40px_100px_-36px_rgba(15,23,42,0.22)]">
+              <StoryVideoFrame title={chapter.title} label={chapter.kicker} theme={theme} videoSrc={chapter.videoSrc} />
+            </div>
+          </motion.div>
+        </div>
       </div>
     </motion.article>
   )
 }
 
-// ─── Mobile ChapterCard ───────────────────────────────────────────────────────
-// Simple static card — no scroll-driven animation on mobile for perf.
-
-function MobileChapterCard({
-  chapter,
-  index,
-}: {
-  chapter: (typeof chapters)[number]
-  index: number
-}) {
-  const theme = accentClasses[chapter.accent]
+function MobileCard({ chapter, index }: { chapter: (typeof chapters)[number]; index: number }) {
+  const theme = themeMap[chapter.accent]
   const Icon = chapter.icon
 
   return (
     <motion.article
-      initial={{ opacity: 0, y: 24 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.25 }}
-      transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: index * 0.06 }}
-      className="relative overflow-hidden rounded-[2rem] border border-slate-200 bg-white shadow-[0_20px_60px_-20px_rgba(15,23,42,0.14)]"
+      viewport={{ once: true, amount: 0.2 }}
+      transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1], delay: index * 0.05 }}
+      className={`relative overflow-hidden rounded-[2rem] border p-6 pl-14 shadow-[0_24px_70px_-36px_rgba(15,23,42,0.22)] ${theme.border} ${theme.tint}`}
     >
-      {/* Blob */}
-      <div
-        className={`absolute -right-12 -top-12 h-56 w-56 rounded-full blur-[80px] opacity-40 pointer-events-none ${theme.blob}`}
-        aria-hidden="true"
-      />
+      <div className={`absolute left-5 top-6 h-[calc(100%-3rem)] w-[3px] rounded-full bg-gradient-to-b ${theme.line} opacity-70`} />
+      <div className={`absolute left-4 top-6 flex h-6 w-6 items-center justify-center rounded-full ${theme.soft} ${theme.text} ring-4 ring-white shadow-sm`}>
+        <span className="text-[9px] font-black">{String(index + 1)}</span>
+      </div>
 
-      <div className="relative z-10 px-6 py-7 space-y-5">
-        {/* Header row */}
-        <div className="flex items-start justify-between gap-4">
-          <div className="space-y-2">
-            <span className="text-[10px] font-black uppercase tracking-[0.32em] text-slate-400">
-              {chapter.kicker} / 04
-            </span>
-            <h2 className="text-4xl font-display font-black leading-[0.9] tracking-[-0.04em] text-slate-900">
-              {chapter.title}
-            </h2>
-          </div>
-          <div
-            className={`flex h-12 w-12 shrink-0 items-center justify-center rounded-xl ${theme.bg} ${theme.text}`}
-          >
-            <Icon size={24} />
+      <div className={`absolute -right-16 -top-16 h-48 w-48 rounded-full blur-[80px] ${theme.glow} opacity-70`} />
+
+      <div className="relative z-10 space-y-4">
+        <div className="flex items-center justify-between">
+          <span className={`rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.34em] ${theme.border} ${theme.soft} ${theme.text}`}>
+            {chapter.kicker}
+          </span>
+          <div className={`flex h-11 w-11 items-center justify-center rounded-xl ${theme.bg} ${theme.text}`}>
+            <Icon size={20} />
           </div>
         </div>
 
-        {/* Pull */}
-        <p className="font-accent text-[18px] italic leading-snug text-slate-600">
-          {chapter.pull}
-        </p>
+        <div className="space-y-2.5">
+          <h2 className="text-4xl font-display font-black leading-[0.9] tracking-[-0.04em] text-slate-900">
+            {chapter.title}
+          </h2>
+          <p className="font-accent text-[1.15rem] italic leading-snug text-slate-600">
+            {chapter.pull}
+          </p>
+          <p className="text-[15px] leading-relaxed text-slate-500">
+            {chapter.desc}
+          </p>
+        </div>
 
-        {/* Desc */}
-        <p className="text-[15px] leading-relaxed text-slate-500">{chapter.desc}</p>
-
-        {/* Stats */}
-        <div className="grid grid-cols-3 gap-2.5">
+        <div className="grid grid-cols-3 gap-2">
           {chapter.stats.map((stat) => (
-            <ChapterStat key={stat.label} {...stat} accent={chapter.accent} />
+            <StatTile key={stat.label} {...stat} tone={chapter.accent} />
           ))}
         </div>
 
-        {/* Accent line */}
-        <div className={`h-[2px] w-full rounded-full bg-gradient-to-r ${theme.line}`} />
+        <div className="flex flex-wrap gap-2 pt-1">
+          {chapter.bullets.map((bullet) => (
+            <span
+              key={bullet}
+              className={`inline-flex items-center gap-2 rounded-full border px-3 py-2 text-xs font-semibold ${theme.border} ${theme.bg} ${theme.text}`}
+            >
+              <CheckCircle2 size={13} />
+              {bullet}
+            </span>
+          ))}
+        </div>
       </div>
     </motion.article>
   )
 }
 
-// ─── ProcessStory (page root) ─────────────────────────────────────────────────
-
 export function ProcessStory() {
   const pageRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLElement>(null)
-  const chapterRef = useRef<HTMLElement>(null)
-  const interludeRef = useRef<HTMLElement>(null)
+  const storyRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
-
   const [activeChapter, setActiveChapter] = useState(0)
 
-  // Full-page scroll — used for hero parallax only
   const { scrollYProgress: pageProgress } = useScroll({
     target: pageRef,
-    offset: ['start start', 'end end'],
+    offset: ["start start", "end end"],
   })
 
-  // Chapter-section scroll — drives scene transitions + progress bar
-  const { scrollYProgress: chapterProgress } = useScroll({
-    target: chapterRef,
-    offset: ['start start', 'end end'],
+  const { scrollYProgress: storyProgress } = useScroll({
+    target: storyRef,
+    offset: ["start start", "end end"],
   })
 
-  // Sidebar visibility
-  const isChapterInView = useInView(chapterRef, { amount: 0.1 })
-
-  // Track active chapter from scroll position
-  useMotionValueEvent(chapterProgress, 'change', (v) => {
-    const next = Math.min(chapters.length - 1, Math.max(0, Math.floor(v * chapters.length)))
+  useMotionValueEvent(storyProgress, "change", (value) => {
+    const next = Math.min(chapters.length - 1, Math.max(0, Math.floor(value * chapters.length)))
     setActiveChapter((prev) => (prev === next ? prev : next))
   })
 
-  // ── Hero parallax values ───────────────────────────────────────────────────
-  const heroY = useTransform(pageProgress, [0, 0.2], reduceMotion ? [0, 0] : [0, -90])
-  const heroOpacity = useTransform(pageProgress, [0, 0.18, 0.3], [1, 0.8, 0.5])
-  const blobTopX = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, -70])
-  const blobTopY = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, -50])
-  const blobBotX = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, 70])
-  const blobBotY = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, 50])
-
-  // ── Progress bar (scoped to chapter section, 0→1) ─────────────────────────
-  // FIX: was using pageProgress before — now correctly uses chapterProgress
-  // so bar starts at 0% when chapters begin and hits 100% as last chapter ends
+  const heroY = useTransform(pageProgress, [0, 0.18], reduceMotion ? [0, 0] : [0, -40])
+  const heroOpacity = useTransform(pageProgress, [0, 0.18, 0.3], [1, 0.82, 0.55])
+  const orbA = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, -60])
+  const orbB = useTransform(pageProgress, [0, 1], reduceMotion ? [0, 0] : [0, 50])
 
   return (
-    <div ref={pageRef} className="bg-[#FAFAFA] text-slate-900">
-
-      {/* ── Fixed top progress bar ─────────────────────────────────────────── */}
-      <div
-        className="fixed left-0 top-0 z-[60] h-[2px] w-full bg-slate-200/60 pointer-events-none"
-        aria-hidden="true"
-      >
+    <div ref={pageRef} className="home-page min-h-screen text-slate-900">
+      <div className="fixed left-0 top-0 z-[60] h-[2px] w-full bg-slate-200/60 pointer-events-none">
         <motion.div
-          style={{ scaleX: chapterProgress, transformOrigin: 'left' }}
-          className="h-full w-full bg-brand-green"
+          style={{ scaleX: storyProgress, transformOrigin: "left" }}
+          className="h-full w-full bg-gradient-to-r from-brand-green via-brand-teal to-brand-orange"
         />
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* HERO                                                                */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section ref={heroRef} className="relative overflow-hidden bg-[#FAFAFA]">
-        {/* Ambient blobs */}
+      <section className="relative overflow-hidden pt-28 pb-20 md:pt-36 md:pb-28">
         <motion.div
-          style={{ x: blobTopX, y: blobTopY, opacity: heroOpacity }}
-          className="absolute -left-20 top-0 h-[520px] w-[520px] rounded-full bg-brand-green/8 blur-[130px] pointer-events-none"
+          style={{ x: orbA, y: orbB, opacity: heroOpacity }}
+          className="absolute -left-24 top-0 h-[26rem] w-[26rem] rounded-full bg-brand-green/10 blur-[120px] pointer-events-none"
           aria-hidden="true"
         />
         <motion.div
-          style={{ x: blobBotX, y: blobBotY, opacity: heroOpacity }}
-          className="absolute -right-20 bottom-0 h-[420px] w-[420px] rounded-full bg-brand-orange/6 blur-[130px] pointer-events-none"
+          style={{ x: orbB, y: orbA, opacity: heroOpacity }}
+          className="absolute -right-24 bottom-0 h-[24rem] w-[24rem] rounded-full bg-brand-orange/10 blur-[120px] pointer-events-none"
           aria-hidden="true"
         />
 
-        <div className="relative mx-auto flex min-h-[100svh] max-w-5xl items-center px-6 py-24">
-          <motion.div style={{ y: heroY, opacity: heroOpacity }} className="max-w-3xl space-y-7">
-            {/* Overline */}
-            <span className="inline-flex items-center rounded-full border border-brand-green/25 bg-brand-green-light px-4 py-2 text-[10px] font-black uppercase tracking-[0.36em] text-brand-green">
+        <div className="container mx-auto px-6">
+          <motion.div style={{ y: heroY, opacity: heroOpacity }} className="mx-auto max-w-4xl text-center space-y-8">
+            <span className="inline-flex items-center rounded-full border border-brand-green/20 bg-white/85 px-4 py-2 text-[10px] font-black uppercase tracking-[0.36em] text-brand-green shadow-sm">
               The Process
             </span>
 
-            {/* H1 */}
-            <h1
-              className="font-display font-black leading-[0.88] tracking-[-0.04em] text-slate-900"
-              style={{ fontSize: 'clamp(2.8rem, 9vw, 6.25rem)' }}
-            >
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-black leading-[0.9] tracking-[-0.05em] text-slate-950">
               Four acts.{' '}
-              <span className="font-accent italic font-normal" style={{ fontVariationSettings: '"SOFT" 50, "WONK" 0' }}>
-                One
-              </span>{' '}
-              cold chain.
+              <span className="block md:inline font-accent italic font-normal text-brand-green">
+                One cold chain.
+              </span>
             </h1>
 
-            {/* Pull quote */}
-            <p className="font-accent text-[22px] italic leading-snug text-slate-600">
-              From the field to the final pour, nothing gets compromised.
+            <p className="mx-auto max-w-2xl text-lg md:text-xl leading-relaxed text-slate-500">
+              A cleaner, brighter process story built around precision, vibrance, and calm control from the source to the final pour.
             </p>
 
-            {/* Subtitle */}
-            <p className="max-w-lg text-[18px] leading-relaxed text-slate-500">
-              Every stage is tuned to preserve freshness, protect flavor, and keep the
-              final bottle feeling bright and premium.
-            </p>
-
-            {/* Chapter pills — reactive to activeChapter during scroll */}
-            <div className="flex flex-wrap gap-2.5 pt-1">
-              {chapters.map((ch, i) => {
-                const theme = accentClasses[ch.accent]
+            <div className="flex flex-wrap items-center justify-center gap-2.5 pt-1">
+              {chapters.map((chapter, i) => {
                 const isActive = activeChapter === i
+                const theme = themeMap[chapter.accent]
                 return (
                   <span
-                    key={ch.title}
-                    className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] shadow-sm transition-colors duration-300 ${
+                    key={chapter.title}
+                    className={`rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.3em] transition-all ${
                       isActive
-                        ? theme.activePill
-                        : 'border-slate-200 bg-white text-slate-400'
+                        ? `${theme.border} ${theme.bg} ${theme.text} shadow-sm`
+                        : "border-slate-200 bg-white/85 text-slate-400"
                     }`}
                   >
-                    {String(i + 1).padStart(2, '0')} {ch.title}
+                    {String(i + 1).padStart(2, "0")} {chapter.title}
                   </span>
                 )
               })}
             </div>
           </motion.div>
-
-          {/* Scroll cue — FIX: motion animate loop, not overflow-hidden clip trick */}
-          <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2">
-            <span className="text-[9px] font-black uppercase tracking-[0.38em] text-slate-400">
-              scroll
-            </span>
-            <div className="relative h-12 w-px bg-slate-200 rounded-full overflow-hidden">
-              <motion.div
-                animate={reduceMotion ? {} : { y: ['0%', '140%'], opacity: [1, 0] }}
-                transition={{ duration: 1.3, repeat: Infinity, ease: 'easeIn', repeatDelay: 0.2 }}
-                className="absolute top-0 left-1/2 h-4 w-[2px] -translate-x-1/2 rounded-full bg-brand-green"
-              />
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* CHAPTERS                                                            */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section ref={chapterRef} className="relative lg:min-h-[500vh]">
+      <section ref={storyRef} className="relative lg:min-h-[620vh]">
+        <div className="sticky top-0 hidden h-svh overflow-hidden lg:block">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(45,106,45,0.06),transparent_32%),radial-gradient(circle_at_bottom_right,rgba(15,118,110,0.05),transparent_30%),linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.96))]" />
 
-        {/* ── Desktop sticky stage ────────────────────────────────────────── */}
-        <div className="sticky top-0 hidden h-svh overflow-hidden bg-[#FAFAFA] lg:block">
-
-          {/* Fixed sidebar — FIX: properly spaced so dots align with line,
-              total sidebar width from left-6: ~130px → chapter left col uses pl-40 */}
-          <div
-            className="fixed left-6 top-1/2 z-30 -translate-y-1/2 transition-opacity duration-500 hidden lg:block"
-            style={{ opacity: isChapterInView ? 1 : 0 }}
-            aria-label="Chapter navigation"
-          >
-            <div className="relative flex h-44 items-stretch">
-              {/* Vertical line — absolutely centered behind dots */}
-              <div className="absolute left-[4px] top-0 h-full w-px bg-slate-200" aria-hidden="true" />
-
-              {/* Dots column */}
-              <div className="flex flex-col justify-between">
-                {chapters.map((chapter, i) => {
-                  const isActive = activeChapter === i
-                  const theme = accentClasses[chapter.accent]
-                  return (
-                    <div key={chapter.title} className="flex items-center gap-3">
-                      <motion.div
-                        animate={{ scale: isActive ? 1 : 0.5 }}
-                        transition={{ type: 'spring', stiffness: 320, damping: 28 }}
-                        className={`h-[9px] w-[9px] rounded-full transition-colors duration-200 ${
-                          isActive ? `${theme.dot} ring-4 ${theme.ring}` : 'bg-slate-300'
-                        }`}
-                        aria-current={isActive ? 'step' : undefined}
-                      />
-                      <motion.span
-                        animate={{ opacity: isActive ? 1 : 0.45 }}
-                        className={`min-w-[72px] text-[9px] font-bold uppercase tracking-[0.28em] ${
-                          isActive ? theme.text : 'text-slate-400'
-                        }`}
-                      >
-                        {chapter.title}
-                      </motion.span>
-                    </div>
-                  )
-                })}
-              </div>
+          <div className="absolute left-6 top-1/2 z-30 hidden -translate-y-1/2 lg:block">
+            <div className="flex flex-col gap-3 rounded-[2rem] border border-white/70 bg-white/80 p-3 shadow-[0_18px_40px_-24px_rgba(15,23,42,0.25)] backdrop-blur-md">
+              {chapters.map((chapter, i) => {
+                const theme = themeMap[chapter.accent]
+                const isActive = activeChapter === i
+                return (
+                  <div key={chapter.title} className="flex items-center gap-3">
+                    <div
+                      className={`h-[10px] w-[10px] rounded-full transition-all ${
+                        isActive ? `${theme.bg} ring-4 ${theme.border}` : "bg-slate-300"
+                      }`}
+                    />
+                    <span
+                      className={`min-w-[92px] text-[9px] font-black uppercase tracking-[0.28em] ${
+                        isActive ? theme.text : "text-slate-400"
+                      }`}
+                    >
+                      {chapter.title}
+                    </span>
+                  </div>
+                )
+              })}
             </div>
           </div>
 
-          {/* Scene stack — absolute, each scene fades in/out via its own opacity */}
-          <div className="absolute inset-0" aria-live="polite">
-            {chapters.map((chapter, i) => (
-              <DesktopChapterScene
+          <div className="absolute inset-0">
+            {chapters.map((chapter, index) => (
+              <StoryScene
                 key={chapter.title}
                 chapter={chapter}
-                index={i}
-                progress={chapterProgress}
+                index={index}
+                progress={storyProgress}
               />
             ))}
           </div>
         </div>
 
-        {/* ── Mobile cards ────────────────────────────────────────────────── */}
-        <div className="space-y-4 px-4 py-6 lg:hidden">
-          {chapters.map((chapter, i) => (
-            <MobileChapterCard key={chapter.title} chapter={chapter} index={i} />
+      <div className="relative space-y-4 px-4 py-6 lg:hidden">
+          <div className="absolute left-8 top-8 bottom-8 w-px bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange opacity-20" />
+          {chapters.map((chapter, index) => (
+            <MobileCard key={chapter.title} chapter={chapter} index={index} />
           ))}
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* INTERLUDE STRIPE                                                    */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
       <motion.section
-        ref={interludeRef}
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ amount: 0.5, once: true }}
+        viewport={{ amount: 0.45, once: true }}
         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className="border-y border-brand-green/15 bg-brand-green-light py-14"
+        className="border-y border-brand-green/15 bg-brand-green-light py-12 md:py-14"
       >
         <div className="mx-auto max-w-5xl px-6 text-center">
-          <p className="font-accent text-[clamp(1.5rem,3vw,2rem)] italic text-brand-green">
-            Four steps. Zero compromise. One bottle.
+          <p className="font-accent text-[clamp(1.4rem,3vw,2rem)] italic text-brand-green">
+            Four acts. Zero compromise. One bottle that stays true.
           </p>
         </div>
       </motion.section>
 
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      {/* CTA                                                                 */}
-      {/* ═══════════════════════════════════════════════════════════════════ */}
-      <section className="relative overflow-hidden bg-white py-24 md:py-36">
-        {/* Green orb center */}
-        <div
-          className="absolute left-1/2 top-1/2 h-[560px] w-[560px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-green/8 blur-[120px] pointer-events-none"
-          aria-hidden="true"
-        />
+      <section className="relative overflow-hidden py-20 md:py-28">
+        <div className="absolute left-1/2 top-1/2 h-[34rem] w-[34rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-brand-green/8 blur-[120px] pointer-events-none" />
 
-        <div className="relative mx-auto max-w-3xl px-6 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 24 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.3, once: true }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="space-y-6"
-          >
-            {/* Overline */}
-            <span className="inline-flex rounded-full border border-brand-green/25 bg-brand-green-light px-4 py-2 text-[10px] font-black uppercase tracking-[0.36em] text-brand-green">
+        <div className="container relative z-10 mx-auto px-6">
+          <div className="mx-auto max-w-3xl rounded-[2.5rem] border border-emerald-100/80 home-card p-8 md:p-12 text-center">
+            <span className="inline-flex rounded-full border border-brand-green/20 bg-brand-green-light px-4 py-2 text-[10px] font-black uppercase tracking-[0.36em] text-brand-green">
               The End Result
             </span>
-
-            {/* Heading */}
-            <h2
-              className="font-display font-black leading-[0.9] text-slate-900"
-              style={{ fontSize: 'clamp(2.4rem, 6vw, 4.5rem)' }}
-            >
-              The result tastes{' '}
-              <span className="font-accent italic font-normal" style={{ fontVariationSettings: '"SOFT" 50, "WONK" 0' }}>
-                exactly
-              </span>{' '}
-              as intended.
+            <h2 className="mt-6 text-4xl md:text-6xl font-display font-black leading-[0.92] tracking-[-0.04em] text-slate-900">
+              The result tastes exactly as intended.
             </h2>
-
-            {/* Subtext */}
-            <p className="mx-auto max-w-lg text-[18px] leading-relaxed text-slate-500">
-              The process is built to preserve the way the fruit should feel, from the
-              first sip to the last.
+            <p className="mx-auto mt-5 max-w-2xl text-lg leading-relaxed text-slate-500">
+              The process is designed to keep the fruit vivid, the finish clean, and the final bottle bright from first sip to last.
             </p>
-          </motion.div>
 
-          {/* Buttons — staggered slightly after heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ amount: 0.3, once: true }}
-            transition={{ duration: 0.5, delay: 0.18, ease: [0.22, 1, 0.36, 1] }}
-            className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row"
-          >
-            <Link
-              href="/products"
-              className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-8 py-4 font-bold text-white transition-transform hover:scale-[1.03] hover:bg-brand-green/90 active:scale-[0.97]"
-            >
-              Explore Products
-              <ArrowRight size={17} />
-            </Link>
-            <Link
-              href="/about"
-              className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-8 py-4 font-bold text-slate-700 transition-colors hover:bg-slate-50"
-            >
-              Our Story
-            </Link>
-          </motion.div>
+            <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row">
+              <Link
+                href="/products"
+                className="inline-flex items-center justify-center gap-2 rounded-full bg-brand-green px-8 py-4 font-bold text-white transition-transform hover:scale-[1.03] hover:bg-brand-green/90 active:scale-[0.97]"
+              >
+                Explore Products
+                <ArrowRight size={17} />
+              </Link>
+              <Link
+                href="/about"
+                className="inline-flex items-center justify-center gap-2 rounded-full border border-slate-200 px-8 py-4 font-bold text-slate-700 transition-colors hover:bg-slate-50"
+              >
+                Our Story
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
     </div>

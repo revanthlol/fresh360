@@ -19,7 +19,7 @@ export function NewsletterCTA() {
   const orbY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [18, -18])
 
   return (
-    <section ref={sectionRef} className="py-16 md:py-24 bg-white overflow-hidden">
+    <section ref={sectionRef} className="pt-10 pb-16 md:pt-14 md:pb-24 home-surface overflow-hidden">
       <div className="container mx-auto px-6">
         <motion.div
           style={{ y: panelY, scale: panelScale, rotate: panelRotate, opacity: panelOpacity }}

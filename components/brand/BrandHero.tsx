@@ -127,13 +127,13 @@ export function BrandHero({ brand }: BrandHeroProps) {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden border-b border-slate-200/70"
+      className="relative overflow-hidden border-b border-emerald-100/70"
       style={{
         background: `linear-gradient(
           135deg,
-          rgba(${rgb}, 0.09) 0%,
-          rgba(250,250,250,0.97) 35%,
-          #fff 100%
+          rgba(${rgb}, 0.07) 0%,
+          rgba(255,255,252,0.98) 35%,
+          #eff7ef 100%
         )`,
       }}
     >
@@ -198,7 +198,7 @@ export function BrandHero({ brand }: BrandHeroProps) {
               {brand.usps.map((usp) => (
                 <span
                   key={usp}
-                  className="rounded-full border border-slate-200 bg-white/80 px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm backdrop-blur"
+                  className="rounded-full border border-emerald-100/80 bg-[linear-gradient(180deg,rgba(255,255,252,0.96),rgba(239,247,239,0.94))] px-4 py-2 text-sm font-semibold text-slate-600 shadow-sm backdrop-blur"
                 >
                   {usp}
                 </span>
@@ -222,8 +222,8 @@ export function BrandHero({ brand }: BrandHeroProps) {
           />
 
           {/* Bigger Dynamic Card */}
-          <div className="relative w-full max-w-[950px] overflow-hidden rounded-[2rem] border border-slate-200/80 bg-white shadow-[0_30px_80px_-30px_rgba(15,23,42,0.18)]">
-            <div className="relative w-full overflow-hidden bg-slate-50">
+          <div className="relative w-full max-w-[950px] overflow-hidden rounded-[2rem] border border-emerald-100/80 home-card shadow-[0_30px_80px_-30px_rgba(15,23,42,0.18)]">
+            <div className="relative w-full overflow-hidden bg-[linear-gradient(180deg,rgba(255,255,252,0.98),rgba(239,247,239,0.96))]">
               <BrandMedia brand={brand as BrandWithHeroVideo} />
             </div>
           </div>
