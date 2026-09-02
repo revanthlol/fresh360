@@ -82,7 +82,7 @@ function TimelineStep({
   )
 }
 
-export function ProcessTeaser() {
+export function ProcessTeaser({ id = 'process' }: { id?: string } = {}) {
   const sectionRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({
@@ -90,14 +90,14 @@ export function ProcessTeaser() {
     offset: ["start end", "end start"],
   })
 
-  const headingY = useTransform(scrollYProgress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [42, 0, -20])
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0.88])
-  const lineScale = useTransform(scrollYProgress, [0.12, 0.85], [0, 1])
-  const ambientX = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-18, 18])
-  const ambientY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [14, -14])
+  const headingY = useTransform(scrollYProgress, [0, 0.3, 1], reduceMotion ? [0, 0, 0] : [40, 0, -20])
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.35, 1, 1, 0.82])
+  const lineScale = useTransform(scrollYProgress, [0.1, 0.85], [0, 1])
+  const ambientX = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-24, 24])
+  const ambientY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [20, -20])
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden home-surface py-28 md:py-36">
+    <section id={id} ref={sectionRef} className="relative overflow-hidden home-surface py-28 md:py-36">
       <motion.div
         style={{ x: ambientX, y: ambientY, opacity: headingOpacity }}
         className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-brand-green/10 blur-[100px] pointer-events-none"

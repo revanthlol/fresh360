@@ -7,11 +7,21 @@ import { motion, AnimatePresence } from 'motion/react'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
-const navLinks = [
+const defaultNavLinks = [
   { name: 'Home', href: '/' },
   { name: 'About', href: '/about' },
   { name: 'Process', href: '/process' },
   { name: 'Contact', href: '/contact' },
+]
+
+const singlePageNavLinks = [
+  { name: 'Home', href: '#top' },
+  { name: 'About', href: '#about' },
+  { name: 'Brands', href: '#brands' },
+  { name: 'Products', href: '#products' },
+  { name: 'Process', href: '#process' },
+  { name: 'Certifications', href: '#certifications' },
+  { name: 'Contact', href: '#contact' },
 ]
 
 const brandLinks = [
@@ -23,6 +33,8 @@ export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
+  const isSinglePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
+  const navLinks = isSinglePage ? singlePageNavLinks : defaultNavLinks
 
   const getScrollSnapshot = () => (typeof window === 'undefined' ? false : window.scrollY > 20)
   const scrolled = useSyncExternalStore(
@@ -47,6 +59,19 @@ export function Navbar() {
 
   const handleNavClick = (href: string) => {
     setIsOpen(false)
+    if (href.startsWith('#')) {
+      const id = href.substring(1)
+      if (id === 'top' || !id) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        const el = document.getElementById(id)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+        }
+      }
+      return
+    }
+
     // Always scroll to top when navigating
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -104,42 +129,44 @@ export function Navbar() {
               </button>
             ))}
 
-            <div className="group relative">
-              <Link
-                href="/products"
-                className={cn(
-                  "relative text-sm font-medium py-1 cursor-pointer inline-flex items-center",
-                  "transition-colors duration-200 hover:text-brand-green",
-                  pathname.startsWith('/products') || pathname.startsWith('/brands')
-                    ? "text-brand-green font-bold"
-                    : "text-slate-600"
-                )}
-              >
-                Products
-                {(pathname.startsWith('/products') || pathname.startsWith('/brands')) && (
-                  <motion.span
-                    layoutId="nav-active-pill"
-                    className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-brand-green rounded-full"
-                    transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                  />
-                )}
-              </Link>
+            {!isSinglePage && (
+              <div className="group relative">
+                <Link
+                  href="/products"
+                  className={cn(
+                    "relative text-sm font-medium py-1 cursor-pointer inline-flex items-center",
+                    "transition-colors duration-200 hover:text-brand-green",
+                    pathname.startsWith('/products') || pathname.startsWith('/brands')
+                      ? "text-brand-green font-bold"
+                      : "text-slate-600"
+                  )}
+                >
+                  Products
+                  {(pathname.startsWith('/products') || pathname.startsWith('/brands')) && (
+                    <motion.span
+                      layoutId="nav-active-pill"
+                      className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-brand-green rounded-full"
+                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                    />
+                  )}
+                </Link>
 
-              <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
-                <div className="overflow-hidden rounded-[1.25rem] border border-slate-100 bg-white/96 p-1.5 shadow-[0_20px_50px_-22px_rgba(15,23,42,0.22)] backdrop-blur-xl">
-                  {brandLinks.map((brand) => (
-                    <Link
-                      key={brand.href}
-                      href={brand.href}
-                      className="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
-                    >
-                      <span>{brand.name}</span>
-                      <span className={cn("text-[10px] uppercase tracking-[0.28em]", brand.tone)}>{brand.name}</span>
-                    </Link>
-                  ))}
+                <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
+                  <div className="overflow-hidden rounded-[1.25rem] border border-slate-100 bg-white/96 p-1.5 shadow-[0_20px_50px_-22px_rgba(15,23,42,0.22)] backdrop-blur-xl">
+                    {brandLinks.map((brand) => (
+                      <Link
+                        key={brand.href}
+                        href={brand.href}
+                        className="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
+                      >
+                        <span>{brand.name}</span>
+                        <span className={cn("text-[10px] uppercase tracking-[0.28em]", brand.tone)}>{brand.name}</span>
+                      </Link>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
+            )}
 
             <Link
               href="https://wa.me/919705522020"
@@ -223,26 +250,28 @@ export function Navbar() {
                 </motion.div>
               ))}
 
-              <div className="mt-2 rounded-2xl border border-slate-100 bg-slate-50 p-2">
-                <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Brands</p>
-                <Link
-                  href="/products"
-                  onClick={() => setIsOpen(false)}
-                  className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-white"
-                >
-                  All Products
-                </Link>
-                {brandLinks.map((brand) => (
+              {!isSinglePage && (
+                <div className="mt-2 rounded-2xl border border-slate-100 bg-slate-50 p-2">
+                  <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Brands</p>
                   <Link
-                    key={brand.href}
-                    href={brand.href}
+                    href="/products"
                     onClick={() => setIsOpen(false)}
-                    className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white"
+                    className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-white"
                   >
-                    {brand.name}
+                    All Products
                   </Link>
-                ))}
-              </div>
+                  {brandLinks.map((brand) => (
+                    <Link
+                      key={brand.href}
+                      href={brand.href}
+                      onClick={() => setIsOpen(false)}
+                      className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white"
+                    >
+                      {brand.name}
+                    </Link>
+                  ))}
+                </div>
+              )}
 
               <motion.div
                 initial={{ opacity: 0, y: 6 }}

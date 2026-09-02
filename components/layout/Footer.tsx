@@ -7,8 +7,34 @@ import { Mail, Phone, MapPin } from 'lucide-react'
 export function Footer() {
   const pathname = usePathname()
   const router = useRouter()
+  const isSinglePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
 
   const handleInternalLink = (href: string) => {
+    if (isSinglePage) {
+      const anchorMap: Record<string, string> = {
+        '/': 'top',
+        '/about': 'about',
+        '/process': 'process',
+        '/products': 'products',
+        '/certifications': 'certifications',
+        '/contact': 'contact',
+        '/brands/juicera': 'products',
+        '/brands/fuzzy': 'products',
+      }
+      const targetId = anchorMap[href] || (href.startsWith('#') ? href.substring(1) : '')
+      if (targetId === 'top' || !targetId) {
+        window.scrollTo({ top: 0, behavior: 'smooth' })
+      } else {
+        const el = document.getElementById(targetId)
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth' })
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+        }
+      }
+      return
+    }
+
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {

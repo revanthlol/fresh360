@@ -105,7 +105,7 @@ function BrandCard({
   )
 }
 
-export function BrandStrip() {
+export function BrandStrip({ id = 'brands' }: { id?: string } = {}) {
   const sectionRef = useRef<HTMLElement>(null)
   const router = useRouter()
   const pathname = usePathname()
@@ -129,7 +129,7 @@ export function BrandStrip() {
   }
 
   return (
-    <section ref={sectionRef} className="relative overflow-hidden home-surface py-24 md:py-36">
+    <section id={id} ref={sectionRef} className="relative overflow-hidden home-surface py-24 md:py-36">
       <div className="absolute inset-0 pointer-events-none select-none opacity-[0.03]">
         <div className="absolute top-8 right-6 text-[20vw] font-black leading-none rotate-12">FRESH</div>
         <div className="absolute bottom-8 left-6 text-[20vw] font-black leading-none -rotate-12">360</div>
