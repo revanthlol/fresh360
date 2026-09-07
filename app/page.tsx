@@ -9,7 +9,6 @@ import { isSinglePageMode } from "@/lib/config";
 import { getProducts, getBrands } from "@/lib/sanity";
 import { SinglePageStory } from "@/components/shared/SinglePageStory";
 import { SinglePageProducts } from "@/components/product/SinglePageProducts";
-import { SinglePageCertifications } from "@/components/shared/SinglePageCertifications";
 import { SinglePageContact } from "@/components/shared/SinglePageContact";
 
 export default async function Home() {
@@ -41,16 +40,13 @@ export default async function Home() {
         {/* ACT 6 — Farm-to-Bottle Process */}
         <ProcessTeaser id="process" />
 
-        {/* ACT 7 — Food Safety & Certifications */}
-        <SinglePageCertifications id="certifications" />
-
-        {/* ACT 8 — Social proof */}
+        {/* ACT 7 — Social proof */}
         <TestimonialStrip />
 
-        {/* ACT 9 — Direct Contact & Inquiry */}
+        {/* ACT 8 — Direct Contact & Inquiry */}
         <SinglePageContact id="contact" />
 
-        {/* ACT 10 — Newsletter */}
+        {/* ACT 9 — Newsletter */}
         <NewsletterCTA />
       </div>
     );

@@ -3,6 +3,8 @@
 import React, { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 
+import { Logo } from '@/components/shared/Logo'
+
 export function LoadingScreen() {
   const [isVisible, setIsVisible] = useState(true)
   const [phase, setPhase] = useState<'loading' | 'exit'>('loading')
@@ -38,14 +40,13 @@ export function LoadingScreen() {
 
           {/* Content */}
           <div className="relative flex flex-col items-center gap-8">
-            {/* Wordmark */}
+            {/* Wordmark Logo */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-              className="text-4xl font-display font-extrabold tracking-tight text-slate-900 select-none"
             >
-              Fresh<span className="text-brand-green">360</span>
+              <Logo size="lg" variant="light" />
             </motion.div>
 
             {/* Tagline */}

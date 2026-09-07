@@ -35,6 +35,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
 
   const brandColors: Record<string, string> = {
     juicera: 'text-brand-green bg-brand-green-light',
+    fruizy: 'text-brand-teal bg-brand-teal-light',
     fuzzy: 'text-brand-teal bg-brand-teal-light',
     refrizz: 'text-brand-orange bg-brand-orange-light',
   }

@@ -19,6 +19,10 @@ export function HeroSection() {
   const imageScale = useTransform(scrollYProgress, [0, 0.8], [1, 1.1])
   const imageY = useTransform(scrollYProgress, [0, 1], [0, 60])
 
+  const isSinglePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
+  const productsTarget = isSinglePage ? '#products' : '/products'
+  const contactTarget = isSinglePage ? '#contact' : '/contact'
+
   return (
     <section
       ref={containerRef}
@@ -49,15 +53,20 @@ export function HeroSection() {
               <span className="text-brand-green">Purest</span> Essence.
             </motion.h1>
 
-            {/* Body */}
-            <motion.p
+            {/* Body with expanded lines */}
+            <motion.div
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.7, delay: 0.42, ease: [0.22, 1, 0.36, 1] }}
-              className="text-lg sm:text-xl text-slate-500 max-w-lg mx-auto lg:mx-0 leading-relaxed"
+              className="space-y-3 max-w-xl mx-auto lg:mx-0"
             >
-              Your Partner in Fresh Beverage Needs. 100% cold-pressed vibrancy with 0 added sugar and no preservatives.
-            </motion.p>
+              <p className="text-lg sm:text-xl text-slate-800 font-medium leading-relaxed">
+                Your dedicated partner in fresh, honest beverage craftsmanship.
+              </p>
+              <p className="text-sm sm:text-base text-slate-500 leading-relaxed">
+                From raw cold-pressed functional juices to naturally sparkling fruit drinks and nostalgic Indian goli sodas. Sourced directly from local orchards, with No Added Sugar, zero chemical preservatives, and 360° quality in every bottle.
+              </p>
+            </motion.div>
 
             {/* CTAs */}
             <motion.div
@@ -67,17 +76,29 @@ export function HeroSection() {
               className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2"
             >
               <Link
-                href="/products"
-                className="w-full sm:w-auto group bg-slate-900 text-white px-8 py-5 rounded-full font-bold text-lg flex items-center justify-center gap-3 transition-all hover:bg-brand-green hover:text-slate-900 hover:scale-[1.05] active:scale-[0.97] shadow-xl shadow-slate-900/10"
+                href={productsTarget}
+                onClick={(e) => {
+                  if (isSinglePage) {
+                    e.preventDefault()
+                    document.getElementById('products')?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                }}
+                className="w-full sm:w-auto group bg-slate-900 text-white px-8 py-5 rounded-full font-bold text-base sm:text-lg flex items-center justify-center gap-3 transition-all hover:bg-brand-green hover:text-slate-900 hover:scale-[1.05] active:scale-[0.97] shadow-xl shadow-slate-900/10"
               >
-                Shop Now
+                Explore Collection
                 <ArrowRight className="group-hover:translate-x-1 transition-transform" size={20} />
               </Link>
               <Link
-                href="/contact"
-                className="w-full sm:w-auto group bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(241,249,241,0.96))] text-slate-900 border border-emerald-100 px-8 py-5 rounded-full font-bold text-lg hover:shadow-lg hover:shadow-brand-green/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
+                href={contactTarget}
+                onClick={(e) => {
+                  if (isSinglePage) {
+                    e.preventDefault()
+                    document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
+                  }
+                }}
+                className="w-full sm:w-auto group bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(241,249,241,0.96))] text-slate-900 border border-emerald-100 px-8 py-5 rounded-full font-bold text-base sm:text-lg hover:shadow-lg hover:shadow-brand-green/10 transition-all flex items-center justify-center gap-3 active:scale-[0.97]"
               >
-                Wholesale
+                Get in Touch
                 <Droplets size={20} className="text-brand-green" />
               </Link>
             </motion.div>
@@ -96,15 +117,15 @@ export function HeroSection() {
                   </div>
                 ))}
               </div>
-              <p className="text-slate-400 text-xs font-bold tracking-wide">Loved by 2k+ juice enthusiasts</p>
+              <p className="text-slate-500 text-xs font-bold tracking-wide">Trusted by 2,000+ conscious beverage lovers</p>
             </motion.div>
           </motion.div>
 
           {/* ── RIGHT SIDE: CURVED FRAME IMAGE ── */}
           <div className="flex items-center justify-center">
             <CurvedImageFrame
-              src="/fresh360-3_4.png"
-              alt="Fresh 360 Premium Cold-Pressed Juice"
+              src="/classic_goli_soda_hero.jpg"
+              alt="Fresh 360 Degrees Foods - Classic Goli Soda & Cold-Pressed Beverage Lineup"
               priority
               initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}

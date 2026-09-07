@@ -33,7 +33,7 @@ export default function AboutPage() {
     <div className="home-page min-h-screen overflow-hidden">
       <PageHeader 
         title="Our Story"
-        subtitle="Freshness. From every angle."
+        subtitle="Pure Refreshment. Crafted Without Compromise."
       />
 
       {/* The Hook Section */}

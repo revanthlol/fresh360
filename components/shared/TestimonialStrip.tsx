@@ -7,22 +7,22 @@ import { Star, Quote } from 'lucide-react'
 const testimonials = [
   {
     name: "Rahul Sharma",
-    location: "Bangalore",
-    text: "Juicera's Elixir is my go-to post-workout drink. The ginger and lemon kick is exactly what I need to refresh and recharge.",
+    role: "Fitness Club Lead, Hyderabad",
+    text: "Juicera’s cold-pressed Elixir and Citrovit are absolute staples for our wellness community. Fresh, crisp fruit with No Added Sugar and zero synthetic aftertaste.",
     rating: 5,
     brand: "Juicera",
   },
   {
-    name: "Priya V.",
-    location: "Mumbai",
-    text: "Fuzzy is the perfect alternative to sugary sodas. It feels light and actually tastes like real fruit because it IS real fruit!",
+    name: "Priya Verma",
+    role: "Artisan Cafe Curator, Secunderabad",
+    text: "Fruizy fills an essential demand for guests wanting refreshing sparkle without artificial chemical syrups. Real fruit juice base with clean natural carbonation.",
     rating: 5,
-    brand: "Fuzzy",
+    brand: "Fruizy",
   },
   {
-    name: "Anand K.",
-    location: "Chennai",
-    text: "Refrizz brings back childhood memories of goli soda but with a premium twist. Clean, fizzy, and absolutely fun.",
+    name: "Anand Kumar",
+    role: "Beverage Retailer, Bangalore",
+    text: "Refrizz captures the nostalgia of classic Indian goli soda with sterile, reliable bottling quality. That marble pop is timeless fun for all ages.",
     rating: 5,
     brand: "Refrizz",
   },
@@ -30,6 +30,7 @@ const testimonials = [
 
 const brandColorMap: Record<string, string> = {
   Juicera: 'bg-brand-green/10 text-brand-green',
+  Fruizy: 'bg-brand-teal/10 text-brand-teal',
   Fuzzy: 'bg-brand-teal/10 text-brand-teal',
   Refrizz: 'bg-brand-orange/10 text-brand-orange',
 }
@@ -46,10 +47,10 @@ export function TestimonialStrip() {
           transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-2xl mx-auto text-center mb-20 space-y-4"
         >
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Testimonials</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Community & Partner Voices</span>
           <h2 className="text-4xl md:text-5xl text-display text-slate-900">
-            What our drinkers{' '}
-            <span className="font-accent text-slate-500">say.</span>
+            Real experiences with{' '}
+            <span className="font-accent text-slate-500">pure refreshment.</span>
           </h2>
         </motion.div>
 
@@ -95,7 +96,7 @@ export function TestimonialStrip() {
                 </div>
                 <div>
                   <h4 className="font-bold text-sm text-slate-900">{t.name}</h4>
-                  <p className="text-slate-400 text-xs">{t.location}</p>
+                  <p className="text-slate-400 text-xs">{t.role}</p>
                 </div>
               </div>
             </motion.div>

@@ -6,6 +6,7 @@ import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
 import { Menu, X, MessageCircle } from 'lucide-react'
 import { cn } from '@/lib/utils'
+import { Logo } from '@/components/shared/Logo'
 
 const defaultNavLinks = [
   { name: 'Home', href: '/' },
@@ -20,13 +21,12 @@ const singlePageNavLinks = [
   { name: 'Brands', href: '#brands' },
   { name: 'Products', href: '#products' },
   { name: 'Process', href: '#process' },
-  { name: 'Certifications', href: '#certifications' },
   { name: 'Contact', href: '#contact' },
 ]
 
 const brandLinks = [
   { name: 'Juicera', href: '/brands/juicera', tone: 'text-brand-green' },
-  { name: 'Fuzzy', href: '/brands/fuzzy', tone: 'text-brand-teal' },
+  { name: 'Fruizy', href: '/brands/fruizy', tone: 'text-brand-teal' },
 ]
 
 export function Navbar() {
@@ -96,12 +96,10 @@ export function Navbar() {
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           {/* Logo */}
           <button
-            onClick={() => handleNavClick('/')}
+            onClick={() => handleNavClick(isSinglePage ? '#top' : '/')}
             className="flex items-center cursor-pointer group"
           >
-            <span className="font-display font-extrabold text-3xl tracking-tight leading-none text-slate-900 transition-opacity duration-200 group-hover:opacity-80">
-              Fresh<span className="text-brand-green">360</span>
-            </span>
+            <Logo size="md" variant="light" />
           </button>
 
           {/* Desktop Nav */}

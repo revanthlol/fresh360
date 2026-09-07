@@ -17,8 +17,8 @@ const features = [
   {
     icon: Zap,
     kicker: 'What We Leave Out',
-    headline: 'Zero Sugar.',
-    sub: "Not 'low sugar'. Not 'no added sugar syrup'. Zero. The only sweetness comes straight from the fruit itself.",
+    headline: 'No Added Sugar.',
+    sub: "No refined sugar, high-fructose syrups, or synthetic sweeteners. The only sweetness comes naturally from whole, ripe fruit.",
     color: 'text-brand-teal',
     accent: 'bg-brand-teal',
     light: 'bg-brand-teal/5',

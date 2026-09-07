@@ -16,6 +16,7 @@ interface ProductCardProps {
 export function ProductCard({ product, className }: ProductCardProps) {
   const brandColors = {
     juicera: 'text-brand-green bg-brand-green-light',
+    fruizy: 'text-brand-teal bg-brand-teal-light',
     fuzzy: 'text-brand-teal bg-brand-teal-light',
     refrizz: 'text-brand-orange bg-brand-orange-light',
   }

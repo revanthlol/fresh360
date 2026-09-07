@@ -3,6 +3,7 @@ import React from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { Mail, Phone, MapPin } from 'lucide-react'
+import { Logo } from '@/components/shared/Logo'
 
 export function Footer() {
   const pathname = usePathname()
@@ -16,10 +17,10 @@ export function Footer() {
         '/about': 'about',
         '/process': 'process',
         '/products': 'products',
-        '/certifications': 'certifications',
         '/contact': 'contact',
-        '/brands/juicera': 'products',
-        '/brands/fuzzy': 'products',
+        '/brands/juicera': 'brands',
+        '/brands/fruizy': 'brands',
+        '/brands/fuzzy': 'brands',
       }
       const targetId = anchorMap[href] || (href.startsWith('#') ? href.substring(1) : '')
       if (targetId === 'top' || !targetId) {
@@ -81,13 +82,11 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 lg:gap-12">
           {/* Brand Column */}
           <div className="space-y-8">
-            <button onClick={() => handleInternalLink('/')} className="flex items-center group cursor-pointer">
-              <span className="font-display font-extrabold text-4xl tracking-tight leading-none text-white transition-opacity duration-200 group-hover:opacity-80">
-                Fresh<span className="text-brand-green">360</span>
-              </span>
+            <button onClick={() => handleInternalLink(isSinglePage ? '#top' : '/')} className="flex items-center group cursor-pointer">
+              <Logo variant="dark" size="md" />
             </button>
             <p className="text-white/50 text-base leading-relaxed max-w-xs">
-              Crafting nature&apos;s purest flavors into premium cold-pressed experiences. No preservatives, no added sugar—just 100% natural goodness delivered to your doorstep.
+              Crafting nature&apos;s purest flavors into premium cold-pressed experiences. No chemical preservatives, No Added Sugar—just 100% natural goodness crafted for everyday vitality.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social, i) => (
@@ -117,7 +116,6 @@ export function Footer() {
                 { name: 'Our Story', href: '/about' },
                 { name: 'The Process', href: '/process' },
                 { name: 'Product List', href: '/products' },
-                { name: 'Certifications', href: '/certifications' },
                 { name: 'Contact Us', href: '/contact' },
               ].map((link) => (
                 <li key={link.name}>
@@ -142,7 +140,7 @@ export function Footer() {
             <ul className="space-y-4">
               {[
                 { name: 'Juicera (Pure Cold Pressed)', href: '/brands/juicera' },
-                { name: 'Fuzzy (Goli Soda with Juice)', href: '/brands/fuzzy' },
+                { name: 'Fruizy (Cold Pressed + Sparkle)', href: '/brands/fruizy' },
               ].map((brand) => (
                 <li key={brand.name}>
                   <button

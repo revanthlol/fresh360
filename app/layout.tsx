@@ -44,14 +44,14 @@ export const metadata: Metadata = {
     default: "Fresh 360 | Premium Cold-Pressed Juices & Natural Beverages",
     template: "%s | Fresh 360",
   },
-  description: "Experience the pure taste of nature with Fresh 360 Degrees Foods LLP. Premium cold-pressed juices, sparkling fruit beverages, and natural refreshments with zero preservatives and zero added sugar.",
+  description: "Experience the pure taste of nature with Fresh 360 Degrees Foods LLP. Premium cold-pressed juices, sparkling fruit beverages, and natural refreshments with no preservatives and No Added Sugar.",
   keywords: [
     "cold-pressed juice", 
     "natural beverages", 
     "fresh juice", 
     "healthy drinks", 
     "Juicera", 
-    "Fuzzy", 
+    "Fruizy", 
     "Hyderabad juice company",
     "cold pressed nut milk",
     "goli soda Hyderabad"
@@ -65,7 +65,7 @@ export const metadata: Metadata = {
     url: baseUrl,
     siteName: "Fresh 360",
     title: "Fresh 360 | Pure, Cold-Pressed, Natural",
-    description: "Experience the pure taste of nature with premium cold-pressed juices and natural beverages. Zero preservatives, zero added sugar.",
+    description: "Experience the pure taste of nature with premium cold-pressed juices and natural beverages. No preservatives, No Added Sugar.",
     images: [
       {
         url: "/fresh360-3_4.png",
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Fresh 360 | Pure Natural Beverages",
-    description: "Zero preservatives. Zero added sugar. 100% natural cold-pressed juices.",
+    description: "No preservatives. No Added Sugar. 100% natural cold-pressed juices.",
     images: ["/fresh360-3_4.png"],
   },
   robots: {

@@ -9,11 +9,11 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
     {
       icon: <Leaf className="w-6 h-6 text-brand-green" />,
       title: "100% Honest Fruit",
-      desc: "Zero added sugar, zero artificial syrups, and no synthetic concentrates. Just farm-fresh fruit."
+      desc: "No Added Sugar, zero artificial syrups, and no synthetic concentrates. Just farm-fresh fruit."
     },
     {
       icon: <ShieldCheck className="w-6 h-6 text-brand-teal" />,
-      title: "Cold-Pressed Purity",
+      title: "Cold-Pressed Integrity",
       desc: "Hydraulic cold-pressing retains essential living enzymes, vitamins, and natural crisp flavors."
     },
     {
@@ -23,7 +23,7 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
     },
     {
       icon: <Award className="w-6 h-6 text-brand-orange" />,
-      title: "Food Safety First",
+      title: "Clean Craftsmanship",
       desc: "Strict cleanroom processing, certified standards, and complete hygiene from farm to bottle."
     }
   ]
@@ -39,7 +39,7 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
             </div>
             
             <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
-              Freshness from <span className="text-brand-green italic font-accent">every single angle.</span>
+              Pure Refreshment, <span className="text-brand-green italic font-accent">Crafted Without Compromise.</span>
             </h2>
 
             <p className="text-lg text-slate-600 leading-relaxed font-sans">

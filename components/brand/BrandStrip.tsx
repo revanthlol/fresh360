@@ -9,8 +9,8 @@ import { cn } from '@/lib/utils'
 const brands = [
   {
     name: 'Juicera',
-    tagline: '100% Pure. Cold-Pressed.',
-    desc: 'Juicera is 100% pure cold-pressed juice. Nature in its most potent form, with zero sugar, no preservatives, and absolutely no artificial colors.',
+    tagline: '100% Raw Cold-Pressed Juices.',
+    desc: 'Juicera is 100% pure cold-pressed juice. Nature in its most potent form, with No Added Sugar, no chemical preservatives, and absolutely no artificial colours.',
     colorClass: 'text-brand-green',
     badgeClass: 'bg-brand-green/10 text-brand-green border-brand-green/20',
     hoverClass: 'group-hover:bg-brand-green/10',
@@ -18,14 +18,14 @@ const brands = [
     href: '/brands/juicera',
   },
   {
-    name: 'Fuzzy',
-    tagline: 'Goli Soda Meets Cold-Pressed.',
-    desc: 'Fuzzy blends classic goli soda energy with pure cold-pressed juice for a natural fizzy finish that still feels playful and premium.',
+    name: 'Fruizy',
+    tagline: 'Cold-Pressed Juice Meets Natural Sparkle.',
+    desc: 'Fruizy blends real cold-pressed fruit extracts with sparkling natural carbonation. A cleaner, better-for-you fizzy beverage with No Added Sugar and zero synthetic additives.',
     colorClass: 'text-brand-teal',
     badgeClass: 'bg-brand-teal/10 text-brand-teal border-brand-teal/20',
     hoverClass: 'group-hover:bg-brand-teal/10',
     glowClass: 'bg-brand-teal',
-    href: '/brands/fuzzy',
+    href: '/brands/fruizy',
   },
 ]
 

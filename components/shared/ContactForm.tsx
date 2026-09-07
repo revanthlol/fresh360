@@ -93,7 +93,7 @@ export function ContactForm() {
             defaultValue="Juicera"
             options={[
               { value: "Juicera", label: "Juicera (100% Pure Cold-Pressed)" },
-              { value: "Fuzzy", label: "Fuzzy (Goli Soda + Juice)" },
+              { value: "Fruizy", label: "Fruizy (Cold-Pressed + Sparkle)" },
               { value: "Both", label: "Interested in Both" },
               { value: "General", label: "General Inquiry / Other" }
             ]}

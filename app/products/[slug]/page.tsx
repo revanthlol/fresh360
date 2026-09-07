@@ -20,6 +20,7 @@ export default async function ProductDetailPage({
 
   const brandColors = {
     juicera: 'from-brand-green/20 to-brand-green/5 text-brand-green border-brand-green/20',
+    fruizy: 'from-brand-teal/20 to-brand-teal/5 text-brand-teal border-brand-teal/20',
     fuzzy: 'from-brand-teal/20 to-brand-teal/5 text-brand-teal border-brand-teal/20',
   }
 

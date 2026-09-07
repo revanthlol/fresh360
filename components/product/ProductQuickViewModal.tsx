@@ -39,6 +39,11 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
       text: 'text-brand-green',
       border: 'border-emerald-200',
     },
+    fruizy: {
+      bg: 'bg-teal-50 text-teal-700',
+      text: 'text-brand-teal',
+      border: 'border-teal-200',
+    },
     fuzzy: {
       bg: 'bg-teal-50 text-teal-700',
       text: 'text-brand-teal',
@@ -128,7 +133,7 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                     </span>
                     <span className="text-slate-300">•</span>
                     <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
-                      <ShieldCheck size={14} /> 100% Pure & Fresh
+                      <ShieldCheck size={14} /> No Added Sugar
                     </span>
                   </div>
 
