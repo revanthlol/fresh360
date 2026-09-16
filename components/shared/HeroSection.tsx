@@ -122,16 +122,16 @@ export function HeroSection() {
           </motion.div>
 
           {/* ── RIGHT SIDE: CURVED FRAME IMAGE ── */}
-          <div className="flex items-center justify-center">
+          <div className="flex items-center justify-center w-full">
             <CurvedImageFrame
               src="/images/landing.jpeg"
               alt="Fresh 360 Degrees Foods - Classic Goli Soda & Cold-Pressed Beverage Lineup"
               priority
-              initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
+              initial={{ opacity: 0, scale: 0.95, rotate: 1 }}
               animate={{ opacity: 1, scale: 1, rotate: 0 }}
               transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1], delay: 0.3 }}
               style={{ y: imageY, scale: imageScale }}
-              className="w-full max-w-[480px] lg:max-w-lg aspect-[3/4] shadow-[0_48px_80px_-16px_rgba(0,0,0,0.15)]"
+              className="w-full max-w-lg lg:max-w-xl aspect-[1600/1067] shadow-[0_48px_80px_-16px_rgba(0,0,0,0.15)]"
               rounded="rounded-[2.5rem]"
             />
           </div>

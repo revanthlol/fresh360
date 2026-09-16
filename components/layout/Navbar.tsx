@@ -154,8 +154,8 @@ export function Navbar() {
             "pointer-events-auto relative flex items-center justify-between w-full max-w-5xl px-3.5 sm:px-5 py-2 sm:py-2.5",
             "rounded-2xl transition-all duration-500 ease-out",
             isScrolled
-              ? "bg-white/80 backdrop-blur-2xl [backdrop-filter:blur(24px)_saturate(160%)] border border-slate-200/80 shadow-2xl shadow-emerald-950/[0.08]"
-              : "bg-white/45 backdrop-blur-xl [backdrop-filter:blur(16px)_saturate(130%)] border border-white/70 shadow-lg shadow-black/[0.02] hover:bg-white/60"
+              ? "bg-white/85 backdrop-blur-2xl [backdrop-filter:blur(24px)_saturate(160%)] border border-slate-200/80 shadow-2xl shadow-emerald-950/[0.08]"
+              : "bg-transparent border border-transparent shadow-none"
           )}
         >
           {/* Left: Logo */}
@@ -168,7 +168,12 @@ export function Navbar() {
           </button>
 
           {/* Center: Desktop Segmented Control Links */}
-          <div className="hidden md:flex items-center gap-1 bg-slate-900/[0.04] p-1 rounded-xl border border-slate-900/[0.05] relative">
+          <div className={cn(
+            "hidden md:flex items-center gap-1 p-1 rounded-xl transition-all duration-300 relative",
+            isScrolled
+              ? "bg-slate-900/[0.04] border border-slate-900/[0.05]"
+              : "bg-slate-900/[0.03] border border-transparent"
+          )}>
             {navLinks.map((link) => {
               const isActive = checkIsActive(link.href)
               return (
