@@ -1,27 +1,44 @@
 "use client"
 
-import React, { useState, useSyncExternalStore } from 'react'
+import React, { useState, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
-import { Menu, X, MessageCircle } from 'lucide-react'
+import { 
+  Menu, 
+  X, 
+  MessageCircle, 
+  Home, 
+  Info, 
+  Sparkles, 
+  Package, 
+  RefreshCw, 
+  Mail,
+  ChevronRight
+} from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { Logo } from '@/components/shared/Logo'
 
-const defaultNavLinks = [
-  { name: 'Home', href: '/' },
-  { name: 'About', href: '/about' },
-  { name: 'Process', href: '/process' },
-  { name: 'Contact', href: '/contact' },
+interface NavItem {
+  name: string
+  href: string
+  icon: React.ElementType
+}
+
+const defaultNavLinks: NavItem[] = [
+  { name: 'Home', href: '/', icon: Home },
+  { name: 'About', href: '/about', icon: Info },
+  { name: 'Process', href: '/process', icon: RefreshCw },
+  { name: 'Contact', href: '/contact', icon: Mail },
 ]
 
-const singlePageNavLinks = [
-  { name: 'Home', href: '#top' },
-  { name: 'About', href: '#about' },
-  { name: 'Brands', href: '#brands' },
-  { name: 'Products', href: '#products' },
-  { name: 'Process', href: '#process' },
-  { name: 'Contact', href: '#contact' },
+const singlePageNavLinks: NavItem[] = [
+  { name: 'Home', href: '#top', icon: Home },
+  { name: 'About', href: '#about', icon: Info },
+  { name: 'Brands', href: '#brands', icon: Sparkles },
+  { name: 'Products', href: '#products', icon: Package },
+  { name: 'Process', href: '#process', icon: RefreshCw },
+  { name: 'Contact', href: '#contact', icon: Mail },
 ]
 
 const brandLinks = [
@@ -31,13 +48,14 @@ const brandLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [activeSection, setActiveSection] = useState<string>('#top')
   const pathname = usePathname()
   const router = useRouter()
   const isSinglePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
   const navLinks = isSinglePage ? singlePageNavLinks : defaultNavLinks
 
   const getScrollSnapshot = () => (typeof window === 'undefined' ? false : window.scrollY > 20)
-  const scrolled = useSyncExternalStore(
+  const isScrolled = useSyncExternalStore(
     (onStoreChange) => {
       if (typeof window === 'undefined') return () => {}
       window.addEventListener('scroll', onStoreChange, { passive: true })
@@ -47,8 +65,40 @@ export function Navbar() {
     () => false
   )
 
-  // Lock body scroll when menu is open
-  React.useEffect(() => {
+  // Track active section for single-page scrolling
+  useEffect(() => {
+    if (!isSinglePage) return
+
+    const sectionIds = ['contact', 'process', 'products', 'brands', 'about', 'top']
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + 200
+
+      if (window.scrollY < 120) {
+        setActiveSection('#top')
+        return
+      }
+
+      for (const id of sectionIds) {
+        if (id === 'top') continue
+        const element = document.getElementById(id)
+        if (element) {
+          const top = element.offsetTop
+          const height = element.offsetHeight
+          if (scrollPosition >= top && scrollPosition < top + height) {
+            setActiveSection(`#${id}`)
+            return
+          }
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    handleScroll()
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [isSinglePage])
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden'
     } else {
@@ -57,9 +107,15 @@ export function Navbar() {
     return () => { document.body.style.overflow = '' }
   }, [isOpen])
 
+  // Close menu on route change
+  useEffect(() => {
+    setIsOpen(false)
+  }, [pathname])
+
   const handleNavClick = (href: string) => {
     setIsOpen(false)
     if (href.startsWith('#')) {
+      setActiveSection(href)
       const id = href.substring(1)
       if (id === 'top' || !id) {
         window.scrollTo({ top: 0, behavior: 'smooth' })
@@ -72,7 +128,6 @@ export function Navbar() {
       return
     }
 
-    // Always scroll to top when navigating
     if (pathname === href) {
       window.scrollTo({ top: 0, behavior: 'smooth' })
     } else {
@@ -81,187 +136,195 @@ export function Navbar() {
     }
   }
 
+  const checkIsActive = (href: string) => {
+    if (isSinglePage) {
+      return activeSection === href
+    }
+    return pathname === href
+  }
+
   return (
     <>
-      <header
-        suppressHydrationWarning
-        className="fixed top-0 left-0 right-0 z-50 px-3 sm:px-6 lg:px-8 pt-3 sm:pt-4 md:pt-5 transition-all duration-300 pointer-events-none"
-      >
-        <div className="max-w-7xl mx-auto relative">
-          <nav
-            aria-label="Main Navigation"
-            className={cn(
-              "relative rounded-full transition-all duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-auto",
-              "flex items-center justify-between px-4 sm:px-6 md:px-7 py-2.5 sm:py-3",
-              // Premium Frosted Glass Effect
-              scrolled
-                ? "bg-white/85 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_16px_40px_-10px_rgba(15,23,42,0.12),0_1px_3px_0_rgba(0,0,0,0.04)] border border-white/80 ring-1 ring-slate-900/[0.05]"
-                : "bg-white/65 backdrop-blur-xl backdrop-saturate-125 shadow-[0_10px_30px_-8px_rgba(15,23,42,0.06)] border border-white/75 hover:bg-white/75 ring-1 ring-white/50"
-            )}
+      <header className="fixed top-0 left-0 right-0 z-[1500] flex justify-center p-3 sm:p-4 pointer-events-none">
+        <motion.nav
+          initial={{ y: -80, opacity: 0 }}
+          animate={{ y: 0, opacity: 1 }}
+          transition={{ duration: 0.5, type: 'spring', damping: 22 }}
+          className={cn(
+            "pointer-events-auto relative flex items-center justify-between w-full max-w-5xl px-3.5 sm:px-5 py-2 sm:py-2.5",
+            "rounded-2xl transition-all duration-500 ease-out",
+            isScrolled
+              ? "bg-white/80 backdrop-blur-2xl [backdrop-filter:blur(24px)_saturate(160%)] border border-slate-200/80 shadow-2xl shadow-emerald-950/[0.08]"
+              : "bg-white/45 backdrop-blur-xl [backdrop-filter:blur(16px)_saturate(130%)] border border-white/70 shadow-lg shadow-black/[0.02] hover:bg-white/60"
+          )}
+        >
+          {/* Left: Logo */}
+          <button
+            onClick={() => handleNavClick(isSinglePage ? '#top' : '/')}
+            className="flex items-center cursor-pointer group shrink-0"
+            aria-label="Fresh 360 Degrees Foods"
           >
-            {/* Logo */}
-            <button
-              onClick={() => handleNavClick(isSinglePage ? '#top' : '/')}
-              className="flex items-center cursor-pointer group shrink-0"
-              aria-label="Fresh 360 Home"
-            >
-              <Logo size="md" variant="light" />
-            </button>
+            <Logo size="sm" variant="light" />
+          </button>
 
-            {/* Desktop Nav */}
-            <div className="hidden md:flex items-center gap-1.5 lg:gap-2">
-              {navLinks.map((link) => (
+          {/* Center: Desktop Segmented Control Links */}
+          <div className="hidden md:flex items-center gap-1 bg-slate-900/[0.04] p-1 rounded-xl border border-slate-900/[0.05] relative">
+            {navLinks.map((link) => {
+              const isActive = checkIsActive(link.href)
+              return (
                 <button
                   key={link.href}
                   onClick={() => handleNavClick(link.href)}
                   className={cn(
-                    "relative text-sm font-semibold px-3.5 py-1.5 rounded-full cursor-pointer",
-                    "transition-all duration-200",
-                    pathname === link.href
-                      ? "text-brand-green bg-emerald-500/10"
-                      : "text-slate-700 hover:text-brand-green hover:bg-slate-900/[0.04]"
+                    "relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors duration-200 z-10 cursor-pointer",
+                    isActive ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
                   )}
                 >
-                  {link.name}
-                  {pathname === link.href && (
-                    <motion.span
-                      layoutId="nav-active-pill"
-                      className="absolute bottom-1 left-3 right-3 h-0.5 bg-brand-green rounded-full"
-                      transition={{ type: "spring", stiffness: 400, damping: 32 }}
+                  {isActive && (
+                    <motion.div
+                      layoutId="navbar-active-pill"
+                      className="absolute inset-0 bg-white rounded-lg border border-slate-200/90 shadow-sm"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
                     />
                   )}
+                  <span className="relative z-10">{link.name}</span>
                 </button>
-              ))}
+              )
+            })}
 
-              {!isSinglePage && (
-                <div className="group relative">
-                  <Link
-                    href="/products"
-                    className={cn(
-                      "relative text-sm font-semibold px-3.5 py-1.5 rounded-full cursor-pointer inline-flex items-center",
-                      "transition-all duration-200",
-                      pathname.startsWith('/products') || pathname.startsWith('/brands')
-                        ? "text-brand-green bg-emerald-500/10"
-                        : "text-slate-700 hover:text-brand-green hover:bg-slate-900/[0.04]"
-                    )}
-                  >
-                    Products
-                    {(pathname.startsWith('/products') || pathname.startsWith('/brands')) && (
-                      <motion.span
-                        layoutId="nav-active-pill"
-                        className="absolute bottom-1 left-3 right-3 h-0.5 bg-brand-green rounded-full"
-                        transition={{ type: "spring", stiffness: 400, damping: 32 }}
-                      />
-                    )}
-                  </Link>
-
-                  <div className="invisible absolute left-1/2 top-full z-50 w-72 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
-                    <div className="overflow-hidden rounded-[1.25rem] border border-white/80 bg-white/95 p-1.5 shadow-[0_20px_50px_-22px_rgba(15,23,42,0.22)] backdrop-blur-2xl ring-1 ring-slate-900/[0.05]">
-                      {brandLinks.map((brand) => (
-                        <Link
-                          key={brand.href}
-                          href={brand.href}
-                          className="flex items-center justify-between rounded-2xl px-4 py-3 text-sm font-semibold text-slate-900 transition-colors hover:bg-slate-50"
-                        >
-                          <span>{brand.name}</span>
-                          <span className={cn("text-[10px] uppercase tracking-[0.28em]", brand.tone)}>{brand.name}</span>
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-              <div className="pl-2">
+            {!isSinglePage && (
+              <div className="group relative">
                 <Link
-                  href="https://wa.me/919705522020"
-                  target="_blank"
-                  rel="noopener noreferrer"
+                  href="/products"
                   className={cn(
-                    "bg-gradient-to-r from-brand-green to-emerald-600 text-white px-5 py-2 rounded-full text-sm font-bold",
-                    "flex items-center gap-2 shadow-md shadow-brand-green/20",
-                    "transition-all duration-200 hover:shadow-lg hover:shadow-brand-green/30 hover:scale-[1.03] active:scale-[0.97]"
+                    "relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors duration-200 z-10 inline-flex items-center",
+                    pathname.startsWith('/products') || pathname.startsWith('/brands')
+                      ? "text-slate-900"
+                      : "text-slate-600 hover:text-slate-900"
                   )}
                 >
-                  <MessageCircle size={16} />
-                  Chat Now
+                  {(pathname.startsWith('/products') || pathname.startsWith('/brands')) && (
+                    <motion.div
+                      layoutId="navbar-active-pill"
+                      className="absolute inset-0 bg-white rounded-lg border border-slate-200/90 shadow-sm"
+                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                    />
+                  )}
+                  <span className="relative z-10">Products</span>
                 </Link>
-              </div>
-            </div>
 
-            {/* Mobile Toggle */}
+                <div className="invisible absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
+                  <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-1.5 shadow-2xl backdrop-blur-2xl">
+                    {brandLinks.map((brand) => (
+                      <Link
+                        key={brand.href}
+                        href={brand.href}
+                        className="flex items-center justify-between rounded-xl px-3.5 py-2.5 text-xs font-bold text-slate-800 transition-colors hover:bg-slate-50"
+                      >
+                        <span>{brand.name}</span>
+                        <span className={cn("text-[9px] uppercase tracking-[0.25em]", brand.tone)}>{brand.name}</span>
+                      </Link>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Right: Actions */}
+          <div className="flex items-center gap-2">
+            <Link
+              href="https://wa.me/919705522020"
+              target="_blank"
+              rel="noopener noreferrer"
+              className={cn(
+                "hidden sm:flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-xl",
+                "bg-brand-green text-white hover:bg-brand-green/90",
+                "shadow-md shadow-brand-green/25 hover:shadow-lg hover:shadow-brand-green/35",
+                "transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+              )}
+            >
+              <MessageCircle size={15} />
+              <span>Chat Now</span>
+            </Link>
+
+            {/* Mobile Menu Toggle */}
             <button
-              className="md:hidden p-2 rounded-full text-slate-800 hover:bg-black/5 transition-colors duration-150 cursor-pointer"
-              onClick={() => setIsOpen((prev) => !prev)}
+              onClick={() => setIsOpen(!isOpen)}
+              className="p-2 md:hidden rounded-xl border border-slate-200/80 bg-white/60 text-slate-800 hover:bg-white hover:text-brand-green transition-colors cursor-pointer"
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
             >
-              <AnimatePresence mode="wait" initial={false}>
-                {isOpen ? (
-                  <motion.span
-                    key="close"
-                    initial={{ rotate: -90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: 90, opacity: 0 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="block"
-                  >
-                    <X size={22} />
-                  </motion.span>
-                ) : (
-                  <motion.span
-                    key="open"
-                    initial={{ rotate: 90, opacity: 0 }}
-                    animate={{ rotate: 0, opacity: 1 }}
-                    exit={{ rotate: -90, opacity: 0 }}
-                    transition={{ duration: 0.15, ease: "easeOut" }}
-                    className="block"
-                  >
-                    <Menu size={22} />
-                  </motion.span>
-                )}
-              </AnimatePresence>
+              {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
             </button>
-          </nav>
+          </div>
+        </motion.nav>
+      </header>
 
-          {/* Floating Mobile Dropdown */}
-          <AnimatePresence>
-            {isOpen && (
-              <motion.div
-                initial={{ opacity: 0, y: -8, scale: 0.98 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                exit={{ opacity: 0, y: -8, scale: 0.98 }}
-                transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
-                className="pointer-events-auto absolute top-full left-0 right-0 mt-2.5 bg-white/95 backdrop-blur-2xl backdrop-saturate-150 border border-white/80 rounded-3xl p-4 flex flex-col gap-1 md:hidden shadow-[0_24px_50px_-12px_rgba(15,23,42,0.18)] ring-1 ring-slate-900/[0.05]"
-              >
-                {navLinks.map((link, i) => (
-                  <motion.div
-                    key={link.href}
-                    initial={{ opacity: 0, x: -10 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: i * 0.04, duration: 0.16, ease: "easeOut" }}
-                  >
+      {/* Mobile Menu Overlay (LePrint inspired) */}
+      <AnimatePresence>
+        {isOpen && (
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 z-30 bg-black/40 backdrop-blur-md md:hidden"
+              aria-hidden="true"
+            />
+
+            {/* Floating Menu Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: -20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: -20 }}
+              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-4 top-20 z-40 bg-white/90 backdrop-blur-3xl [backdrop-filter:blur(24px)_saturate(160%)] border border-white/80 rounded-3xl p-5 shadow-2xl shadow-slate-900/25 md:hidden overflow-hidden"
+            >
+              <div className="flex flex-col gap-1.5">
+                {navLinks.map((link) => {
+                  const isActive = checkIsActive(link.href)
+                  const Icon = link.icon
+                  return (
                     <button
+                      key={link.href}
                       onClick={() => handleNavClick(link.href)}
                       className={cn(
-                        "w-full text-left text-base font-medium px-4 py-3 rounded-2xl transition-colors duration-150 cursor-pointer",
-                        pathname === link.href
-                          ? "text-brand-green bg-emerald-50 font-bold"
-                          : "text-slate-700 hover:bg-slate-50 hover:text-brand-green"
+                        "flex items-center justify-between p-2.5 rounded-2xl transition-all group text-left cursor-pointer",
+                        isActive
+                          ? "bg-emerald-500/10 border border-brand-green/20 text-slate-900"
+                          : "hover:bg-slate-900/[0.04] text-slate-700 hover:text-slate-900"
                       )}
                     >
-                      {link.name}
+                      <div className="flex items-center gap-3">
+                        <div
+                          className={cn(
+                            "w-9 h-9 rounded-xl flex items-center justify-center transition-colors",
+                            isActive
+                              ? "bg-brand-green text-white shadow-sm"
+                              : "bg-slate-100 text-slate-500 group-hover:text-slate-900"
+                          )}
+                        >
+                          <Icon className="w-4 h-4" />
+                        </div>
+                        <span className={cn("text-sm font-bold", isActive ? "text-slate-900" : "text-slate-700")}>
+                          {link.name}
+                        </span>
+                      </div>
+                      <ChevronRight className={cn("w-4 h-4 transition-transform", isActive ? "text-brand-green" : "text-slate-400 group-hover:translate-x-0.5")} />
                     </button>
-                  </motion.div>
-                ))}
+                  )
+                })}
 
                 {!isSinglePage && (
                   <div className="mt-2 rounded-2xl border border-slate-100 bg-slate-50/80 p-2">
-                    <p className="px-3 pb-2 pt-1 text-[10px] font-black uppercase tracking-[0.3em] text-slate-400">Brands</p>
+                    <p className="px-3 pb-1.5 pt-1 text-[10px] font-black uppercase tracking-[0.25em] text-slate-400">Brands</p>
                     <Link
                       href="/products"
                       onClick={() => setIsOpen(false)}
-                      className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-900 hover:bg-white"
+                      className="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-800 hover:bg-white"
                     >
                       All Products
                     </Link>
@@ -270,7 +333,7 @@ export function Navbar() {
                         key={brand.href}
                         href={brand.href}
                         onClick={() => setIsOpen(false)}
-                        className="block rounded-xl px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-white"
+                        className="block rounded-xl px-3.5 py-2 text-xs font-bold text-slate-700 hover:bg-white"
                       >
                         {brand.name}
                       </Link>
@@ -278,41 +341,21 @@ export function Navbar() {
                   </div>
                 )}
 
-                <motion.div
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: navLinks.length * 0.04 + 0.04, duration: 0.16 }}
-                  className="mt-2 pb-1"
-                >
+                <div className="pt-3 border-t border-slate-200/60 mt-1">
                   <Link
                     href="https://wa.me/919705522020"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-gradient-to-r from-brand-green to-emerald-600 text-white px-4 py-3.5 rounded-2xl font-bold flex items-center justify-center gap-2 hover:shadow-lg hover:shadow-brand-green/20 transition-all active:scale-[0.98]"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-brand-green to-emerald-600 text-white shadow-lg shadow-brand-green/25 hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
                     onClick={() => setIsOpen(false)}
                   >
                     <MessageCircle size={18} />
-                    Chat on WhatsApp
+                    <span>Chat on WhatsApp</span>
                   </Link>
-                </motion.div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </header>
-
-      {/* Full-screen backdrop — tapping anywhere outside closes the menu */}
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 z-40 bg-black/20 backdrop-blur-[3px] md:hidden"
-            aria-hidden="true"
-            onClick={() => setIsOpen(false)}
-          />
+                </div>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>
