@@ -124,7 +124,7 @@ export function HeroSection() {
           {/* ── RIGHT SIDE: CURVED FRAME IMAGE ── */}
           <div className="flex items-center justify-center">
             <CurvedImageFrame
-              src="/classic_goli_soda_hero.jpg"
+              src="/images/landing.jpeg"
               alt="Fresh 360 Degrees Foods - Classic Goli Soda & Cold-Pressed Beverage Lineup"
               priority
               initial={{ opacity: 0, scale: 0.95, rotate: 2 }}
