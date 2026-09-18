@@ -49,11 +49,6 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
       text: 'text-brand-teal',
       border: 'border-teal-200',
     },
-    refrizz: {
-      bg: 'bg-amber-50 text-amber-700',
-      text: 'text-brand-orange',
-      border: 'border-amber-200',
-    },
   }
 
   const brandId = (product.brand?.id?.current || 'juicera') as keyof typeof brandColors

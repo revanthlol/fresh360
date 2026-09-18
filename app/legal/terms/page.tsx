@@ -56,7 +56,7 @@ export default function TermsOfServicePage() {
             intended to:
           </p>
           <ul>
-            <li>Present information about our beverage brands (Juicera and Fuzzy).</li>
+            <li>Present information about our beverage brands (Juicera and Fruizy).</li>
             <li>Enable visitors to make product or wholesale enquiries via the contact form or WhatsApp.</li>
             <li>Serve as a digital marketing and brand identity platform.</li>
           </ul>
@@ -80,7 +80,7 @@ export default function TermsOfServicePage() {
         <Section id="ip" title="4. Intellectual Property">
           <p>
             All content on the Site — including but not limited to text, photographs, product images,
-            logos, brand names (Juicera, Fuzzy), graphics, and the overall layout — is the
+            logos, brand names (Juicera, Fruizy), graphics, and the overall layout — is the
             exclusive property of <strong>{COMPANY_NAME}</strong> or its licensors and is protected
             under applicable Indian and international intellectual property laws.
           </p>

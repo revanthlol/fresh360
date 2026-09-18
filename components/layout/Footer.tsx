@@ -20,7 +20,6 @@ export function Footer() {
         '/contact': 'contact',
         '/brands/juicera': 'brands',
         '/brands/fruizy': 'brands',
-        '/brands/fuzzy': 'brands',
       }
       const targetId = anchorMap[href] || (href.startsWith('#') ? href.substring(1) : '')
       if (targetId === 'top' || !targetId) {

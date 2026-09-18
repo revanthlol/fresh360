@@ -21,18 +21,17 @@ const testimonials = [
   },
   {
     name: "Anand Kumar",
-    role: "Beverage Retailer, Bangalore",
-    text: "Refrizz captures the nostalgia of classic Indian goli soda with sterile, reliable bottling quality. That marble pop is timeless fun for all ages.",
+    role: "Retail Partner, Hyderabad",
+    text: "Fresh 360’s commitment to genuine cold-pressing across Juicera and Fruizy makes them our top beverage recommendation. Pure quality in every bottle.",
     rating: 5,
-    brand: "Refrizz",
+    brand: "Fresh 360",
   },
 ]
 
 const brandColorMap: Record<string, string> = {
   Juicera: 'bg-brand-green/10 text-brand-green',
   Fruizy: 'bg-brand-teal/10 text-brand-teal',
-  Fuzzy: 'bg-brand-teal/10 text-brand-teal',
-  Refrizz: 'bg-brand-orange/10 text-brand-orange',
+  'Fresh 360': 'bg-emerald-500/10 text-emerald-700',
 }
 
 export function TestimonialStrip() {
