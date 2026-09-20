@@ -10,6 +10,10 @@ export function Footer() {
   const router = useRouter()
   const isSinglePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
 
+  if (pathname?.startsWith('/studio')) {
+    return null
+  }
+
   const handleInternalLink = (href: string) => {
     if (isSinglePage) {
       const anchorMap: Record<string, string> = {
@@ -200,9 +204,10 @@ export function Footer() {
           <p className="text-white/30 text-sm">
             © {new Date().getFullYear()} Fresh 360 Degrees Foods LLP. All rights reserved.
           </p>
-          <div className="flex gap-8 text-sm font-medium text-white/30">
+          <div className="flex flex-wrap gap-6 sm:gap-8 text-sm font-medium text-white/30">
             <Link href="/legal/privacy" className="hover:text-brand-green transition-colors">Privacy Policy</Link>
             <Link href="/legal/terms" className="hover:text-brand-green transition-colors">Terms of Service</Link>
+            <Link href="/studio" className="hover:text-brand-green transition-colors">CMS Studio</Link>
             <button 
               onClick={scrollToTop}
               className="hover:text-brand-green transition-colors flex items-center gap-2 group"

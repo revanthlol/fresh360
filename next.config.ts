@@ -24,6 +24,41 @@ const nextConfig: NextConfig = {
         destination: '/brands/fruizy',
         permanent: true,
       },
+      {
+        source: '/admin',
+        destination: '/studio',
+        permanent: false,
+      },
+      {
+        source: '/admin/:path*',
+        destination: '/studio/:path*',
+        permanent: false,
+      },
+      {
+        source: '/sanity',
+        destination: '/studio',
+        permanent: false,
+      },
+      {
+        source: '/sanity/:path*',
+        destination: '/studio/:path*',
+        permanent: false,
+      },
+      {
+        source: '/cms',
+        destination: '/studio',
+        permanent: false,
+      },
+      {
+        source: '/cms/:path*',
+        destination: '/studio/:path*',
+        permanent: false,
+      },
+      {
+        source: '/sanity-studio',
+        destination: '/studio',
+        permanent: false,
+      },
     ];
   },
 };

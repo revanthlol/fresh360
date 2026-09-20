@@ -16,12 +16,6 @@ export function Logo({
   iconOnly = false,
   size = 'md',
 }: LogoProps) {
-  const sizeClasses = {
-    sm: 'h-8',
-    md: 'h-10',
-    lg: 'h-14',
-  }
-
   const iconSizes = {
     sm: 28,
     md: 36,

@@ -49,6 +49,10 @@ export function PageTransition() {
 
   useEffect(() => () => clear(), [clear])
 
+  if (pathname?.startsWith('/studio')) {
+    return null
+  }
+
   return (
     <AnimatePresence>
       {isTransitioning && (

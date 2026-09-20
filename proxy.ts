@@ -6,6 +6,16 @@ export function proxy(request: NextRequest) {
 
   // 1. Sanity Studio Basic Authentication
   if (pathname.startsWith('/studio')) {
+    const isDev = process.env.NODE_ENV === 'development'
+    const disableAuth =
+      process.env.STUDIO_AUTH_DISABLED === 'true' ||
+      process.env.DISABLE_STUDIO_AUTH === 'true'
+
+    // Bypass basic auth in local development or if explicitly disabled
+    if (isDev || disableAuth) {
+      return NextResponse.next()
+    }
+
     const authHeader = request.headers.get('authorization')
 
     if (!authHeader) {

@@ -5,8 +5,8 @@ import { schemas } from './sanity/schemas/index'
 export default defineConfig({
   name: 'fresh360',
   title: 'Fresh 360 CMS',
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID!,
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET!,
+  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || '2jbe0el7',
+  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
   basePath: '/studio',
   plugins: [structureTool()],
   schema: {

@@ -108,9 +108,11 @@ export function Navbar() {
   }, [isOpen])
 
   // Close menu on route change
-  useEffect(() => {
+  const [prevPathname, setPrevPathname] = useState(pathname)
+  if (prevPathname !== pathname) {
+    setPrevPathname(pathname)
     setIsOpen(false)
-  }, [pathname])
+  }
 
   const handleNavClick = (href: string) => {
     setIsOpen(false)
@@ -141,6 +143,10 @@ export function Navbar() {
       return activeSection === href
     }
     return pathname === href
+  }
+
+  if (pathname?.startsWith('/studio')) {
+    return null
   }
 
   return (

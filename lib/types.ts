@@ -4,7 +4,7 @@ export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated'
 export interface SanityImageAsset {
   _type: 'image'
   asset: {
-    metadata: any
+    metadata?: Record<string, unknown>
     _ref: string
     _type: 'reference'
   }

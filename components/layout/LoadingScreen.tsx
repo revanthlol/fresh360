@@ -1,11 +1,13 @@
 "use client"
 
 import React, { useEffect, useState } from 'react'
+import { usePathname } from 'next/navigation'
 import { motion, AnimatePresence } from 'motion/react'
 
 import { Logo } from '@/components/shared/Logo'
 
 export function LoadingScreen() {
+  const pathname = usePathname()
   const [isVisible, setIsVisible] = useState(true)
   const [phase, setPhase] = useState<'loading' | 'exit'>('loading')
 
@@ -20,6 +22,10 @@ export function LoadingScreen() {
       clearTimeout(hideTimer)
     }
   }, [])
+
+  if (pathname?.startsWith('/studio')) {
+    return null
+  }
 
   return (
     <AnimatePresence>

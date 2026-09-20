@@ -1,10 +1,16 @@
 "use client"
 
 import React from 'react'
+import { usePathname } from 'next/navigation'
 import { motion } from 'motion/react'
 import { MessageCircle } from 'lucide-react'
 
 export function WhatsAppFloat() {
+  const pathname = usePathname()
+  if (pathname?.startsWith('/studio')) {
+    return null
+  }
+
   return (
     <motion.a
       href="https://wa.me/919705522020"
