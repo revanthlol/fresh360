@@ -145,7 +145,7 @@ export function Navbar() {
     return pathname === href
   }
 
-  if (pathname?.startsWith('/studio')) {
+  if (pathname?.startsWith('/studio') || pathname?.startsWith('/admin')) {
     return null
   }
 
@@ -165,13 +165,13 @@ export function Navbar() {
           )}
         >
           {/* Left: Logo */}
-          <button
-            onClick={() => handleNavClick(isSinglePage ? '#top' : '/')}
+          <Link
+            href="/"
             className="flex items-center cursor-pointer group shrink-0"
             aria-label="Fresh 360 Degrees Foods"
           >
             <Logo size="sm" variant="light" />
-          </button>
+          </Link>
 
           {/* Center: Desktop Segmented Control Links */}
           <div className={cn(

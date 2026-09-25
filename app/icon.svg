@@ -1,44 +1,14 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="281 297 512 512" fill="none">
   <defs>
-    <linearGradient id="fresh360-fav-green" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#10B981" />
-      <stop offset="50%" stop-color="#059669" />
-      <stop offset="100%" stop-color="#047857" />
-    </linearGradient>
-    <linearGradient id="fresh360-fav-leaf" x1="16" y1="12" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-      <stop offset="0%" stop-color="#34D399" />
-      <stop offset="100%" stop-color="#059669" />
+    <linearGradient id="FreshIconGradient" gradientUnits="userSpaceOnUse" x1="353.765" y1="550.588" x2="735.02" y2="539.437">
+      <stop offset="0%" stop-color="#346E24"/>
+      <stop offset="100%" stop-color="#599625"/>
     </linearGradient>
   </defs>
-
-  <!-- 360 Circular Orbit Arc -->
-  <circle
-    cx="24"
-    cy="24"
-    r="20"
-    stroke="url(#fresh360-fav-green)"
-    stroke-width="3.5"
-    stroke-linecap="round"
-    stroke-dasharray="98 24"
-  />
-
-  <!-- Outer orbital pulse dots -->
-  <circle cx="24" cy="4" r="2.6" fill="#10B981" />
-  <circle cx="44" cy="24" r="2.6" fill="#34D399" />
-  <circle cx="24" cy="44" r="2.2" fill="#059669" />
-
-  <!-- Pure Droplet / Leaf Motif in Center -->
-  <path
-    d="M24 10C24 10 15 21 15 27.5C15 32.47 19.03 36.5 24 36.5C28.97 36.5 33 32.47 33 27.5C33 21 24 10 24 10Z"
-    fill="url(#fresh360-fav-leaf)"
-  />
-
-  <!-- Inner Leaf Vein Line -->
-  <path
-    d="M24 16V33M24 23L28 20M24 27L20 24"
-    stroke="#FFFFFF"
-    stroke-width="1.8"
-    stroke-linecap="round"
-    stroke-linejoin="round"
-  />
+  <!-- Official Fresh 360 Leaf Emblem -->
+  <path fill="url(#FreshIconGradient)" d="M 720.136 328.568 C 723.022 331.417 726.871 349.572 727.779 353.932 C 736.386 395.236 734.177 433.866 723.793 474.351 C 701.919 560.265 646.499 628.193 565.921 665.421 C 529.991 682.02 486.356 694.82 458.758 724.113 C 448.221 735.297 444.077 746.882 440.281 761.408 C 390.285 666.284 517.113 560.214 582.241 507.719 C 598.616 494.521 616.005 482.299 632.135 468.869 C 619.348 475.587 606.233 483.034 593.528 490.007 C 530.968 523.073 445.949 581.634 413.968 646.06 C 395.89 682.479 400.677 706.111 413.04 742.112 C 385.416 720.43 366.084 689.911 358.287 655.67 C 350.113 619.392 356.598 585.571 373.72 552.963 C 387.772 526.483 407.11 503.17 430.538 484.468 C 457.323 462.66 487.076 446.96 519.016 434.243 C 585.796 407.655 678.881 393.95 720.136 328.568 z"/>
+  <!-- Official Fresh 360 Outer Bottom Arc -->
+  <path fill="#092236" d="M 749.28 485.798 C 751.064 489.004 753.971 501.301 754.795 505.182 C 762.451 540.865 761.455 577.861 751.89 613.08 C 733.345 680.245 689.094 735.733 625.43 765.036 C 576.256 787.668 530.206 789.822 478.5 775.579 C 471.471 773.518 463.805 770.461 456.881 767.861 C 480.684 759.717 500.105 757.879 524.817 754.539 C 615.473 742.286 692.289 680.23 726.786 596.014 C 741.921 559.065 747.595 525.675 749.28 485.798 z"/>
+  <!-- Official Fresh 360 Outer Top Arc -->
+  <path fill="#092236" d="M 545.249 318.417 C 575.614 316.234 641.087 326.605 667.372 342.164 C 593.782 337.483 536.223 338.963 468.23 374.227 C 403.588 407.753 360.546 459.989 338.549 529.247 C 327.742 567.919 327.474 592.872 331.464 632.203 C 323.017 613.332 317.472 582.4 315.833 561.864 C 311.337 505.506 335.962 444.071 373.008 401.964 C 418.443 350.32 477.011 323.023 545.249 318.417 z"/>
 </svg>

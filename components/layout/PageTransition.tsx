@@ -49,7 +49,7 @@ export function PageTransition() {
 
   useEffect(() => () => clear(), [clear])
 
-  if (pathname?.startsWith('/studio')) {
+  if (pathname?.startsWith('/studio') || pathname?.startsWith('/admin')) {
     return null
   }
 

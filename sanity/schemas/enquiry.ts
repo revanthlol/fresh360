@@ -2,17 +2,22 @@ import { defineField, defineType } from 'sanity'
 
 export default defineType({
   name: 'enquiry',
-  title: 'Enquiry',
+  title: 'Legacy Enquiry',
   type: 'document',
   fields: [
     defineField({
+      name: 'fullName',
+      title: 'Full Name',
+      type: 'string',
+    }),
+    defineField({
       name: 'name',
-      title: 'Name',
+      title: 'Name (Legacy)',
       type: 'string',
     }),
     defineField({
       name: 'email',
-      title: 'Email',
+      title: 'Email Address',
       type: 'string',
     }),
     defineField({
@@ -21,8 +26,18 @@ export default defineType({
       type: 'string',
     }),
     defineField({
+      name: 'brandInterest',
+      title: 'Brand Interest',
+      type: 'string',
+    }),
+    defineField({
+      name: 'inquiryType',
+      title: 'Inquiry Type',
+      type: 'string',
+    }),
+    defineField({
       name: 'subject',
-      title: 'Subject',
+      title: 'Subject (Legacy)',
       type: 'string',
     }),
     defineField({
@@ -31,28 +46,32 @@ export default defineType({
       type: 'text',
     }),
     defineField({
-      name: 'brandInterest',
-      title: 'Brand Interest',
-      type: 'string',
-    }),
-    defineField({
       name: 'status',
       title: 'Status',
       type: 'string',
       options: {
         list: [
           { title: 'New', value: 'new' },
-          { title: 'In Progress', value: 'in-progress' },
+          { title: 'Contacted', value: 'contacted' },
           { title: 'Resolved', value: 'resolved' },
         ],
       },
       initialValue: 'new',
     }),
     defineField({
-      name: 'createdAt',
-      title: 'Created At',
+      name: 'submittedAt',
+      title: 'Submitted At',
       type: 'datetime',
-      initialValue: (new Date()).toISOString(),
+    }),
+    defineField({
+      name: 'createdAt',
+      title: 'Created At (Legacy)',
+      type: 'datetime',
+    }),
+    defineField({
+      name: 'internalNotes',
+      title: 'Internal Notes',
+      type: 'text',
     }),
   ],
 })

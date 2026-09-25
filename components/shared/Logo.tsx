@@ -1,13 +1,17 @@
 "use client"
 
-import React from 'react'
+import React, { useId } from 'react'
+import Link from 'next/link'
 import { cn } from '@/lib/utils'
+import { FRESH360_PATHS } from './logoPaths'
 
 interface LogoProps {
   className?: string
   variant?: 'light' | 'dark' | 'auto'
   iconOnly?: boolean
-  size?: 'sm' | 'md' | 'lg'
+  size?: 'sm' | 'md' | 'lg' | 'xl'
+  asLink?: boolean
+  href?: string
 }
 
 export function Logo({
@@ -15,106 +19,101 @@ export function Logo({
   variant = 'auto',
   iconOnly = false,
   size = 'md',
+  asLink = false,
+  href = '/',
 }: LogoProps) {
-  const iconSizes = {
-    sm: 28,
-    md: 36,
-    lg: 48,
-  }
+  const gradientId = useId()
 
-  const currentIconSize = iconSizes[size]
+  const dimensions = iconOnly
+    ? {
+        sm: { width: 32, height: 32 },
+        md: { width: 40, height: 40 },
+        lg: { width: 52, height: 52 },
+        xl: { width: 64, height: 64 },
+      }[size]
+    : {
+        sm: { width: 92, height: 34 },
+        md: { width: 122, height: 45 },
+        lg: { width: 160, height: 58 },
+        xl: { width: 210, height: 76 },
+      }[size]
 
-  return (
-    <div className={cn("inline-flex items-center gap-3 select-none", className)}>
-      {/* 360° Circular Emblem / Icon */}
+  // Color mapping based on variant
+  const isDark = variant === 'dark'
+  const primaryNavy = isDark ? '#FFFFFF' : '#092236'
+  const greenBrand = isDark ? '#34D399' : '#387222'
+  const cutoutBg = isDark ? '#122412' : '#FFFFFF'
+
+  // Icon only paths: indices 0 (leaf), 7 (bottom arc), 8 (top arc)
+  const pathsToRender = iconOnly
+    ? [FRESH360_PATHS[0], FRESH360_PATHS[7], FRESH360_PATHS[8]]
+    : FRESH360_PATHS
+
+  const viewBox = iconOnly ? "281 297 512 512" : "280 290 1480 540"
+
+  const content = (
+    <div
+      className={cn(
+        "inline-flex items-center select-none transition-transform duration-200 group-hover:scale-[1.02]",
+        className
+      )}
+    >
       <svg
-        width={currentIconSize}
-        height={currentIconSize}
-        viewBox="0 0 48 48"
+        width={dimensions.width}
+        height={dimensions.height}
+        viewBox={viewBox}
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="shrink-0 transition-transform duration-300 group-hover:rotate-12"
+        preserveAspectRatio="xMidYMid meet"
+        className="shrink-0 transition-opacity duration-200"
+        aria-label="Fresh 360 Degrees Foods"
       >
         <defs>
-          <linearGradient id="fresh360-grad-green" x1="4" y1="4" x2="44" y2="44" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#10B981" />
-            <stop offset="50%" stopColor="#059669" />
-            <stop offset="100%" stopColor="#047857" />
+          <linearGradient
+            id={gradientId}
+            gradientUnits="userSpaceOnUse"
+            x1="353.765"
+            y1="550.588"
+            x2="735.02"
+            y2="539.437"
+          >
+            <stop offset="0%" stopColor={isDark ? "#10B981" : "#346E24"} />
+            <stop offset="100%" stopColor={isDark ? "#34D399" : "#599625"} />
           </linearGradient>
-          <linearGradient id="fresh360-grad-leaf" x1="16" y1="12" x2="32" y2="36" gradientUnits="userSpaceOnUse">
-            <stop offset="0%" stopColor="#34D399" />
-            <stop offset="100%" stopColor="#059669" />
-          </linearGradient>
-          <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-            <feGaussianBlur stdDeviation="2" result="blur" />
-            <feComposite in="SourceGraphic" in2="blur" operator="over" />
-          </filter>
         </defs>
 
-        {/* 360 Circular Orbit Arc */}
-        <circle
-          cx="24"
-          cy="24"
-          r="20"
-          stroke="url(#fresh360-grad-green)"
-          strokeWidth="3.2"
-          strokeLinecap="round"
-          strokeDasharray="100 25"
-          className="transition-all duration-700"
-        />
+        {pathsToRender.map((path, idx) => {
+          let fill = path.fill
+          if (fill === 'url(#Gradient1)') {
+            fill = `url(#${gradientId})`
+          } else if (fill === 'rgb(9,34,54)') {
+            fill = primaryNavy
+          } else if (fill === 'rgb(56,114,34)') {
+            fill = greenBrand
+          } else if (fill === 'rgb(255,255,254)') {
+            fill = cutoutBg
+          }
 
-        {/* Outer orbital pulse dots */}
-        <circle cx="24" cy="4" r="2.4" fill="#10B981" />
-        <circle cx="44" cy="24" r="2.4" fill="#34D399" />
-        <circle cx="24" cy="44" r="2" fill="#059669" />
-
-        {/* Pure Droplet / Leaf Motif in Center */}
-        <path
-          d="M24 10C24 10 15 21 15 27.5C15 32.47 19.03 36.5 24 36.5C28.97 36.5 33 32.47 33 27.5C33 21 24 10 24 10Z"
-          fill="url(#fresh360-grad-leaf)"
-          opacity="0.95"
-        />
-
-        {/* Inner Leaf Vein Line */}
-        <path
-          d="M24 16V33M24 23L28 20M24 27L20 24"
-          stroke="#FFFFFF"
-          strokeWidth="1.6"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          opacity="0.85"
-        />
+          return (
+            <path
+              key={idx}
+              d={path.d}
+              fill={fill}
+              className="transition-colors duration-300"
+            />
+          )
+        })}
       </svg>
-
-      {/* Typography Block */}
-      {!iconOnly && (
-        <div className="flex flex-col text-left leading-none">
-          <div className="flex items-center tracking-tight">
-            <span
-              className={cn(
-                "font-display font-black text-2xl sm:text-3xl tracking-tight transition-colors",
-                variant === 'dark'
-                  ? "text-white"
-                  : variant === 'light'
-                  ? "text-slate-900"
-                  : "text-slate-900 dark:text-white"
-              )}
-            >
-              FRESH<span className="text-brand-green font-extrabold">360°</span>
-            </span>
-          </div>
-          <span
-            className={cn(
-              "text-[9px] sm:text-[10px] font-black tracking-[0.28em] uppercase transition-colors mt-0.5",
-              variant === 'dark'
-                ? "text-emerald-400/80"
-                : "text-slate-500"
-            )}
-          >
-            Degrees Foods
-          </span>
-        </div>
-      )}
     </div>
   )
+
+  if (asLink) {
+    return (
+      <Link href={href} className="inline-flex cursor-pointer" aria-label="Fresh 360 Degrees Foods">
+        {content}
+      </Link>
+    )
+  }
+
+  return content
 }

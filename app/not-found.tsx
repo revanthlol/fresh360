@@ -12,20 +12,15 @@ export default function NotFound() {
       <div className="absolute top-20 left-10 w-[350px] h-[350px] bg-brand-teal/10 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="relative z-10 max-w-xl w-full mx-auto text-center">
-        {/* Logo */}
+        {/* Brand Logo */}
         <div className="flex justify-center mb-8">
-          <Link href="/" className="inline-block transition-transform hover:scale-105">
+          <Link href="/" className="inline-block transition-transform hover:scale-105" aria-label="Fresh 360 Degrees Foods">
             <Logo size="md" variant="light" />
           </Link>
         </div>
 
         {/* Card Container */}
         <div className="bg-white/80 backdrop-blur-2xl border border-white/80 rounded-3xl p-8 sm:p-12 shadow-2xl shadow-emerald-950/[0.06]">
-          {/* Badge */}
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-50 border border-brand-green/20 text-brand-green text-xs font-bold uppercase tracking-wider mb-6">
-            <Sparkles className="w-3.5 h-3.5" />
-            <span>404 Error • Missing Refreshment</span>
-          </div>
 
           {/* Large Numerals */}
           <h1 className="font-display font-extrabold text-7xl sm:text-8xl text-transparent bg-clip-text bg-gradient-to-br from-brand-green via-brand-teal to-emerald-700 tracking-tight mb-4">
@@ -64,10 +59,6 @@ export default function NotFound() {
           {/* Helpful Quick Links Footer */}
           <div className="mt-10 pt-6 border-t border-slate-100 flex flex-wrap items-center justify-center gap-4 text-xs font-semibold text-slate-500">
             <span>Looking for something else?</span>
-            <Link href="/studio" className="text-brand-green hover:underline font-bold">
-              Sanity CMS Studio →
-            </Link>
-            <span className="text-slate-300">•</span>
             <Link href="/#contact" className="text-brand-teal hover:underline font-bold">
               Contact Support →
             </Link>

@@ -25,38 +25,38 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
-        source: '/admin',
-        destination: '/studio',
+        source: '/studio',
+        destination: '/admin/studio',
         permanent: false,
       },
       {
-        source: '/admin/:path*',
-        destination: '/studio/:path*',
+        source: '/studio/:path*',
+        destination: '/admin/studio/:path*',
         permanent: false,
       },
       {
         source: '/sanity',
-        destination: '/studio',
+        destination: '/admin/studio',
         permanent: false,
       },
       {
         source: '/sanity/:path*',
-        destination: '/studio/:path*',
+        destination: '/admin/studio/:path*',
         permanent: false,
       },
       {
         source: '/cms',
-        destination: '/studio',
+        destination: '/admin/studio',
         permanent: false,
       },
       {
         source: '/cms/:path*',
-        destination: '/studio/:path*',
+        destination: '/admin/studio/:path*',
         permanent: false,
       },
       {
         source: '/sanity-studio',
-        destination: '/studio',
+        destination: '/admin/studio',
         permanent: false,
       },
     ];

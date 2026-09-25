@@ -30,9 +30,9 @@ export function ContactForm() {
         <div className="w-16 h-16 bg-brand-green text-white rounded-full flex items-center justify-center mx-auto mb-4">
           <CheckCircle2 size={32} />
         </div>
-        <h3 className="text-2xl font-display font-bold text-slate-900">Message Sent!</h3>
+        <h3 className="text-2xl font-display font-bold text-slate-900">Inquiry Received!</h3>
         <p className="text-slate-600">
-          Thank you for reaching out. Our team will get back to you within 24 hours.
+          Thank you for reaching out. We have received your inquiry and our team will get back to you shortly.
         </p>
         <button 
           onClick={() => setStatus('idle')}
