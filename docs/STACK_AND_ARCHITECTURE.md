@@ -173,17 +173,19 @@ The `/admin` area provides a simple, high-utility operational console:
 
 ## 7. Resend DNS & Sending Verification Status
 
-### Current Status
-- Resend account created and domain `fresh360degrees.in` added.
-- DNS records (DKIM and SPF TXT/MX records) have been added in GoDaddy and are propagating (currently "Pending / Checking DNS").
-- The existing incoming mailbox (`support@fresh360degrees.in`) and its MX records remain completely untouched.
+### Status: Verified & Active
+- Domain `fresh360degrees.in` is **Verified** in Resend with DKIM/SPF alignment.
+- Sending capability is **Enabled**.
+- Inbound mail remains untouched (Resend receiving disabled; existing mailbox at `support@fresh360degrees.in` is completely unaffected).
+- Live email dispatch tested and delivered to `support@fresh360degrees.in`.
 
-### When DNS Propagates to "Verified"
-1. Resend dashboard will show `fresh360degrees.in` with a green **Verified** status.
-2. Ensure the following environment variables are set in production (Vercel Project Settings):
-   ```env
-   RESEND_API_KEY=re_your_live_api_key_here
-   CONTACT_EMAIL=support@fresh360degrees.in
-   RESEND_FROM_EMAIL=Fresh360 Degrees Foods <support@fresh360degrees.in>
-   ```
-3. Once verified, all outbound emails (support team notification and customer acknowledgement) will immediately dispatch from `support@fresh360degrees.in` with full SPF/DKIM alignment.
+### Environment Configuration (Vercel Project Settings)
+```env
+RESEND_API_KEY=<your_resend_api_key>
+CONTACT_EMAIL=support@fresh360degrees.in
+RESEND_FROM_EMAIL=Fresh360 Degrees Foods <support@fresh360degrees.in>
+```
+All customer inquiries submitted via website forms automatically:
+1. Persist to Sanity CMS dataset `production` as an `inquiry` document.
+2. Dispatch a staff notification email to `support@fresh360degrees.in` with `replyTo` mapped to the customer.
+3. Dispatch an acknowledgement receipt email directly to the customer.

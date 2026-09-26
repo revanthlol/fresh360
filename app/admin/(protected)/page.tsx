@@ -155,13 +155,14 @@ export default async function AdminDashboardPage() {
           <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-brand-green shrink-0">
             <Send className="w-5 h-5" />
           </div>
-          <div className="flex-1 space-y-1">
+          <div className="flex-1 space-y-2">
             <div className="flex flex-wrap items-center gap-2.5">
               <h3 className="font-bold text-slate-900 text-sm">
                 Resend Email Notification Integration
               </h3>
-              <span className="px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[10px] font-bold">
-                Domain Verification Required
+              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
+                <CheckCircle2 className="w-3 h-3 text-brand-green" />
+                Domain Verified & Active
               </span>
               <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
                 <ShieldCheck className="w-3 h-3" />
@@ -169,30 +170,23 @@ export default async function AdminDashboardPage() {
               </span>
             </div>
 
-            <p className="text-xs text-slate-600 leading-relaxed pt-1">
-              Customer inquiries are guaranteed to be stored safely in Sanity CMS. To route incoming lead notifications directly to <strong className="text-slate-900">support@fresh360degrees.in</strong>, complete the DNS domain verification on Resend.
+            <p className="text-xs text-slate-600 leading-relaxed">
+              Every customer inquiry submitted through the website is recorded in Sanity CMS and automatically dispatches real-time notifications to <strong className="text-slate-900 font-semibold">support@fresh360degrees.in</strong> (with customer reply-to) alongside an instant acknowledgement email to the customer.
             </p>
 
-            {/* Quick Steps Box */}
-            <div className="mt-4 p-4 rounded-2xl bg-slate-50 border border-slate-200 text-xs space-y-2 text-slate-700">
-              <div className="font-bold text-slate-900 flex items-center gap-1.5">
-                <Info className="w-3.5 h-3.5 text-brand-green" />
-                <span>Next steps to complete Resend setup:</span>
+            <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-slate-500">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Sender: <code className="text-slate-800 font-mono text-[11px]">support@fresh360degrees.in</code></span>
               </div>
-              <ol className="list-decimal list-inside space-y-1 text-slate-600 pl-1">
-                <li>
-                  Sign in to your Resend account at <a href="https://resend.com/domains" target="_blank" rel="noopener noreferrer" className="text-brand-green font-bold hover:underline">resend.com/domains</a>.
-                </li>
-                <li>
-                  Add your domain: <code className="bg-slate-200/70 px-1 py-0.5 rounded text-slate-900 font-mono text-[11px]">fresh360degrees.in</code>.
-                </li>
-                <li>
-                  Copy the 3 DNS records provided by Resend (DKIM and SPF TXT/MX records) and add them in your domain registrar DNS settings (e.g. Cloudflare / GoDaddy / Namecheap).
-                </li>
-                <li>
-                  Once Resend marks the domain as <strong className="text-slate-900 font-semibold">Verified</strong>, update your environment variable <code className="bg-slate-200/70 px-1 py-0.5 rounded text-slate-900 font-mono text-[11px]">RESEND_FROM_EMAIL=Fresh 360 &lt;notifications@fresh360degrees.in&gt;</code>.
-                </li>
-              </ol>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>DKIM / SPF aligned on <code className="text-slate-800 font-mono text-[11px]">fresh360degrees.in</code></span>
+              </div>
+              <div className="flex items-center gap-1.5">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>Outbound only (existing mailbox unaffected)</span>
+              </div>
             </div>
           </div>
         </div>

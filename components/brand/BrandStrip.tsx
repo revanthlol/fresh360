@@ -70,9 +70,6 @@ function BrandCard({
       <div className="relative z-10 flex h-full flex-col justify-between">
         <div className="space-y-6 md:space-y-8">
           <div className="space-y-2">
-            <span className={cn("inline-flex rounded-full border px-3 py-1 text-[10px] font-black uppercase tracking-[0.35em]", brand.badgeClass)}>
-              Signature Series
-            </span>
             <h3 className={cn("text-4xl md:text-6xl font-display font-black tracking-tight", brand.colorClass)}>
               {brand.name}
             </h3>
