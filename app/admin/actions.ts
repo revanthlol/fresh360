@@ -5,6 +5,7 @@ import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
 import { 
   ADMIN_COOKIE_NAME, 
+  SESSION_MAX_AGE_SECONDS,
   verifyAdminCredentials, 
   createSessionToken, 
   getAdminSession 
@@ -34,7 +35,7 @@ export async function loginAdminAction(prevState: { error?: string } | null, for
     secure: process.env.NODE_ENV === 'production',
     sameSite: 'lax',
     path: '/',
-    maxAge: 60 * 60 * 24 * 7, // 7 days
+    maxAge: SESSION_MAX_AGE_SECONDS, // 2 hours strict session timeout
   })
 
   redirect(redirectTo.startsWith('/admin') ? redirectTo : '/admin')

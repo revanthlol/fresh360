@@ -1,7 +1,7 @@
 import React, { Suspense } from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
-import { ShieldCheck, Home } from 'lucide-react'
+import { Home, Clock } from 'lucide-react'
 import { Logo } from '@/components/shared/Logo'
 import { AdminLoginForm } from '@/components/admin/AdminLoginForm'
 
@@ -15,13 +15,30 @@ export const metadata: Metadata = {
   },
 }
 
+function FormSkeleton() {
+  return (
+    <div className="space-y-4 animate-pulse">
+      <div className="space-y-1.5">
+        <div className="h-3 w-16 bg-slate-200 rounded" />
+        <div className="h-11 w-full bg-slate-100 rounded-xl" />
+      </div>
+      <div className="space-y-1.5">
+        <div className="h-3 w-16 bg-slate-200 rounded" />
+        <div className="h-11 w-full bg-slate-100 rounded-xl" />
+      </div>
+      <div className="h-11 w-full bg-slate-200 rounded-xl mt-2" />
+    </div>
+  )
+}
+
 export default async function AdminLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{ redirect?: string }>
+  searchParams: Promise<{ redirect?: string; reason?: string }>
 }) {
   const resolvedParams = await searchParams
   const redirectParam = resolvedParams?.redirect || '/admin'
+  const isExpired = resolvedParams?.reason === 'expired'
 
   return (
     <div className="min-h-screen bg-[#eff7ef] flex items-center justify-center p-4 relative overflow-hidden">
@@ -45,14 +62,21 @@ export default async function AdminLoginPage({
             </h1>
           </div>
 
-          <Suspense fallback={<div className="py-8 text-center text-xs text-slate-400">Loading form...</div>}>
+          {isExpired && (
+            <div className="mb-6 p-3.5 rounded-2xl bg-amber-50 border border-amber-200/80 text-amber-800 text-xs font-medium flex items-center gap-2.5 animate-in fade-in duration-200">
+              <Clock className="w-4 h-4 shrink-0 text-amber-600" />
+              <span>Your session timed out for security. Please sign in again.</span>
+            </div>
+          )}
+
+          <Suspense fallback={<FormSkeleton />}>
             <AdminLoginForm redirectTo={redirectParam} />
           </Suspense>
 
-          <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
+          <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-center text-xs text-slate-600">
             <Link
               href="/"
-              className="inline-flex items-center gap-1.5 text-slate-600 hover:text-brand-green font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-1.5 text-slate-600 hover:text-brand-green font-semibold transition-colors"
             >
               <Home className="w-3.5 h-3.5" />
               <span>Back to Home</span>

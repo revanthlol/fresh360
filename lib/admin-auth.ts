@@ -1,7 +1,7 @@
 import { cookies } from 'next/headers'
 
 export const ADMIN_COOKIE_NAME = 'fresh360_admin_session'
-const SESSION_MAX_AGE_SECONDS = 60 * 60 * 24 * 7 // 7 days
+export const SESSION_MAX_AGE_SECONDS = 60 * 60 * 2 // 2 hours (strict session timeout)
 
 /**
  * Retrieves the server-side signing secret.

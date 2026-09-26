@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getAdminSession } from '@/lib/admin-auth'
 import { AdminHeader } from '@/components/admin/AdminHeader'
+import { SessionGuard } from '@/components/admin/SessionGuard'
 
 export const dynamic = 'force-dynamic'
 
@@ -22,13 +23,14 @@ export default async function AdminProtectedLayout({
   const session = await getAdminSession()
 
   if (!session.authenticated) {
-    redirect('/admin/login')
+    redirect('/admin/login?reason=expired')
   }
 
   return (
     <div className="min-h-screen bg-[#F8FAF8] text-slate-900 flex flex-col font-sans">
+      <SessionGuard />
       <AdminHeader user={session.user || 'admin'} />
-      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 flex flex-col min-h-0">
         {children}
       </main>
     </div>

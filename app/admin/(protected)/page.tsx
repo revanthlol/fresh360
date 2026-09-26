@@ -1,17 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
-import { 
-  Inbox, 
-  AlertCircle, 
-  Clock, 
-  CheckCircle2, 
-  Package, 
-  Sparkles, 
-  Send, 
-  ExternalLink,
-  ShieldCheck,
-  Info
-} from 'lucide-react'
+import { ExternalLink } from 'lucide-react'
 import { sanityWriteClient } from '@/lib/sanity'
 import { InquiriesTable, EnquiryDoc } from '@/components/admin/InquiriesTable'
 
@@ -49,19 +38,12 @@ async function getDashboardData() {
 }
 
 export default async function AdminDashboardPage() {
-  const { enquiries, productCount, brandCount } = await getDashboardData()
-
-  const totalEnquiries = enquiries.length
-  const newEnquiries = enquiries.filter((e) => (e.status || 'new') === 'new').length
-  const contactedEnquiries = enquiries.filter((e) => e.status === 'contacted' || e.status === 'in-progress').length
-  const resolvedEnquiries = enquiries.filter((e) => e.status === 'resolved').length
-
-  const resendKeyPresent = Boolean(process.env.RESEND_API_KEY)
+  const { enquiries } = await getDashboardData()
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6 flex flex-col flex-1 min-h-0">
       {/* Top Banner / Welcome */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 sm:p-8 rounded-3xl border border-slate-200/90 shadow-xs">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white p-6 sm:p-7 rounded-3xl border border-slate-200/90 shadow-xs shrink-0">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <h1 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 tracking-tight">
@@ -85,8 +67,8 @@ export default async function AdminDashboardPage() {
       </div>
 
       {/* Inquiries Section */}
-      <div className="space-y-4">
-        <div className="flex items-center justify-between">
+      <div className="space-y-3 flex flex-col flex-1 min-h-0">
+        <div className="flex items-center justify-between shrink-0">
           <div>
             <h2 className="text-xl font-bold font-display text-slate-900">
               Customer Inquiries
