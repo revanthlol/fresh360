@@ -35,35 +35,27 @@ export default async function AdminLoginPage({
           <Link href="/" className="inline-block transition-transform hover:scale-105" aria-label="Fresh 360 Degrees Foods">
             <Logo size="md" variant="light" />
           </Link>
-          <div className="mt-4 flex items-center justify-center gap-1.5 text-xs font-bold uppercase tracking-wider text-emerald-800">
-            <ShieldCheck className="w-4 h-4 text-brand-green" />
-            <span>Operational Console</span>
-          </div>
         </div>
 
         {/* Card */}
         <div className="bg-white/90 backdrop-blur-2xl border border-slate-200/80 rounded-3xl p-8 sm:p-10 shadow-2xl shadow-emerald-950/[0.08]">
           <div className="mb-6">
             <h1 className="text-2xl font-bold font-display text-slate-900">
-              Sign In
+              Admin Login
             </h1>
-            <p className="text-xs text-slate-500 mt-1">
-              Authenticate with your administrative credentials to access operations and Sanity Studio.
-            </p>
           </div>
 
           <Suspense fallback={<div className="py-8 text-center text-xs text-slate-400">Loading form...</div>}>
             <AdminLoginForm redirectTo={redirectParam} />
           </Suspense>
 
-          <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-400">
-            <span>256-bit Session Security</span>
+          <div className="mt-8 pt-6 border-t border-slate-100 flex items-center justify-between text-xs text-slate-600">
             <Link
               href="/"
               className="inline-flex items-center gap-1.5 text-slate-600 hover:text-brand-green font-semibold transition-colors"
             >
               <Home className="w-3.5 h-3.5" />
-              <span>Back to Site</span>
+              <span>Back to Home</span>
             </Link>
           </div>
         </div>

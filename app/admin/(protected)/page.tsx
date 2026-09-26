@@ -67,9 +67,6 @@ export default async function AdminDashboardPage() {
             <h1 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 tracking-tight">
               Operational Dashboard
             </h1>
-            <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-black uppercase tracking-wider">
-              Live
-            </span>
           </div>
           <p className="text-xs sm:text-sm text-slate-500">
             Real-time customer inquiries stored in Sanity CMS & operational catalog overview.
@@ -216,30 +213,6 @@ export default async function AdminDashboardPage() {
 
         {/* Live Filterable Table */}
         <InquiriesTable initialEnquiries={enquiries} />
-      </div>
-
-      {/* Sanity Studio Quick-Access Card */}
-      <div className="bg-linear-to-br from-slate-900 to-[#122412] text-white p-6 sm:p-8 rounded-3xl shadow-xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-        <div className="space-y-2 max-w-xl">
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-white/10 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">
-            <Sparkles className="w-3 h-3 text-emerald-400" />
-            <span>Embedded Content Management</span>
-          </div>
-          <h3 className="text-xl sm:text-2xl font-display font-bold text-white">
-            Need to update products, prices, or story content?
-          </h3>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            The Sanity Studio is embedded directly at <code className="bg-white/10 px-1.5 py-0.5 rounded text-emerald-300">/admin/studio</code>, allowing you to edit products, manage images, publish new items, and organize brands in real time.
-          </p>
-        </div>
-
-        <Link
-          href="/admin/studio"
-          className="inline-flex items-center gap-2 px-6 py-3.5 rounded-2xl bg-brand-green hover:bg-emerald-600 text-white font-bold text-xs uppercase tracking-wider shadow-lg shadow-brand-green/30 transition-all hover:scale-105 active:scale-95 shrink-0"
-        >
-          <span>Launch Sanity Studio</span>
-          <ExternalLink className="w-4 h-4" />
-        </Link>
       </div>
     </div>
   )

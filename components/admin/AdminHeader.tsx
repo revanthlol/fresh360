@@ -30,10 +30,6 @@ export function AdminHeader({ user = 'admin' }: AdminHeaderProps) {
             >
               <Logo size="sm" variant="light" />
             </Link>
-            <div className="hidden sm:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-50 border border-emerald-200/70 text-emerald-800 text-[11px] font-bold uppercase tracking-wider">
-              <Shield className="w-3 h-3 text-brand-green" />
-              <span>Admin Console</span>
-            </div>
           </div>
 
           {/* Center: Navigation Controls */}
@@ -77,11 +73,6 @@ export function AdminHeader({ user = 'admin' }: AdminHeaderProps) {
               <span>View Site</span>
               <ExternalLink className="w-3 h-3 text-slate-400" />
             </Link>
-
-            <div className="hidden sm:flex items-center text-xs font-medium text-slate-500 bg-slate-50 px-2.5 py-1.5 rounded-lg border border-slate-200">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 mr-2 animate-pulse" />
-              <span className="font-mono text-[11px]">{user}</span>
-            </div>
 
             <form action={logoutAdminAction}>
               <button
