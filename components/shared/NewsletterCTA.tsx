@@ -1,7 +1,9 @@
 "use client"
 
-import React, { useRef } from 'react'
+import React, { useRef, useState, useActionState } from 'react'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
+import { CheckCircle2, Loader2 } from 'lucide-react'
+import { subscribeNewsletterAction } from '@/app/actions'
 
 export function NewsletterCTA() {
   const sectionRef = useRef<HTMLElement>(null)
@@ -10,6 +12,10 @@ export function NewsletterCTA() {
     target: sectionRef,
     offset: ["start end", "end start"],
   })
+
+  const [state, formAction, isPending] = useActionState(subscribeNewsletterAction, null)
+  const [emailValue, setEmailValue] = useState('')
+  const [submittedEmail, setSubmittedEmail] = useState('')
 
   const panelY = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [0, 0, 0] : [56, 0, -28])
   const panelScale = useTransform(scrollYProgress, [0, 0.5, 1], reduceMotion ? [1, 1, 1] : [0.98, 1, 0.985])
@@ -45,23 +51,56 @@ export function NewsletterCTA() {
               Early access to new flavors, wellness tips, and exclusive seasonal offers.
             </p>
 
-            <form
-              className="flex flex-col sm:flex-row gap-3 max-w-xl mx-auto"
-              onSubmit={(e) => e.preventDefault()}
-            >
-              <input
-                type="email"
-                placeholder="Your email address"
-                className="flex-1 px-5 py-4 rounded-full bg-white/12 border border-white/20 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/30 transition-[border-color,box-shadow,background-color] text-sm backdrop-blur-md"
-                required
-              />
-              <button
-                type="submit"
-                className="bg-white text-brand-green px-7 py-4 rounded-full font-bold hover:bg-white/92 transition-transform transition-colors active:scale-[0.97] shadow-xl text-sm cursor-pointer whitespace-nowrap"
+            {state?.success ? (
+              <div className="bg-white/15 border border-white/30 rounded-2xl sm:rounded-3xl p-6 sm:p-7 max-w-xl mx-auto backdrop-blur-md animate-in fade-in zoom-in-95 duration-200 space-y-2">
+                <div className="flex items-center justify-center gap-2 text-white font-bold text-lg sm:text-xl">
+                  <CheckCircle2 className="w-5 h-5 sm:w-6 sm:h-6 text-emerald-300" />
+                  <span>You're on the list!</span>
+                </div>
+                <p className="text-white/85 text-xs sm:text-sm leading-relaxed max-w-md mx-auto">
+                  We've sent a welcome confirmation email to <strong className="text-white underline">{submittedEmail || 'your email'}</strong>. Check your inbox!
+                </p>
+              </div>
+            ) : (
+              <form
+                action={async (formData) => {
+                  setSubmittedEmail(emailValue)
+                  await formAction(formData)
+                }}
+                className="flex flex-col gap-2.5 max-w-xl mx-auto"
               >
-                Subscribe
-              </button>
-            </form>
+                <div className="flex flex-col sm:flex-row gap-3">
+                  <input
+                    type="email"
+                    name="email"
+                    value={emailValue}
+                    onChange={(e) => setEmailValue(e.target.value)}
+                    placeholder="Your email address"
+                    className="flex-1 px-5 py-4 rounded-full bg-white/12 border border-white/20 text-white placeholder:text-white/45 focus:outline-none focus:ring-2 focus:ring-white/30 transition-[border-color,box-shadow,background-color] text-sm backdrop-blur-md"
+                    required
+                  />
+                  <button
+                    type="submit"
+                    disabled={isPending}
+                    className="bg-white text-brand-green px-7 py-4 rounded-full font-bold hover:bg-white/92 transition-all active:scale-[0.97] shadow-xl text-sm cursor-pointer whitespace-nowrap disabled:opacity-60 flex items-center justify-center gap-2"
+                  >
+                    {isPending ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin text-brand-green" />
+                        <span>Subscribing...</span>
+                      </>
+                    ) : (
+                      <span>Subscribe</span>
+                    )}
+                  </button>
+                </div>
+                {state?.error && (
+                  <p className="text-red-200 text-xs font-semibold animate-in fade-in text-center sm:text-left pl-3">
+                    {state.error}
+                  </p>
+                )}
+              </form>
+            )}
           </div>
         </motion.div>
       </div>

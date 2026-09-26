@@ -377,3 +377,205 @@ export function getSupportNotificationHtml(data: EmailData): string {
 </body>
 </html>`
 }
+
+/**
+ * Generates responsive, bulletproof HTML email template for newsletter subscription confirmation
+ */
+export function getNewsletterConfirmationHtml(email: string): string {
+  const safeEmail = escapeHtml(email)
+  const year = new Date().getFullYear()
+
+  return `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="x-apple-disable-message-reformatting" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Welcome to Fresh 360 Degrees Foods</title>
+  <!--[if mso]>
+  <style type="text/css">
+    table {border-collapse:collapse;border-spacing:0;margin:0;}
+    div, td {padding:0;}
+    div {margin:0 !important;}
+  </style>
+  <noscript>
+    <xml>
+      <o:OfficeDocumentSettings>
+        <o:PixelsPerInch>96</o:PixelsPerInch>
+      </o:OfficeDocumentSettings>
+    </xml>
+  </noscript>
+  <![endif]-->
+  <style type="text/css">
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    table { border-collapse: collapse !important; }
+    body { margin: 0 !important; padding: 0 !important; width: 100% !important; background-color: #F4F7F4; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; }
+    @media only screen and (max-width: 620px) {
+      .mobile-padding { padding-left: 20px !important; padding-right: 20px !important; }
+      .mobile-stack { display: block !important; width: 100% !important; }
+      .mobile-center { text-align: center !important; }
+    }
+  </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #F4F7F4;">
+  <div style="display: none; font-size: 1px; color: #F4F7F4; line-height: 1px; max-height: 0px; max-width: 0px; opacity: 0; overflow: hidden;">
+    Welcome to Fresh 360 Degrees Foods. You are confirmed for early access to new flavors and seasonal offers.
+  </div>
+
+  <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation" style="background-color: #F4F7F4; padding: 32px 16px;">
+    <tr>
+      <td align="center">
+        <table border="0" cellpadding="0" cellspacing="0" width="100%" style="max-width: 600px; background-color: #FFFFFF; border-radius: 20px; overflow: hidden; box-shadow: 0 4px 20px rgba(0, 40, 0, 0.06); border: 1px solid #E5ECE5;" role="presentation">
+          
+          <!-- Top Accent Bar -->
+          <tr>
+            <td height="6" style="background-color: #1E5E31;"></td>
+          </tr>
+
+          <!-- Header Section -->
+          <tr>
+            <td class="mobile-padding" style="padding: 40px 44px 24px 44px; text-align: left;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+                <tr>
+                  <td>
+                    <!-- Brand Badge -->
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                      <tr>
+                        <td style="background-color: #EBF5EB; border-radius: 8px; padding: 6px 14px; font-size: 11px; font-weight: 800; color: #1E5E31; letter-spacing: 0.12em; text-transform: uppercase;">
+                          FRESH 360° DEGREES FOODS
+                        </td>
+                      </tr>
+                    </table>
+                    <h1 style="margin: 20px 0 0 0; font-size: 26px; font-weight: 800; color: #0C1E0C; line-height: 1.2; letter-spacing: -0.02em;">
+                      Stay Fresh. You’re on the list!
+                    </h1>
+                    <p style="margin: 8px 0 0 0; font-size: 14px; color: #526652; line-height: 1.5;">
+                      Never Miss a Sip · Juicera &amp; Fruizy Cold-Pressed Beverages
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Divider -->
+          <tr>
+            <td style="padding: 0 44px;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+                <tr>
+                  <td height="1" style="background-color: #EFF4EF;"></td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- Body Content -->
+          <tr>
+            <td class="mobile-padding" style="padding: 28px 44px 32px 44px;">
+              <p style="margin: 0 0 16px 0; font-size: 15px; color: #1E293B; line-height: 1.6;">
+                Hello,
+              </p>
+              <p style="margin: 0 0 20px 0; font-size: 15px; color: #334155; line-height: 1.65;">
+                Thank you for subscribing to <strong>Fresh 360 Degrees Foods</strong>. Your email (<strong style="color: #1E5E31;">${safeEmail}</strong>) is now subscribed to receive our latest updates.
+              </p>
+
+              <!-- Benefits Card -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="background-color: #F8FAF8; border-radius: 14px; border: 1px solid #E5EBE5; margin-bottom: 24px;" role="presentation">
+                <tr>
+                  <td style="padding: 22px 24px;">
+                    <span style="font-size: 11px; font-weight: 800; color: #1E5E31; text-transform: uppercase; letter-spacing: 0.1em; display: block; margin-bottom: 12px;">
+                      What to expect as an insider:
+                    </span>
+                    <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+                      <tr>
+                        <td style="padding-bottom: 10px; font-size: 14px; color: #334155; line-height: 1.5;">
+                          🌿 <strong>Juicera Releases:</strong> Early announcements for our 100% pure cold-pressed juices with zero added sugar and zero preservatives.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="padding-bottom: 10px; font-size: 14px; color: #334155; line-height: 1.5;">
+                          ✨ <strong>Fruizy Sparkle:</strong> Seasonal drops of fruit-powered, cold-pressed sparkling refreshment.
+                        </td>
+                      </tr>
+                      <tr>
+                        <td style="font-size: 14px; color: #334155; line-height: 1.5;">
+                          🎯 <strong>Exclusive Specials:</strong> Special offers, tasting events, and distribution locations across your area.
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Action Button -->
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" style="margin-bottom: 28px;" role="presentation">
+                <tr>
+                  <td align="center">
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation">
+                      <tr>
+                        <td align="center" style="border-radius: 50px; background-color: #1E5E31;">
+                          <a href="https://fresh360degrees.in/products" target="_blank" style="font-size: 14px; font-weight: 700; color: #FFFFFF; text-decoration: none; padding: 14px 32px; border-radius: 50px; display: inline-block; border: 1px solid #1E5E31; letter-spacing: 0.02em;">
+                            Explore Our Beverages →
+                          </a>
+                        </td>
+                      </tr>
+                    </table>
+                  </td>
+                </tr>
+              </table>
+
+              <p style="margin: 0; font-size: 14px; color: #334155; line-height: 1.6;">
+                Stay fresh,<br />
+                <strong style="color: #0C1E0C;">The Fresh 360 Degrees Foods Team</strong><br />
+                <span style="font-size: 12px; color: #64748B;">Secunderabad, Telangana · India</span>
+              </p>
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="background-color: #0A1A0A; padding: 32px 44px; text-align: center;">
+              <table border="0" cellpadding="0" cellspacing="0" width="100%" role="presentation">
+                <tr>
+                  <td align="center">
+                    <p style="margin: 0 0 8px 0; font-size: 13px; font-weight: 800; color: #FFFFFF; letter-spacing: 0.05em;">
+                      FRESH 360 DEGREES FOODS LLP
+                    </p>
+                    <p style="margin: 0 0 16px 0; font-size: 12px; color: #8CA08C; line-height: 1.5;">
+                      Manufacturers of Premium Cold-Pressed Juices &amp; Sparkling Beverages<br />
+                      Macherla Enclave, Mudfort, Secunderabad, Telangana 500009
+                    </p>
+                    <table border="0" cellpadding="0" cellspacing="0" role="presentation" style="margin: 0 auto;">
+                      <tr>
+                        <td style="padding: 0 8px;">
+                          <a href="https://fresh360degrees.in" style="color: #48A148; font-size: 12px; text-decoration: none; font-weight: 600;">Website</a>
+                        </td>
+                        <td style="color: #445544; font-size: 12px;">•</td>
+                        <td style="padding: 0 8px;">
+                          <a href="https://www.instagram.com/fresh360degreesfoods" style="color: #48A148; font-size: 12px; text-decoration: none; font-weight: 600;">Instagram</a>
+                        </td>
+                        <td style="color: #445544; font-size: 12px;">•</td>
+                        <td style="padding: 0 8px;">
+                          <a href="mailto:support@fresh360degrees.in" style="color: #48A148; font-size: 12px; text-decoration: none; font-weight: 600;">Support Desk</a>
+                        </td>
+                      </tr>
+                    </table>
+                    <p style="margin: 18px 0 0 0; font-size: 11px; color: #556655;">
+                      © ${year} Fresh 360 Degrees Foods LLP. All rights reserved.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+        </table>
+      </td>
+    </tr>
+  </table>
+</body>
+</html>`
+}
