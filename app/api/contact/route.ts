@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { Resend } from 'resend'
 import { sanityWriteClient } from '@/lib/sanity'
 import { z } from 'zod'
+import { getSupportNotificationHtml, getCustomerAcknowledgementHtml } from '@/lib/email-templates'
 
 const resendApiKey = process.env.RESEND_API_KEY
 const resend = resendApiKey ? new Resend(resendApiKey) : null
@@ -64,13 +65,24 @@ export async function POST(req: NextRequest) {
       const sender = process.env.RESEND_FROM_EMAIL || 'Fresh360 Degrees Foods <support@fresh360degrees.in>'
       const supportEmail = 'support@fresh360degrees.in'
 
+      const emailData = {
+        fullName,
+        email,
+        phone: phone || '',
+        brandInterest: brandInterest || 'General',
+        inquiryType: inquiryType || 'General Inquiry',
+        message,
+        sanityDocId,
+        submittedAt: new Date().toISOString(),
+      }
+
       try {
         await resend.emails.send({
           from: sender,
           to: supportEmail,
           replyTo: email,
           subject: `New Customer Inquiry: ${fullName} (${inquiryType})`,
-          html: `<p>New inquiry from ${fullName} (${email}, ${phone || 'N/A'}).</p><p><strong>Brand:</strong> ${brandInterest}<br/><strong>Type:</strong> ${inquiryType}</p><p>${message}</p>`,
+          html: getSupportNotificationHtml(emailData),
         })
       } catch (err: any) {
         console.warn('[Contact API] Resend support notification error:', err?.message || err)
@@ -81,8 +93,8 @@ export async function POST(req: NextRequest) {
           from: sender,
           to: email,
           replyTo: supportEmail,
-          subject: 'We have received your inquiry — Fresh360 Degrees Foods',
-          html: `<p>Dear ${fullName},</p><p>Thank you for reaching out to Fresh360 Degrees Foods. We have received your inquiry regarding ${brandInterest} (${inquiryType}) and our team will be in touch with you shortly.</p>`,
+          subject: 'We have received your inquiry — Fresh 360 Degrees Foods',
+          html: getCustomerAcknowledgementHtml(emailData),
         })
       } catch (err: any) {
         console.warn('[Contact API] Resend customer acknowledgement error:', err?.message || err)

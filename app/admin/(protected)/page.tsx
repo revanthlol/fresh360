@@ -84,121 +84,13 @@ export default async function AdminDashboardPage() {
         </div>
       </div>
 
-      {/* Metrics Row */}
-      <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        {/* Total Inquiries */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Total Inquiries</span>
-            <Inbox className="w-4 h-4 text-slate-400" />
-          </div>
-          <div className="text-3xl font-display font-bold text-slate-900">
-            {totalEnquiries}
-          </div>
-          <p className="text-[11px] text-slate-400">Captured in Sanity</p>
-        </div>
-
-        {/* New Leads */}
-        <div className="bg-white p-5 rounded-2xl border border-amber-200 bg-amber-50/20 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-amber-800">
-            <span className="text-[11px] font-bold uppercase tracking-wider">New Leads</span>
-            <AlertCircle className="w-4 h-4 text-amber-600" />
-          </div>
-          <div className="text-3xl font-display font-bold text-amber-900">
-            {newEnquiries}
-          </div>
-          <p className="text-[11px] text-amber-700/80 font-medium">Require action</p>
-        </div>
-
-        {/* Contacted */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-blue-700">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Contacted</span>
-            <Clock className="w-4 h-4 text-blue-500" />
-          </div>
-          <div className="text-3xl font-display font-bold text-slate-900">
-            {contactedEnquiries}
-          </div>
-          <p className="text-[11px] text-slate-400">In communication</p>
-        </div>
-
-        {/* Resolved */}
-        <div className="bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-emerald-700">
-            <span className="text-[11px] font-bold uppercase tracking-wider">Resolved</span>
-            <CheckCircle2 className="w-4 h-4 text-emerald-500" />
-          </div>
-          <div className="text-3xl font-display font-bold text-slate-900">
-            {resolvedEnquiries}
-          </div>
-          <p className="text-[11px] text-slate-400">Successfully closed</p>
-        </div>
-
-        {/* Catalog Stats */}
-        <div className="col-span-2 lg:col-span-1 bg-white p-5 rounded-2xl border border-slate-200/80 shadow-xs space-y-2">
-          <div className="flex items-center justify-between text-slate-500">
-            <span className="text-[11px] font-bold uppercase tracking-wider">CMS Catalog</span>
-            <Package className="w-4 h-4 text-brand-teal" />
-          </div>
-          <div className="text-2xl font-display font-bold text-slate-900">
-            {productCount} <span className="text-sm font-medium text-slate-400">items</span>
-          </div>
-          <p className="text-[11px] text-slate-500">
-            Across {brandCount} brands (Juicera & Fruizy)
-          </p>
-        </div>
-      </div>
-
-      {/* Resend Integration Status Notice */}
-      <div className="bg-white p-6 rounded-3xl border border-slate-200/90 shadow-xs">
-        <div className="flex items-start gap-4">
-          <div className="w-10 h-10 rounded-2xl bg-emerald-50 border border-emerald-200/80 flex items-center justify-center text-brand-green shrink-0">
-            <Send className="w-5 h-5" />
-          </div>
-          <div className="flex-1 space-y-2">
-            <div className="flex flex-wrap items-center gap-2.5">
-              <h3 className="font-bold text-slate-900 text-sm">
-                Resend Email Notification Integration
-              </h3>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
-                <CheckCircle2 className="w-3 h-3 text-brand-green" />
-                Domain Verified & Active
-              </span>
-              <span className="px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[10px] font-bold flex items-center gap-1">
-                <ShieldCheck className="w-3 h-3" />
-                Sanity Inquiries Stored Automatically
-              </span>
-            </div>
-
-            <p className="text-xs text-slate-600 leading-relaxed">
-              Every customer inquiry submitted through the website is recorded in Sanity CMS and automatically dispatches real-time notifications to <strong className="text-slate-900 font-semibold">support@fresh360degrees.in</strong> (with customer reply-to) alongside an instant acknowledgement email to the customer.
-            </p>
-
-            <div className="flex flex-wrap items-center gap-4 pt-1 text-xs text-slate-500">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Sender: <code className="text-slate-800 font-mono text-[11px]">support@fresh360degrees.in</code></span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>DKIM / SPF aligned on <code className="text-slate-800 font-mono text-[11px]">fresh360degrees.in</code></span>
-              </div>
-              <div className="flex items-center gap-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Outbound only (existing mailbox unaffected)</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* Inquiries Section */}
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold font-display text-slate-900">
               Customer Inquiries
-            </h2>
+            </h2> 
             <p className="text-xs text-slate-500">
               Manage incoming contact requests, wholesale distribution queries, and customer messages.
             </p>
