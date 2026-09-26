@@ -178,11 +178,11 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
   }
 
   return (
-    <div className="space-y-4 flex flex-col flex-1 min-h-0">
+    <div className="flex-1 min-h-0 flex flex-col gap-3">
       {/* Controls Bar: Search, Filters & Quick Refresh */}
       <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 shrink-0">
-        {/* Filter Pills */}
-        <div className="flex items-center gap-1.5 overflow-x-auto pb-1 sm:pb-0">
+        {/* Filter Pills with generous padding to prevent button clipping */}
+        <div className="flex items-center gap-2 overflow-x-auto py-1.5 px-0.5 shrink-0">
           {(
             [
               { key: 'all', label: 'All Inquiries', count: initialEnquiries.length },
@@ -190,19 +190,16 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
                 key: 'new',
                 label: 'New',
                 count: countNew,
-                color: 'text-amber-700 bg-amber-50 border-amber-200',
               },
               {
                 key: 'contacted',
                 label: 'Contacted',
                 count: countContacted,
-                color: 'text-blue-700 bg-blue-50 border-blue-200',
               },
               {
                 key: 'resolved',
                 label: 'Resolved',
                 count: countResolved,
-                color: 'text-emerald-700 bg-emerald-50 border-emerald-200',
               },
             ] as const
           ).map((tab) => {
@@ -210,12 +207,13 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
             return (
               <button
                 key={tab.key}
+                type="button"
                 onClick={() => setFilter(tab.key)}
                 className={cn(
-                  "px-3 py-1.5 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 border cursor-pointer shrink-0",
+                  "px-3.5 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-2 border cursor-pointer shrink-0 leading-normal",
                   isActive
-                    ? "bg-slate-900 text-white border-slate-900 shadow-xs scale-[1.02]"
-                    : "bg-white text-slate-600 border-slate-200/80 hover:bg-slate-50 hover:text-slate-900"
+                    ? "bg-slate-900 text-white border-slate-900 shadow-xs"
+                    : "bg-white text-slate-600 border-slate-200 hover:bg-slate-50 hover:text-slate-900"
                 )}
               >
                 <span>{tab.label}</span>
@@ -232,28 +230,28 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
           })}
         </div>
 
-        {/* Right side controls: Search & Refresh */}
-        <div className="flex items-center gap-2">
-          {/* Search Input */}
-          <div className="relative flex-1 sm:min-w-[240px]">
-            <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+        {/* Right side controls: Wider Search Bar & Refresh */}
+        <div className="flex items-center gap-2.5">
+          {/* Search Input - made significantly wider */}
+          <div className="relative w-full sm:w-80 md:w-96">
+            <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
               <Search className="w-4 h-4" />
             </div>
             <input
               type="text"
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              placeholder="Search inquiries or notes..."
-              className="w-full pl-9 pr-8 py-1.5 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all shadow-2xs"
+              placeholder="Search inquiries, names, emails..."
+              className="w-full h-10 pl-10 pr-9 py-2 rounded-xl bg-white border border-slate-200 text-slate-900 text-xs focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all shadow-2xs"
             />
             {search && (
               <button
                 type="button"
                 onClick={() => setSearch('')}
-                className="absolute inset-y-0 right-0 pr-2.5 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
+                className="absolute inset-y-0 right-0 pr-3 flex items-center text-slate-400 hover:text-slate-600 cursor-pointer"
                 title="Clear search"
               >
-                <X className="w-3.5 h-3.5" />
+                <X className="w-4 h-4" />
               </button>
             )}
           </div>
@@ -263,7 +261,7 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
             type="button"
             onClick={handleRefresh}
             disabled={isRefreshing || isPending}
-            className="px-3 py-1.5 rounded-xl bg-white border border-slate-200/90 text-slate-600 hover:text-slate-900 hover:bg-slate-50 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer disabled:opacity-50 shrink-0"
+            className="h-10 px-3.5 py-2 rounded-xl bg-white border border-slate-200 text-slate-600 hover:text-slate-900 hover:bg-slate-50 text-xs font-semibold flex items-center gap-1.5 transition-all shadow-2xs cursor-pointer disabled:opacity-50 shrink-0"
             title="Refresh Inquiries"
           >
             <RefreshCw className={cn("w-3.5 h-3.5", (isRefreshing || isPending) && "animate-spin text-brand-green")} />
@@ -272,8 +270,8 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
         </div>
       </div>
 
-      {/* Inquiry Table Bounded Container - Constrained to screen bottom with inner scroll */}
-      <div className="bg-white border border-slate-200/90 rounded-2xl shadow-xs overflow-hidden flex flex-col h-[calc(100vh-270px)] min-h-[460px]">
+      {/* Inquiry Table Bounded Container - fits perfectly inside view with visible bottom border */}
+      <div className="flex-1 min-h-0 bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden flex flex-col">
         {filteredEnquiries.length === 0 ? (
           <div className="flex-1 flex flex-col items-center justify-center p-12 text-center text-slate-500">
             <div className="w-12 h-12 rounded-2xl bg-slate-50 border border-slate-200/70 flex items-center justify-center text-slate-400 mb-3 shadow-xs">
@@ -296,164 +294,148 @@ export function InquiriesTable({ initialEnquiries }: InquiriesTableProps) {
             )}
           </div>
         ) : (
-          <>
-            {/* Scrollable list of inquiries */}
-            <div className="flex-1 overflow-y-auto overflow-x-auto divide-y divide-slate-100 relative">
-              <table className="w-full text-left text-xs border-collapse">
-                <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur-xs shadow-xs border-b border-slate-200/80">
-                  <tr className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
-                    <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs">Customer</th>
-                    <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs">Brand & Type</th>
-                    <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs">Message Preview</th>
-                    <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs">Date</th>
-                    <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs">Status</th>
-                    <th className="py-3 px-4 text-right bg-slate-50/95 backdrop-blur-xs">Actions</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-100">
-                  {filteredEnquiries.map((enquiry) => {
-                    const rawStatus = enquiry.status || 'new'
-                    const status = rawStatus === 'in-progress' ? 'contacted' : rawStatus
-                    const isUpdating = updatingId === enquiry._id && isPending
-                    const customerName = enquiry.fullName || enquiry.name || 'Anonymous Customer'
-                    const inquirySubject = enquiry.inquiryType || enquiry.subject || 'General Inquiry'
-                    const dateStr = enquiry.submittedAt || enquiry.createdAt
-                    const hasNotes = Boolean(enquiry.internalNotes && enquiry.internalNotes.trim().length > 0)
+          <div className="flex-1 min-h-0 overflow-y-auto overflow-x-auto relative">
+            <table className="w-full text-left text-xs border-collapse">
+              <thead className="sticky top-0 z-10 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200 shadow-2xs">
+                <tr className="text-[11px] font-bold text-slate-600 uppercase tracking-wider">
+                  <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Customer</th>
+                  <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Brand & Type</th>
+                  <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Message Preview</th>
+                  <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Date</th>
+                  <th className="py-3 px-4 bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Status</th>
+                  <th className="py-3 px-4 text-right bg-slate-50/95 backdrop-blur-xs border-b border-slate-200">Actions</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-200">
+                {filteredEnquiries.map((enquiry) => {
+                  const rawStatus = enquiry.status || 'new'
+                  const status = rawStatus === 'in-progress' ? 'contacted' : rawStatus
+                  const isUpdating = updatingId === enquiry._id && isPending
+                  const customerName = enquiry.fullName || enquiry.name || 'Anonymous Customer'
+                  const inquirySubject = enquiry.inquiryType || enquiry.subject || 'General Inquiry'
+                  const dateStr = enquiry.submittedAt || enquiry.createdAt
+                  const hasNotes = Boolean(enquiry.internalNotes && enquiry.internalNotes.trim().length > 0)
 
-                    return (
-                      <tr
-                        key={enquiry._id}
-                        className={cn(
-                          "hover:bg-slate-50/80 transition-colors group cursor-pointer",
-                          status === 'new' && "bg-amber-50/20"
-                        )}
-                        onClick={() => setSelectedEnquiry(enquiry)}
-                      >
-                        {/* Customer Info */}
-                        <td className="py-3.5 px-4">
-                          <div className="flex items-center gap-1.5 font-bold text-slate-900 text-sm">
-                            <span>{customerName}</span>
-                            {hasNotes && (
-                              <span 
-                                title="Internal notes attached"
-                                className="inline-flex items-center p-0.5 rounded text-brand-green bg-emerald-50"
-                              >
-                                <FileText className="w-3 h-3" />
-                              </span>
-                            )}
-                          </div>
-                          <div className="flex items-center gap-2 mt-0.5 text-slate-500 text-[11px]">
-                            {enquiry.email && (
-                              <span className="flex items-center gap-1">
-                                <Mail className="w-3 h-3 text-slate-400" />
-                                {enquiry.email}
-                              </span>
-                            )}
-                            {enquiry.phone && (
-                              <span className="flex items-center gap-1">
-                                <Phone className="w-3 h-3 text-slate-400" />
-                                {enquiry.phone}
-                              </span>
-                            )}
-                          </div>
-                        </td>
-
-                        {/* Brand Interest & Inquiry Type */}
-                        <td className="py-3.5 px-4">
-                          <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider mb-1">
-                            <Tag className="w-2.5 h-2.5" />
-                            <span>{enquiry.brandInterest || 'General'}</span>
-                          </div>
-                          <div className="text-slate-800 font-semibold line-clamp-1">
-                            {inquirySubject}
-                          </div>
-                        </td>
-
-                        {/* Message Preview */}
-                        <td className="py-3.5 px-4 max-w-xs">
-                          <p className="text-slate-600 line-clamp-2 leading-relaxed">
-                            {enquiry.message || '—'}
-                          </p>
-                        </td>
-
-                        {/* Date */}
-                        <td className="py-3.5 px-4 whitespace-nowrap text-slate-500 text-[11px]">
-                          {formatDate(dateStr)}
-                        </td>
-
-                        {/* Status Selector */}
-                        <td className="py-3.5 px-4 whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                          <div className="relative inline-flex items-center gap-1.5">
-                            <div className="relative inline-block">
-                              <select
-                                disabled={isUpdating}
-                                value={status}
-                                onChange={(e) =>
-                                  handleStatusChange(
-                                    enquiry._id,
-                                    e.target.value as 'new' | 'contacted' | 'resolved'
-                                  )
-                                }
-                                className={cn(
-                                  "appearance-none pl-2.5 pr-6 py-1 rounded-lg text-[11px] font-bold border transition-all cursor-pointer disabled:opacity-50",
-                                  status === 'new' &&
-                                    "bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100",
-                                  status === 'contacted' &&
-                                    "bg-blue-50 text-blue-800 border-blue-300 hover:bg-blue-100",
-                                  status === 'resolved' &&
-                                    "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
-                                )}
-                              >
-                                <option value="new">New</option>
-                                <option value="contacted">Contacted</option>
-                                <option value="resolved">Resolved</option>
-                              </select>
-                              <ChevronDown className="w-3 h-3 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500" />
-                            </div>
-                            {isUpdating && <Loader2 className="w-3.5 h-3.5 text-brand-green animate-spin" />}
-                          </div>
-                        </td>
-
-                        {/* Actions */}
-                        <td className="py-3.5 px-4 text-right whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
-                          <div className="flex items-center justify-end gap-1.5">
-                            <button
-                              onClick={() => setSelectedEnquiry(enquiry)}
-                              className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
-                              title="View Full Inquiry & Notes"
+                  return (
+                    <tr
+                      key={enquiry._id}
+                      className={cn(
+                        "hover:bg-slate-50/80 transition-colors group cursor-pointer border-b border-slate-200/90 last:border-b-0",
+                        status === 'new' && "bg-amber-50/20"
+                      )}
+                      onClick={() => setSelectedEnquiry(enquiry)}
+                    >
+                      {/* Customer Info */}
+                      <td className="py-3.5 px-4 border-b border-slate-200/60">
+                        <div className="flex items-center gap-1.5 font-bold text-slate-900 text-sm">
+                          <span>{customerName}</span>
+                          {hasNotes && (
+                            <span 
+                              title="Internal notes attached"
+                              className="inline-flex items-center p-0.5 rounded text-brand-green bg-emerald-50"
                             >
-                              <ExternalLink className="w-3.5 h-3.5" />
-                            </button>
-                            <button
-                              onClick={() => handleDelete(enquiry._id, customerName)}
+                              <FileText className="w-3 h-3" />
+                            </span>
+                          )}
+                        </div>
+                        <div className="flex items-center gap-2 mt-0.5 text-slate-500 text-[11px]">
+                          {enquiry.email && (
+                            <span className="flex items-center gap-1">
+                              <Mail className="w-3 h-3 text-slate-400" />
+                              {enquiry.email}
+                            </span>
+                          )}
+                          {enquiry.phone && (
+                            <span className="flex items-center gap-1">
+                              <Phone className="w-3 h-3 text-slate-400" />
+                              {enquiry.phone}
+                            </span>
+                          )}
+                        </div>
+                      </td>
+
+                      {/* Brand Interest & Inquiry Type */}
+                      <td className="py-3.5 px-4 border-b border-slate-200/60">
+                        <div className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 text-[10px] font-bold uppercase tracking-wider mb-1">
+                          <Tag className="w-2.5 h-2.5" />
+                          <span>{enquiry.brandInterest || 'General'}</span>
+                        </div>
+                        <div className="text-slate-800 font-semibold line-clamp-1">
+                          {inquirySubject}
+                        </div>
+                      </td>
+
+                      {/* Message Preview */}
+                      <td className="py-3.5 px-4 max-w-xs border-b border-slate-200/60">
+                        <p className="text-slate-600 line-clamp-2 leading-relaxed">
+                          {enquiry.message || '—'}
+                        </p>
+                      </td>
+
+                      {/* Date */}
+                      <td className="py-3.5 px-4 whitespace-nowrap text-slate-500 text-[11px] border-b border-slate-200/60">
+                        {formatDate(dateStr)}
+                      </td>
+
+                      {/* Status Selector */}
+                      <td className="py-3.5 px-4 whitespace-nowrap border-b border-slate-200/60" onClick={(e) => e.stopPropagation()}>
+                        <div className="relative inline-flex items-center gap-1.5">
+                          <div className="relative inline-block">
+                            <select
                               disabled={isUpdating}
-                              className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
-                              title="Delete Inquiry"
+                              value={status}
+                              onChange={(e) =>
+                                handleStatusChange(
+                                  enquiry._id,
+                                  e.target.value as 'new' | 'contacted' | 'resolved'
+                                )
+                              }
+                              className={cn(
+                                "appearance-none pl-2.5 pr-6 py-1 rounded-lg text-[11px] font-bold border transition-all cursor-pointer disabled:opacity-50",
+                                status === 'new' &&
+                                  "bg-amber-50 text-amber-800 border-amber-300 hover:bg-amber-100",
+                                status === 'contacted' &&
+                                  "bg-blue-50 text-blue-800 border-blue-300 hover:bg-blue-100",
+                                status === 'resolved' &&
+                                  "bg-emerald-50 text-emerald-800 border-emerald-300 hover:bg-emerald-100"
+                              )}
                             >
-                              <Trash2 className="w-3.5 h-3.5" />
-                            </button>
+                              <option value="new">New</option>
+                              <option value="contacted">Contacted</option>
+                              <option value="resolved">Resolved</option>
+                            </select>
+                            <ChevronDown className="w-3 h-3 absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-slate-500" />
                           </div>
-                        </td>
-                      </tr>
-                    )
-                  })}
-                </tbody>
-              </table>
-            </div>
+                          {isUpdating && <Loader2 className="w-3.5 h-3.5 text-brand-green animate-spin" />}
+                        </div>
+                      </td>
 
-            {/* Bounded Container Status Bar */}
-            <div className="py-2.5 px-4 bg-slate-50/80 border-t border-slate-200/80 flex items-center justify-between text-[11px] text-slate-500 font-medium shrink-0">
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span>
-                  Showing {filteredEnquiries.length} of {initialEnquiries.length} {initialEnquiries.length === 1 ? 'inquiry' : 'inquiries'}
-                </span>
-              </div>
-              <span className="text-slate-400 hidden sm:inline text-[10px]">
-                Scroll inside container to view inquiries
-              </span>
-            </div>
-          </>
+                      {/* Actions */}
+                      <td className="py-3.5 px-4 text-right whitespace-nowrap border-b border-slate-200/60" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex items-center justify-end gap-1.5">
+                          <button
+                            onClick={() => setSelectedEnquiry(enquiry)}
+                            className="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition-colors cursor-pointer"
+                            title="View Full Inquiry & Notes"
+                          >
+                            <ExternalLink className="w-3.5 h-3.5" />
+                          </button>
+                          <button
+                            onClick={() => handleDelete(enquiry._id, customerName)}
+                            disabled={isUpdating}
+                            className="p-1.5 rounded-lg text-red-500 hover:text-red-700 hover:bg-red-50 transition-colors disabled:opacity-50 cursor-pointer"
+                            title="Delete Inquiry"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  )
+                })}
+              </tbody>
+            </table>
+          </div>
         )}
       </div>
 
