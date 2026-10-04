@@ -51,9 +51,7 @@ export function ProductMediaFrame({
           priority={priority}
         />
       ) : (
-        <div className="absolute inset-0 flex h-full w-full items-center justify-center text-5xl opacity-20">
-          🥤
-        </div>
+        <div className="absolute inset-0 flex items-center justify-center px-6 text-center text-sm font-medium text-slate-500">Product image unavailable</div>
       )}
 
       <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0)_60%,rgba(45,106,45,0.05)_100%)]" />

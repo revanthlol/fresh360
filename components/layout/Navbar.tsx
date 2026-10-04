@@ -44,6 +44,7 @@ const singlePageNavLinks: NavItem[] = [
 const brandLinks = [
   { name: 'Juicera', href: '/brands/juicera', tone: 'text-brand-green' },
   { name: 'Fruizy', href: '/brands/fruizy', tone: 'text-brand-teal' },
+  { name: 'Fizzo', href: '/brands/fizzo', tone: 'text-brand-orange' },
 ]
 
 export function Navbar() {

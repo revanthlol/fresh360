@@ -12,14 +12,12 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
     <section id={id} className="py-24 relative overflow-hidden bg-transparent">
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200/60 text-brand-green text-xs font-bold uppercase tracking-widest">
-            <Send size={13} /> Direct Connect
-          </div>
+
           <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">
-            Let’s Talk Pure Refreshment
+            Let’s talk drinks
           </h2>
           <p className="text-slate-600 text-base md:text-lg">
-            Have questions about distribution, wholesale supply, or our cold-pressed process? Drop us a line or message us directly.
+            Have questions about our drinks, distribution or wholesale supply? Send us an inquiry or message us directly.
           </p>
         </div>
 

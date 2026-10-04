@@ -1,197 +1,83 @@
 "use client"
 
 import React, { useRef } from 'react'
-import { motion, useScroll, useTransform } from 'motion/react'
-import { Droplets, Leaf, Zap, ShieldOff, Palette } from 'lucide-react'
+import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 
-const features = [
+const chapters = [
   {
-    icon: Droplets,
-    kicker: 'Our Process',
-    headline: 'Cold-Pressed.',
-    sub: 'No heat. No shortcuts. Every bottle is cold-pressed to lock in maximum nutrients, enzymes, and flavour — exactly as nature intended.',
-    color: 'text-brand-green',
-    accent: 'bg-brand-green',
-    light: 'bg-brand-green/5',
+    brand: 'Juicera',
+    lead: 'Pressed',
+    title: 'The cold-pressed side.',
+    detail: 'Juicera brings juice and nut drinks to the Fresh 360 collection.',
+    accent: '#2D6A2D',
+    wash: 'from-[#e0efdc] to-[#f6faf2]',
   },
   {
-    icon: Zap,
-    kicker: 'What We Leave Out',
-    headline: 'No Added Sugar.',
-    sub: "No refined sugar, high-fructose syrups, or synthetic sweeteners. The only sweetness comes naturally from whole, ripe fruit.",
-    color: 'text-brand-teal',
-    accent: 'bg-brand-teal',
-    light: 'bg-brand-teal/5',
+    brand: 'Fruizy',
+    lead: 'Sparkling',
+    title: 'A little more sparkle.',
+    detail: 'Fruizy is the fruit drink line with a lively sparkling finish.',
+    accent: '#0F766E',
+    wash: 'from-[#d7f2ed] to-[#f4fbf8]',
   },
   {
-    icon: ShieldOff,
-    kicker: 'Shelf Life Philosophy',
-    headline: 'No Preservatives.',
-    sub: "We don't believe in chemicals to extend shelf life. Fresh means fresh — consumed close to when it's pressed, the way it should be.",
-    color: 'text-brand-green',
-    accent: 'bg-brand-green',
-    light: 'bg-brand-green/5',
-  },
-  {
-    icon: Palette,
-    kicker: 'What You See',
-    headline: 'No Artificial Colours.',
-    sub: 'The vivid colour in every bottle is pure fruit and vegetable. Nothing dyed. Nothing doctored. Pure visual honesty.',
-    color: 'text-brand-teal',
-    accent: 'bg-brand-teal',
-    light: 'bg-brand-teal/5',
-  },
-  {
-    icon: Leaf,
-    kicker: 'The Promise',
-    headline: '100% Pure.',
-    sub: 'Every ingredient is traceable. Every batch is intentional. What goes in the bottle is exactly what you think it is — nothing more, nothing less.',
-    color: 'text-brand-green',
-    accent: 'bg-brand-green',
-    light: 'bg-brand-green/5',
+    brand: 'Fizzo',
+    lead: 'Fizzy',
+    title: 'Turn up the fizz.',
+    detail: 'Fizzo takes a bolder route with eight artificially flavoured fizzy drinks.',
+    accent: '#C2410C',
+    wash: 'from-[#fce7d4] to-[#fff9ef]',
   },
 ]
 
-// Stagger variants — computed once, not per-scroll-frame
-const containerVariants = {
-  hidden: {},
-  visible: { transition: { staggerChildren: 0.12 } },
-}
-
-const kickerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1 },
-}
-
-const headlineVariants = {
-  hidden: { opacity: 0, y: 40 },
-  visible: { opacity: 1, y: 0 },
-}
-
-const subVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0 },
-}
-
-const iconVariants = {
-  hidden: { opacity: 0, scale: 0.85 },
-  visible: { opacity: 1, scale: 1 },
-}
-
-const lineVariants = {
-  hidden: { scaleY: 0 },
-  visible: { scaleY: 1 },
-}
-
-function FeatureBlock({ feature, index }: { feature: typeof features[0]; index: number }) {
-  const Icon = feature.icon
-  const isEven = index % 2 === 0
+function StoryChapter({ chapter, index }: { chapter: typeof chapters[number]; index: number }) {
+  const ref = useRef<HTMLElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const y = useTransform(scrollYProgress, [0, 0.38, 1], reduceMotion ? [0, 0, 0] : [48, 0, -30])
+  const opacity = useTransform(scrollYProgress, [0, 0.22, 0.78, 1], reduceMotion ? [1, 1, 1, 1] : [0.48, 1, 1, 0.7])
 
   return (
-    <motion.div
-      variants={containerVariants}
-      initial="hidden"
-      whileInView="visible"
-      // Once the element enters view it animates and is done — no ongoing scroll cost
-      viewport={{ once: true, margin: '-80px' }}
-      className={`flex flex-col ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'} items-center gap-8 md:gap-20 py-12 md:py-24`}
-    >
-      {/* Icon & index */}
-      <motion.div
-        variants={iconVariants}
-        transition={{ duration: 0.45, ease: 'easeOut' }}
-        className="shrink-0 flex flex-col items-center gap-4"
-      >
-        <div className="relative w-16 h-16 md:w-28 md:h-28 rounded-2xl md:rounded-3xl bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(236,247,236,0.96))] border border-emerald-100/80 flex items-center justify-center shadow-[0_18px_40px_-24px_rgba(45,106,45,0.28)]">
-          <Icon size={24} className={`md:w-10 md:h-10 ${feature.color}`} />
-          <span className="absolute -top-1 -right-1 md:-top-2 md:-right-2 w-6 h-6 md:w-7 md:h-7 rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(240,248,240,0.98))] border border-emerald-100/80 shadow-sm text-[9px] md:text-[10px] font-black text-slate-400 flex items-center justify-center">
-            {String(index + 1).padStart(2, '0')}
-          </span>
+    <article ref={ref} className="relative flex min-h-[25rem] items-center border-t border-emerald-900/10 py-12 md:min-h-[65vh] md:py-20">
+      <motion.div style={{ y, opacity }} className="relative w-full">
+        <div className="mb-8 flex items-center gap-4">
+          <span className="font-display text-sm font-extrabold tabular-nums" style={{ color: chapter.accent }}>0{index + 1}</span>
+          <span className="h-px w-12" style={{ backgroundColor: chapter.accent }} aria-hidden="true" />
+          <span className="font-display text-sm font-bold uppercase tracking-[0.16em]" style={{ color: chapter.accent }}>{chapter.brand}</span>
         </div>
-        {/* Line — triggered by parent whileInView, no own scroll listener */}
-        <div className="hidden md:block w-[2px] h-24 bg-slate-100 rounded-full overflow-hidden">
-          <motion.div
-            variants={lineVariants}
-            transition={{ duration: 0.7, ease: 'easeOut', delay: 0.3 }}
-            className={`w-full h-full ${feature.accent} origin-top`}
-          />
+        <div className={`relative isolate overflow-hidden rounded-[1.75rem] bg-gradient-to-br ${chapter.wash} px-7 py-12 sm:px-10 md:min-h-[22rem] md:px-12 md:py-16`}>
+          <span aria-hidden="true" className="pointer-events-none absolute -bottom-6 right-[-0.04em] -z-10 select-none font-display text-[clamp(5rem,11vw,10rem)] font-black uppercase leading-none tracking-[-0.08em] opacity-[0.085]" style={{ color: chapter.accent }}>{chapter.lead}</span>
+          <div className="relative max-w-md">
+            <h3 className="font-display text-4xl font-extrabold leading-[1.03] tracking-tight text-slate-900 sm:text-5xl">{chapter.title}</h3>
+            <p className="mt-5 max-w-sm text-base leading-relaxed text-slate-700">{chapter.detail}</p>
+          </div>
         </div>
       </motion.div>
-
-      {/* Text */}
-      <div className={`space-y-3 md:space-y-4 max-w-xl ${isEven ? 'text-center md:text-left' : 'text-center md:text-right'}`}>
-        <motion.span
-          variants={kickerVariants}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className={`block text-[10px] md:text-xs font-black uppercase tracking-[0.25em] ${feature.color}`}
-        >
-          {feature.kicker}
-        </motion.span>
-        <motion.h2
-          variants={headlineVariants}
-          transition={{ duration: 0.55, ease: 'easeOut' }}
-          className="font-display font-extrabold text-4xl sm:text-5xl md:text-7xl lg:text-8xl leading-[0.95] text-slate-900"
-        >
-          {feature.headline}
-        </motion.h2>
-        <motion.p
-          variants={subVariants}
-          transition={{ duration: 0.5, ease: 'easeOut' }}
-          className="text-sm md:text-lg text-slate-500 leading-relaxed max-w-md mx-auto md:mx-0"
-        >
-          {feature.sub}
-        </motion.p>
-      </div>
-    </motion.div>
+    </article>
   )
 }
 
 export function PhilosophyStrip() {
-  // Single scroll listener for the intro animation only
-  const introRef = useRef<HTMLDivElement>(null)
-  const { scrollYProgress } = useScroll({
-    target: introRef,
-    offset: ['start end', 'start 0.3'],
-  })
-  const introOpacity = useTransform(scrollYProgress, [0, 1], [0, 1])
-  const introY = useTransform(scrollYProgress, [0, 1], [30, 0])
+  const ref = useRef<HTMLElement>(null)
+  const reduceMotion = useReducedMotion()
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end end'] })
+  const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1])
 
   return (
-    <section className="relative home-surface overflow-hidden py-12 md:py-24">
-      {/* Cinematic Background Elements */}
-      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-brand-green/5 rounded-full blur-[120px] pointer-events-none -translate-y-1/2" />
-      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-brand-teal/5 rounded-full blur-[100px] pointer-events-none translate-y-1/2" />
-      
-      {/* Section intro */}
-      <motion.div
-        ref={introRef}
-        style={{ opacity: introOpacity, y: introY }}
-        className="container mx-auto px-6 max-w-6xl pt-12 pb-8 text-center relative z-10"
-      >
-        <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.3em] text-slate-400 mb-4 block">
-          Our Promise to You
-        </span>
-        <h2 className="font-display font-bold text-3xl md:text-5xl text-slate-900 leading-tight">
-          Five things we will{' '}
-          <span className="relative inline-block">
-            <span className="relative z-10 text-brand-green">never compromise</span>
-            <motion.span 
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.5, duration: 0.8 }}
-              className="absolute bottom-1 left-0 w-full h-3 bg-brand-green/10 -rotate-1 origin-left"
-            />
-          </span>
-          {' '}on.
-        </h2>
-      </motion.div>
-
-      {/* Feature blocks — intersection-observer driven, zero scroll cost */}
-      <div className="container mx-auto px-6 max-w-6xl relative z-10">
-        {features.map((feature, i) => (
-          <FeatureBlock key={feature.headline} feature={feature} index={i} />
-        ))}
+    <section ref={ref} className="relative overflow-clip bg-[#f7faf5] py-16 md:py-20">
+      <div className="container mx-auto grid max-w-7xl gap-10 px-5 sm:px-6 md:grid-cols-[minmax(17rem,0.8fr)_minmax(0,1.2fr)] md:gap-14 lg:gap-24">
+        <div className="md:relative">
+          <div className="md:sticky md:top-32">
+            <h2 className="max-w-[10ch] font-display text-4xl font-extrabold leading-[1.04] tracking-tight text-slate-900 sm:text-5xl lg:text-6xl">Pressed. Sparkling. Fizzy.</h2>
+            <p className="mt-6 max-w-sm text-base leading-relaxed text-slate-600">Follow the Fresh 360 collection from Juicera&apos;s cold-pressed drinks through Fruizy&apos;s sparkling fruit to Fizzo&apos;s bold fizz.</p>
+            <div className="mt-10 hidden h-28 w-px origin-top bg-emerald-900/10 md:block" aria-hidden="true">
+              <motion.div style={{ scaleY: reduceMotion ? 1 : scaleY }} className="h-full w-full origin-top bg-brand-green" />
+            </div>
+          </div>
+        </div>
+        <div>
+          {chapters.map((chapter, index) => <StoryChapter key={chapter.brand} chapter={chapter} index={index} />)}
+        </div>
       </div>
     </section>
   )

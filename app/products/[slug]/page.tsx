@@ -21,7 +21,7 @@ export default async function ProductDetailPage({
   const brandColors = {
     juicera: 'from-brand-green/20 to-brand-green/5 text-brand-green border-brand-green/20',
     fruizy: 'from-brand-teal/20 to-brand-teal/5 text-brand-teal border-brand-teal/20',
-    fuzzy: 'from-brand-teal/20 to-brand-teal/5 text-brand-teal border-brand-teal/20',
+    fizzo: 'from-brand-orange/20 to-brand-orange/5 text-brand-orange border-brand-orange/20',
   }
 
   const brandId = (product.brand?.id?.current || 'juicera') as keyof typeof brandColors
@@ -65,22 +65,18 @@ export default async function ProductDetailPage({
           <div className="space-y-10">
             <div className="space-y-4">
               <span className="text-brand-green font-bold uppercase tracking-widest text-sm">
-                {product.category.split('-').join(' ')}
+                {product.category?.split('-').join(' ') || 'Beverage'}
               </span>
               <h1 className="text-5xl md:text-6xl font-display font-bold text-slate-900 leading-tight">
                 {product.name}
               </h1>
-              <p className="text-2xl text-slate-500 font-medium italic">
-                &ldquo;{product.tagline}&rdquo;
-              </p>
-              <p className="text-lg text-slate-600 leading-relaxed max-w-xl">
-                {product.description}
-              </p>
+              {product.tagline && <p className="text-2xl text-slate-500 font-medium italic">&ldquo;{product.tagline}&rdquo;</p>}
+              {product.description && <p className="text-lg text-slate-600 leading-relaxed max-w-xl">{product.description}</p>}
             </div>
 
             <div className="grid sm:grid-cols-2 gap-8">
               {/* Ingredients */}
-              <div className="space-y-4">
+              {product.ingredients?.length ? <div className="space-y-4">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
                   <FlaskConical size={20} className="text-brand-green" />
                   <h3>Ingredients</h3>
@@ -92,10 +88,10 @@ export default async function ProductDetailPage({
                     </span>
                   ))}
                 </div>
-              </div>
+              </div> : null}
 
               {/* Benefits */}
-              <div className="space-y-4">
+              {product.benefits?.length ? <div className="space-y-4">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
                   <CheckCircle2 size={20} className="text-brand-green" />
                   <h3>Health Benefits</h3>
@@ -108,7 +104,7 @@ export default async function ProductDetailPage({
                     </li>
                   ))}
                 </ul>
-              </div>
+              </div> : null}
             </div>
 
             <div className="pt-8 border-t border-emerald-100/70 flex flex-col sm:flex-row items-center gap-6">

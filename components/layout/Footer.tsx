@@ -24,6 +24,7 @@ export function Footer() {
         '/contact': 'contact',
         '/brands/juicera': 'brands',
         '/brands/fruizy': 'brands',
+        '/brands/fizzo': 'brands',
       }
       const targetId = anchorMap[href] || (href.startsWith('#') ? href.substring(1) : '')
       if (targetId === 'top' || !targetId) {
@@ -76,7 +77,7 @@ export function Footer() {
   }
 
   return (
-    <footer className="bg-[#122412] border-t border-white/5 pt-24 pb-12 overflow-hidden relative text-white">
+    <footer className="bg-[#122412] border-t border-white/5 pt-24 pb-0 overflow-hidden relative text-white">
       {/* Decorative background elements - adjusted for dark theme */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-green/10 rounded-full -mr-64 -mt-64 blur-[120px] pointer-events-none opacity-50" />
       <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-teal/10 rounded-full -ml-48 -mb-48 blur-[100px] pointer-events-none opacity-30" />
@@ -89,7 +90,7 @@ export function Footer() {
               <Logo variant="dark" size="md" />
             </Link>
             <p className="text-white/50 text-base leading-relaxed max-w-xs">
-              Crafting nature&apos;s purest flavors into premium cold-pressed experiences. No chemical preservatives, No Added Sugar—just 100% natural goodness crafted for everyday vitality.
+              Fresh 360 brings together cold-pressed juice, sparkling fruit and bold fizzy drinks across three distinct brands.
             </p>
             <div className="flex gap-3">
               {socialLinks.map((social, i) => (
@@ -142,8 +143,9 @@ export function Footer() {
             </h4>
             <ul className="space-y-4">
               {[
-                { name: 'Juicera (Pure Cold Pressed)', href: '/brands/juicera' },
-                { name: 'Fruizy (Cold Pressed + Sparkle)', href: '/brands/fruizy' },
+                { name: 'Juicera', href: '/brands/juicera' },
+                { name: 'Fruizy', href: '/brands/fruizy' },
+                { name: 'Fizzo', href: '/brands/fizzo' },
               ].map((brand) => (
                 <li key={brand.name}>
                   <button
@@ -200,7 +202,7 @@ export function Footer() {
         </div>
 
         {/* Bottom Bar */}
-        <div className="mt-20 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
+        <div className="mt-16 pt-8 border-t border-white/10 flex flex-col md:flex-row justify-between items-center gap-6">
           <p className="text-white/30 text-sm">
             © {new Date().getFullYear()} Fresh 360 Degrees Foods LLP. All rights reserved.
           </p>
@@ -216,6 +218,12 @@ export function Footer() {
             </button>
           </div>
         </div>
+      </div>
+
+      <div aria-hidden="true" className="pointer-events-none relative z-0 mt-10 w-full select-none overflow-hidden">
+        <svg viewBox="0 0 1200 245" preserveAspectRatio="xMidYMax meet" className="block h-auto w-full translate-y-[4%] fill-white/[0.075]" focusable="false">
+          <text x="0" y="225" fontFamily="var(--font-outfit), Outfit, sans-serif" fontSize="250" fontWeight="900" textLength="1200" lengthAdjust="spacingAndGlyphs">FRESH 360</text>
+        </svg>
       </div>
     </footer>
   )

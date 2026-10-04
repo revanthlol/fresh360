@@ -62,7 +62,7 @@ export function LoadingScreen() {
               transition={{ delay: 0.3, duration: 0.5 }}
               className="text-xs font-bold uppercase tracking-[0.25em] text-slate-400"
             >
-              Nature&apos;s Purest Essence
+              Three ways to refresh
             </motion.p>
 
             {/* Progress bar */}

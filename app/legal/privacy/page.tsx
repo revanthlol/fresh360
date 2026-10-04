@@ -1,6 +1,7 @@
 import React from 'react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { ArrowLeft } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Fresh 360',
@@ -20,6 +21,9 @@ export default function PrivacyPolicyPage() {
       {/* Header */}
       <div className="home-surface border-b border-emerald-100/70 pt-28 pb-14">
         <div className="container mx-auto px-6 max-w-3xl">
+          <Link href="/" className="mb-8 inline-flex items-center gap-2 text-sm font-semibold text-brand-green transition-colors hover:text-emerald-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-4">
+            <ArrowLeft size={16} aria-hidden="true" /> Back to home
+          </Link>
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Legal</span>
           <h1 className="text-4xl md:text-5xl font-display font-extrabold text-slate-900 mt-3 mb-4">
             Privacy Policy

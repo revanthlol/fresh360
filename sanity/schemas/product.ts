@@ -37,6 +37,7 @@ export default defineType({
           { title: 'Nut Milk', value: 'nut-milk' },
           { title: 'Carbonated Juice', value: 'carbonated' },
           { title: 'Goli Soda', value: 'goli-soda' },
+          { title: 'Artificially Flavoured Fizzy Beverage', value: 'artificially-flavoured-fizzy' },
         ],
       },
       validation: (Rule) => Rule.required(),

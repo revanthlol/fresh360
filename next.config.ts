@@ -20,11 +20,6 @@ const nextConfig: NextConfig = {
   async redirects() {
     return [
       {
-        source: '/brands/fuzzy',
-        destination: '/brands/fruizy',
-        permanent: true,
-      },
-      {
         source: '/studio',
         destination: '/admin/studio',
         permanent: false,

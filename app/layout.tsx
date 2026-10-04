@@ -41,10 +41,10 @@ const baseUrl =
 
 export const metadata: Metadata = {
   title: {
-    default: "Fresh 360 | Premium Cold-Pressed Juices & Natural Beverages",
+    default: "Fresh 360 | Three ways to refresh",
     template: "%s | Fresh 360",
   },
-  description: "Experience the pure taste of nature with Fresh 360 Degrees Foods LLP. Premium cold-pressed juices, sparkling fruit beverages, and natural refreshments with no preservatives and No Added Sugar.",
+  description: "Explore Juicera cold-pressed juice, Fruizy sparkling fruit drinks and Fizzo bold fizzy flavours from Fresh 360 Degrees Foods LLP.",
   keywords: [
     "cold-pressed juice", 
     "natural beverages", 
@@ -52,6 +52,7 @@ export const metadata: Metadata = {
     "healthy drinks", 
     "Juicera", 
     "Fruizy", 
+    "Fizzo",
     "Hyderabad juice company",
     "cold pressed nut milk",
     "goli soda Hyderabad"
@@ -64,8 +65,8 @@ export const metadata: Metadata = {
     locale: "en_IN",
     url: baseUrl,
     siteName: "Fresh 360",
-    title: "Fresh 360 | Pure, Cold-Pressed, Natural",
-    description: "Experience the pure taste of nature with premium cold-pressed juices and natural beverages. No preservatives, No Added Sugar.",
+    title: "Fresh 360 | Drinks across three brands",
+    description: "Explore cold-pressed juice, sparkling fruit and bold fizzy flavours from Juicera, Fruizy and Fizzo.",
     images: [
       {
         url: "/fresh360-3_4.png",
@@ -77,8 +78,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Fresh 360 | Pure Natural Beverages",
-    description: "No preservatives. No Added Sugar. 100% natural cold-pressed juices.",
+    title: "Fresh 360 | Drinks across three brands",
+    description: "Cold-pressed juice, sparkling fruit and bold fizzy flavours from Fresh 360.",
     images: ["/fresh360-3_4.png"],
   },
   robots: {

@@ -17,7 +17,7 @@ export function ProductCard({ product, className }: ProductCardProps) {
   const brandColors = {
     juicera: 'text-brand-green bg-brand-green-light',
     fruizy: 'text-brand-teal bg-brand-teal-light',
-    fuzzy: 'text-brand-teal bg-brand-teal-light',
+    fizzo: 'text-brand-orange bg-brand-orange-light',
   }
 
   const brandId = (product.brand?.id?.current || 'juicera') as keyof typeof brandColors
@@ -53,12 +53,12 @@ export function ProductCard({ product, className }: ProductCardProps) {
             {product.name}
           </h3>
           <p className="text-slate-500 text-sm line-clamp-2 min-h-[40px]">
-            {product.tagline}
+              {product.tagline || ''}
           </p>
           
           <div className="pt-4 flex items-center justify-between">
             <span className="text-xs font-medium text-slate-400 italic">
-              {product.category.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}
+              {product.category?.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ') || 'Beverage'}
             </span>
             <div className="w-8 h-8 rounded-full bg-[linear-gradient(180deg,rgba(255,255,255,0.98),rgba(237,247,237,0.96))] flex items-center justify-center text-slate-400 group-hover:bg-brand-green group-hover:text-white transition-all">
               <ArrowRight size={16} />

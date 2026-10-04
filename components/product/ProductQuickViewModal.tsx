@@ -1,8 +1,8 @@
 "use client"
 
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
-import { X, Sparkles, CheckCircle2, MessageCircle, Mail, Layers, ShieldCheck } from 'lucide-react'
+import { X, Sparkles, CheckCircle2, MessageCircle, Mail, Layers } from 'lucide-react'
 import { Product } from '@/lib/sanity'
 import { ProductMediaFrame } from './ProductMediaFrame'
 import { cn } from '@/lib/utils'
@@ -14,45 +14,38 @@ interface ProductQuickViewModalProps {
 }
 
 export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuickViewModalProps) {
+  const dialogRef = useRef<HTMLDivElement>(null)
+  const closeButtonRef = useRef<HTMLButtonElement>(null)
   // Close on Escape key and lock body scroll
   useEffect(() => {
     if (!isOpen) return
 
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape') onClose()
+      if (e.key !== 'Tab' || !dialogRef.current) return
+      const controls = Array.from(dialogRef.current.querySelectorAll<HTMLElement>('a[href], button:not([disabled])'))
+      const first = controls[0]
+      const last = controls[controls.length - 1]
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last?.focus() }
+      if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus() }
     }
 
     document.body.style.overflow = 'hidden'
     window.addEventListener('keydown', handleKeyDown)
+    const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus())
 
     return () => {
+      cancelAnimationFrame(focusFrame)
       document.body.style.overflow = ''
       window.removeEventListener('keydown', handleKeyDown)
+      previouslyFocused?.focus({ preventScroll: true })
     }
   }, [isOpen, onClose])
 
   if (!product) return null
 
-  const brandColors: Record<string, { bg: string; text: string; border: string }> = {
-    juicera: {
-      bg: 'bg-emerald-50 text-emerald-700',
-      text: 'text-brand-green',
-      border: 'border-emerald-200',
-    },
-    fruizy: {
-      bg: 'bg-teal-50 text-teal-700',
-      text: 'text-brand-teal',
-      border: 'border-teal-200',
-    },
-    fuzzy: {
-      bg: 'bg-teal-50 text-teal-700',
-      text: 'text-brand-teal',
-      border: 'border-teal-200',
-    },
-  }
-
-  const brandId = (product.brand?.id?.current || 'juicera') as keyof typeof brandColors
-  const activeColor = brandColors[brandId] || brandColors.juicera
+  const activeColor = product.brand?.primaryColor || product.brand?.color || '#2D6A2D'
 
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9705522020'
   const whatsappMessage = encodeURIComponent(
@@ -76,6 +69,10 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
 
           {/* Modal Card */}
           <motion.div
+            ref={dialogRef}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="product-quick-view-title"
             initial={{ opacity: 0, scale: 0.94, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.94, y: 20 }}
@@ -84,6 +81,7 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
           >
             {/* Close Button */}
             <button
+              ref={closeButtonRef}
               onClick={onClose}
               aria-label="Close modal"
               className="absolute top-5 right-5 z-20 w-11 h-11 rounded-full bg-slate-100/90 hover:bg-slate-200 flex items-center justify-center text-slate-600 transition-colors active:scale-95"
@@ -104,10 +102,9 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                   {/* Floating Badge */}
                   <div
                     className={cn(
-                      'absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider border shadow-sm',
-                      activeColor.bg,
-                      activeColor.border
+                      'absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 text-xs font-bold uppercase tracking-wider border shadow-sm'
                     )}
+                    style={{ color: activeColor, borderColor: `${activeColor}55` }}
                   >
                     {product.brand?.name || 'Fresh 360'}
                   </div>
@@ -124,27 +121,18 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                             .split('-')
                             .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
                             .join(' ')
-                        : 'Cold Pressed'}
-                    </span>
-                    <span className="text-slate-300">•</span>
-                    <span className="inline-flex items-center gap-1 text-xs font-semibold text-emerald-600">
-                      <ShieldCheck size={14} /> No Added Sugar
+                        : 'Beverage'}
                     </span>
                   </div>
 
-                  <h2 className="text-3xl sm:text-4xl font-display font-bold text-slate-900 leading-tight">
+                  <h2 id="product-quick-view-title" className="text-3xl sm:text-4xl font-display font-bold text-slate-900 leading-tight">
                     {product.name}
                   </h2>
-                  <p className="text-lg font-medium text-emerald-700/90 mt-1">
-                    {product.tagline}
-                  </p>
+                  {product.tagline && <p className="text-lg font-medium text-emerald-700/90 mt-1">{product.tagline}</p>}
                 </div>
 
                 {/* Description */}
-                <p className="text-slate-600 leading-relaxed text-sm sm:text-base">
-                  {product.description ||
-                    'Crafted under strict sterile conditions using the finest hand-selected produce. Free of synthetic preservatives, added sugars, or artificial colors.'}
-                </p>
+                {product.description && <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{product.description}</p>}
 
                 {/* Benefits / Highlights */}
                 {product.benefits && product.benefits.length > 0 && (

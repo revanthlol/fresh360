@@ -30,6 +30,7 @@ export default defineType({
         list: [
           { title: 'Juicera (100% Pure Cold-Pressed)', value: 'Juicera' },
           { title: 'Fruizy (Cold-Pressed + Sparkle)', value: 'Fruizy' },
+          { title: 'Fizzo', value: 'Fizzo' },
           { title: 'Both Brands', value: 'Both' },
           { title: 'General / Other', value: 'General' },
         ],

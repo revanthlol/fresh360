@@ -94,7 +94,8 @@ export function ContactForm() {
             options={[
               { value: "Juicera", label: "Juicera (100% Pure Cold-Pressed)" },
               { value: "Fruizy", label: "Fruizy (Cold-Pressed + Sparkle)" },
-              { value: "Both", label: "Interested in Both" },
+              { value: "Fizzo", label: "Fizzo" },
+              { value: "All Brands", label: "Interested in all brands" },
               { value: "General", label: "General Inquiry / Other" }
             ]}
           />

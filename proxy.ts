@@ -93,7 +93,6 @@ export async function proxy(request: NextRequest) {
       '/process',
       '/certifications',
       '/contact',
-      '/legal',
       '/grill-me',
     ]
 

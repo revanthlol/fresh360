@@ -1,5 +1,5 @@
-export type BrandId = 'juicera' | 'fruizy' | 'fuzzy'
-export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated'
+export type BrandId = 'juicera' | 'fruizy' | 'fizzo'
+export type CategoryId = 'cold-pressed-juice' | 'nut-milk' | 'carbonated' | 'goli-soda' | 'artificially-flavoured-fizzy'
 
 export interface SanityImageAsset {
   _type: 'image'
@@ -32,13 +32,13 @@ export interface Product {
   _id: string
   name: string
   slug: { current: string }
-  brand: Brand
-  category: 'cold-pressed-juice' | 'nut-milk' | 'carbonated' | 'goli-soda'
-  tagline: string
-  description: string
-  ingredients: string[]
-  benefits: string[]
-  image: SanityImageAsset
+  brand?: Brand
+  category?: CategoryId
+  tagline?: string
+  description?: string
+  ingredients?: string[]
+  benefits?: string[]
+  image?: SanityImageAsset
   featured: boolean
   sortOrder: number
 }
