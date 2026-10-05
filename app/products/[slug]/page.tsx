@@ -47,6 +47,8 @@ export default async function ProductDetailPage({
             <ProductMediaFrame
               image={product.image}
               alt={product.name}
+              brandName={product.brand?.name}
+              accentColor={product.brand?.primaryColor || product.brand?.color}
               sizes="(max-width: 1024px) 100vw, 50vw"
               priority
               className="rounded-[3rem] bg-transparent"

@@ -96,6 +96,8 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                   <ProductMediaFrame
                     image={product.image}
                     alt={product.name}
+                    brandName={product.brand?.name}
+                    accentColor={activeColor}
                     sizes="(max-width: 768px) 100vw, 400px"
                     className="max-h-[380px] w-auto mx-auto object-contain drop-shadow-xl"
                   />

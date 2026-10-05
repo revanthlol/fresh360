@@ -24,7 +24,7 @@ export default async function BrandPage({ params }: { params: Promise<{ slug: st
           <SectionHeader
             label="Product Lineup"
             title={`The ${brand.name} collection`}
-            subtitle={`Explore every variety under the ${brand.name} brand, tuned for the same freshness-first philosophy.`}
+            subtitle={`Explore every variety in the ${brand.name} range.`}
           />
 
           <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-4">

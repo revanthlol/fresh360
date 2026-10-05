@@ -35,6 +35,8 @@ export function ProductCard({ product, className }: ProductCardProps) {
           <ProductMediaFrame
             image={product.image}
             alt={product.name}
+            brandName={product.brand?.name}
+            accentColor={product.brand?.primaryColor || product.brand?.color}
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 25vw"
             className="rounded-none home-media"
             imageClassName="group-hover:scale-[1.04]"

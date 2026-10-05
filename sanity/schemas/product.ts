@@ -46,20 +46,22 @@ export default defineType({
       name: 'tagline',
       title: 'Tagline',
       type: 'string',
-      validation: (Rule) => Rule.required().max(80),
+      description: 'Optional. Add only when product copy is confirmed.',
+      validation: (Rule) => Rule.max(80),
     }),
     defineField({
       name: 'description',
       title: 'Description',
       type: 'text',
-      validation: (Rule) => Rule.required().max(400),
+      description: 'Optional. Leave blank until product details are confirmed.',
+      validation: (Rule) => Rule.max(400),
     }),
     defineField({
       name: 'ingredients',
       title: 'Ingredients',
       type: 'array',
       of: [{ type: 'string' }],
-      validation: (Rule) => Rule.required().min(1),
+      description: 'Optional. Use only the verified ingredient list.',
     }),
     defineField({
       name: 'benefits',
@@ -75,7 +77,7 @@ export default defineType({
       options: {
         hotspot: true,
       },
-      validation: (Rule) => Rule.required(),
+      description: 'Optional until a matching product photo is available.',
     }),
     defineField({
       name: 'featured',

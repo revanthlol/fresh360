@@ -21,13 +21,23 @@ export function HeroSection() {
   return (
     <section className="relative isolate flex min-h-[88svh] items-center overflow-hidden bg-[#f8faf4] lg:min-h-[min(54rem,94svh)]">
       <Image
-        src="/images/hero-drinks.webp"
-        alt="Three colourful cold drinks in clear glasses"
+        src="/hero.png"
+        alt="Juicera, Fruizy and Fizzo drink bottles"
         fill
         priority
         sizes="100vw"
-        className="-z-20 object-cover object-[65%_center] max-md:object-[70%_bottom]"
+        className="-z-20 hidden object-cover object-center lg:block"
       />
+      <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-20 h-[48%] sm:h-[60%] lg:hidden" style={{ maskImage: 'linear-gradient(to bottom, transparent, black 26%)' }}>
+        <Image
+          src="/hero.png"
+          alt="Juicera, Fruizy and Fizzo drink bottles"
+          fill
+          priority
+          sizes="100vw"
+          className="object-cover object-[92%_bottom] sm:object-[68%_bottom]"
+        />
+      </div>
       <div className="pointer-events-none absolute inset-0 -z-10 bg-[linear-gradient(180deg,#f8faf4_0%,rgba(248,250,244,0.98)_27%,rgba(248,250,244,0.48)_53%,rgba(248,250,244,0.02)_78%)] lg:bg-[linear-gradient(90deg,#f8faf4_0%,rgba(248,250,244,0.98)_22%,rgba(248,250,244,0.88)_34%,rgba(248,250,244,0.12)_58%,rgba(248,250,244,0)_73%)]" />
       <div className="pointer-events-none absolute inset-x-0 bottom-0 -z-10 h-20 bg-gradient-to-t from-[#f8faf4] to-transparent" />
 

@@ -11,6 +11,8 @@ import { SinglePageStory } from "@/components/shared/SinglePageStory";
 import { SinglePageProducts } from "@/components/product/SinglePageProducts";
 import { SinglePageContact } from "@/components/shared/SinglePageContact";
 
+export const revalidate = 60;
+
 export default async function Home() {
   const singlePage = isSinglePageMode();
 
