@@ -1,4 +1,4 @@
-import { defineType, defineField } from 'sanity'
+import { defineType, defineField, defineArrayMember } from 'sanity'
 
 export default defineType({
   name: 'product',
@@ -62,6 +62,32 @@ export default defineType({
       type: 'array',
       of: [{ type: 'string' }],
       description: 'Optional. Use only the verified ingredient list.',
+    }),
+    defineField({
+      name: 'tasteNotes',
+      title: 'Taste notes',
+      type: 'array',
+      of: [defineArrayMember({ type: 'string' })],
+      description: 'Confirmed flavour characteristics, not health benefits.',
+      validation: (Rule) => Rule.max(5),
+    }),
+    defineField({
+      name: 'servingSuggestion',
+      title: 'Best with',
+      type: 'string',
+    }),
+    defineField({
+      name: 'labelStatements',
+      title: 'Label statements',
+      type: 'array',
+      of: [defineArrayMember({ type: 'string' })],
+      description: 'Confirmed declarations from the bottle label.',
+    }),
+    defineField({
+      name: 'vegetarian',
+      title: 'Vegetarian',
+      type: 'boolean',
+      description: 'Set only when confirmed by the product label.',
     }),
     defineField({
       name: 'benefits',

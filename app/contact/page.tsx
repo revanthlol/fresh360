@@ -2,6 +2,7 @@ import React from 'react'
 import { PageHeader } from '@/components/shared/PageHeader'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { ContactForm } from '@/components/shared/ContactForm'
+import { ContactMap } from '@/components/shared/ContactMap'
 import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react'
 import Link from 'next/link'
 
@@ -67,6 +68,7 @@ export default function ContactPage() {
                 <h4 className="text-xl font-bold">Chat with Support</h4>
                 <p className="text-white/80 text-sm">Instant help via WhatsApp</p>
               </Link>
+              <ContactMap />
             </div>
 
             {/* Form Section */}
@@ -86,22 +88,6 @@ export default function ContactPage() {
         </div>
       </section>
       
-      {/* Map Section */}
-      <section className="h-[450px] w-full relative overflow-hidden border-t border-emerald-100/70">
-        <iframe 
-          src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d444.2907879279642!2d78.49975443457429!3d17.495327649069804!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMTfCsDI5JzQyLjYiTiA3OMKwMzAnMDAuOSJF!5e0!3m2!1sen!2sin!4v1777458243548!5m2!1sen!2sin" 
-          width="100%" 
-          height="100%" 
-          style={{ border: 0 }} 
-          allowFullScreen 
-          loading="lazy" 
-          referrerPolicy="no-referrer-when-downgrade"
-          className="grayscale hover:grayscale-0 transition-all duration-500"
-        />
-        <div className="absolute bottom-6 right-6 home-card backdrop-blur-sm px-4 py-2 rounded-lg text-[10px] font-bold text-slate-500 uppercase tracking-wider pointer-events-none">
-          FGW2+339 Secunderabad, Telangana
-        </div>
-      </section>
     </div>
   )
 }

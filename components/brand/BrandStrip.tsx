@@ -4,6 +4,8 @@ import React, { useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
+import { ScrollReveal } from '@/components/shared/ScrollReveal'
+import type { Brand } from '@/lib/types'
 import { cn } from '@/lib/utils'
 
 const brands = [
@@ -14,7 +16,7 @@ const brands = [
 
 type BrandItem = (typeof brands)[number]
 
-function BrandCard({ brand, index, progress }: { brand: BrandItem; index: number; progress: MotionValue<number> }) {
+function BrandCard({ brand, index, progress, content }: { brand: BrandItem; index: number; progress: MotionValue<number>; content?: Brand }) {
   const reduceMotion = useReducedMotion()
   const cardY = useTransform(progress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [24, 0, -10])
   const tone = {
@@ -37,14 +39,15 @@ function BrandCard({ brand, index, progress }: { brand: BrandItem; index: number
   }
 
   return (
-    <motion.article style={{ y: cardY }} className="group relative flex min-h-64 flex-col justify-between overflow-hidden rounded-[1.75rem] border border-emerald-900/10 bg-white/75 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg sm:p-8">
+    <motion.article style={{ y: cardY }} className="group relative flex h-full min-h-64 flex-col justify-between overflow-hidden rounded-[1.75rem] border border-emerald-900/10 bg-white/75 p-6 shadow-sm transition-shadow duration-300 hover:shadow-lg sm:p-8">
       <div className={cn('absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100', tone.wash)} />
       <div className="relative">
         <h3 className={cn('font-display text-3xl font-extrabold tracking-tight sm:text-4xl', tone.text)}>{brand.name}</h3>
-        <p className="mt-3 text-lg font-semibold leading-snug text-slate-800">{brand.tagline}</p>
-        <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">{brand.desc}</p>
+        <p className="mt-3 text-lg font-semibold leading-snug text-slate-800">{content?.tagline || brand.tagline}</p>
+        <p className="mt-2 max-w-sm text-sm leading-relaxed text-slate-600">{content?.description || brand.desc}</p>
+        {content?.labelNote && <p className="mt-3 text-xs leading-relaxed text-slate-600">{content.labelNote}</p>}
       </div>
-      <button type="button" onClick={activateBrand} className={cn('relative mt-7 inline-flex min-h-11 w-fit items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold text-white transition-transform hover:-translate-y-0.5 active:translate-y-px focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2', tone.action)} aria-label={`Explore ${brand.name} products`}>
+      <button type="button" onClick={activateBrand} className={cn('relative mt-7 inline-flex min-h-11 w-fit items-center gap-3 rounded-xl px-4 py-2.5 text-sm font-bold text-white press-feedback focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2', tone.action)} aria-label={`Explore ${brand.name} products`}>
         Explore {brand.name}<ArrowUpRight size={17} aria-hidden="true" />
       </button>
       <span className="sr-only">Brand {index + 1} of 3</span>
@@ -52,7 +55,7 @@ function BrandCard({ brand, index, progress }: { brand: BrandItem; index: number
   )
 }
 
-export function BrandStrip({ id = 'brands' }: { id?: string } = {}) {
+export function BrandStrip({ id = 'brands', content = [] }: { id?: string; content?: Brand[] } = {}) {
   const sectionRef = useRef<HTMLElement>(null)
   const reduceMotion = useReducedMotion()
   const { scrollYProgress } = useScroll({ target: sectionRef, offset: ['start end', 'end start'] })
@@ -70,7 +73,7 @@ export function BrandStrip({ id = 'brands' }: { id?: string } = {}) {
           <p className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">Cold-pressed juice, sparkling fruit and bold fizzy flavours from Fresh 360.</p>
         </motion.div>
         <div className="mx-auto grid max-w-6xl grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3 lg:gap-5">
-          {brands.map((brand, index) => <BrandCard key={brand.id} brand={brand} index={index} progress={scrollYProgress} />)}
+          {brands.map((brand, index) => <ScrollReveal key={brand.id} delay={index * 0.06} distance={20} duration={0.35}><BrandCard brand={brand} index={index} progress={scrollYProgress} content={content.find((item) => item.id.current === brand.id)} /></ScrollReveal>)}
         </div>
       </div>
     </section>

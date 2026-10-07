@@ -1,10 +1,20 @@
 import React from 'react'
+import type { Metadata } from 'next'
+import { ProductFlavorDetails } from '@/components/product/ProductFlavorDetails'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { ArrowLeft, MessageCircle, CheckCircle2, FlaskConical } from 'lucide-react'
 import { getProduct } from '@/lib/sanity'
 import { cn } from '@/lib/utils'
 import { ProductMediaFrame } from '@/components/product/ProductMediaFrame'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const product = await getProduct(slug)
+  if (!product) return { title: 'Product not found' }
+  const title = `${product.brand?.name || 'Fresh 360'} ${product.name}`
+  return { title, description: product.description || product.tagline, alternates: { canonical: `/products/${slug}` }, openGraph: { title, description: product.description || product.tagline, url: `/products/${slug}` } }
+}
 
 export default async function ProductDetailPage({ 
   params 
@@ -81,11 +91,11 @@ export default async function ProductDetailPage({
               {product.ingredients?.length ? <div className="space-y-4">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
                   <FlaskConical size={20} className="text-brand-green" />
-                  <h3>Ingredients</h3>
+                  <h2 className="text-lg">Ingredients</h2>
                 </div>
                 <div className="flex flex-wrap gap-2">
                   {product.ingredients?.map((item, i) => (
-                    <span key={i} className="px-4 py-1.5 home-card rounded-full text-sm font-medium text-slate-700">
+                    <span key={i} className="max-w-full break-words px-4 py-1.5 home-card rounded-full text-sm font-medium text-slate-700">
                       {item}
                     </span>
                   ))}
@@ -96,7 +106,7 @@ export default async function ProductDetailPage({
               {product.benefits?.length ? <div className="space-y-4">
                 <div className="flex items-center gap-2 text-slate-900 font-bold">
                   <CheckCircle2 size={20} className="text-brand-green" />
-                  <h3>Health Benefits</h3>
+                  <h2 className="text-lg">Health Benefits</h2>
                 </div>
                 <ul className="space-y-2">
                   {product.benefits?.map((item, i) => (
@@ -108,6 +118,8 @@ export default async function ProductDetailPage({
                 </ul>
               </div> : null}
             </div>
+
+            <ProductFlavorDetails product={product} />
 
             <div className="pt-8 border-t border-emerald-100/70 flex flex-col sm:flex-row items-center gap-6">
               <Link 

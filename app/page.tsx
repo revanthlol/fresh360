@@ -34,7 +34,7 @@ export default async function Home() {
         <PhilosophyStrip />
 
         {/* ACT 4 — Brand Showcase */}
-        <BrandStrip id="brands" />
+        <BrandStrip id="brands" content={brands} />
 
         {/* ACT 5 — All Products: Horizontal movement + Quick View Modal */}
         <SinglePageProducts id="products" products={products} brands={brands} />
@@ -55,6 +55,7 @@ export default async function Home() {
   }
 
   // Standard Multi-Page Mode
+  const brands = await getBrands().catch(() => []);
   return (
     <div className="home-page min-h-screen">
       {/* ACT 1 — First impression, parallax hero */}
@@ -64,7 +65,7 @@ export default async function Home() {
       <PhilosophyStrip />
 
       {/* ACT 3 — Brand showcase cards */}
-      <BrandStrip />
+      <BrandStrip content={brands} />
 
       {/* ACT 4 — Best-selling products from Sanity */}
       <FeaturedProducts />

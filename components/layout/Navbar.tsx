@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useSyncExternalStore } from 'react'
 import Link from 'next/link'
 import { usePathname, useRouter } from 'next/navigation'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { 
   Menu, 
   X, 
@@ -48,6 +48,8 @@ const brandLinks = [
 ]
 
 export function Navbar() {
+  const reduceMotion = useReducedMotion()
+  const [keyboardAction, setKeyboardAction] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [activeSection, setActiveSection] = useState<string>('#top')
   const pathname = usePathname()
@@ -115,24 +117,24 @@ export function Navbar() {
     setIsOpen(false)
   }
 
-  const handleNavClick = (href: string) => {
+  const handleNavClick = (href: string, keyboard = false) => {
     setIsOpen(false)
     if (href.startsWith('#')) {
       setActiveSection(href)
       const id = href.substring(1)
       if (id === 'top' || !id) {
-        window.scrollTo({ top: 0, behavior: 'smooth' })
+        window.scrollTo({ top: 0, behavior: reduceMotion || keyboard ? 'instant' : 'smooth' })
       } else {
         const el = document.getElementById(id)
         if (el) {
-          el.scrollIntoView({ behavior: 'smooth' })
+          el.scrollIntoView({ behavior: reduceMotion || keyboard ? 'instant' : 'smooth' })
         }
       }
       return
     }
 
     if (pathname === href) {
-      window.scrollTo({ top: 0, behavior: 'smooth' })
+      window.scrollTo({ top: 0, behavior: reduceMotion || keyboard ? 'instant' : 'smooth' })
     } else {
       window.scrollTo({ top: 0, behavior: 'auto' })
       router.push(href)
@@ -154,12 +156,12 @@ export function Navbar() {
     <>
       <header className="fixed top-0 left-0 right-0 z-[1500] flex justify-center p-3 sm:p-4 pointer-events-none">
         <motion.nav
-          initial={{ y: -80, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          transition={{ duration: 0.5, type: 'spring', damping: 22 }}
+          initial={false}
+          animate={{ opacity: 1 }}
+          transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.18 }}
           className={cn(
             "pointer-events-auto relative flex items-center justify-between w-full max-w-5xl px-3.5 sm:px-5 py-2 sm:py-2.5",
-            "rounded-2xl transition-all duration-500 ease-out",
+            "rounded-2xl transition-[background-color,border-color,box-shadow] duration-200",
             isScrolled
               ? "bg-white/85 backdrop-blur-2xl [backdrop-filter:blur(24px)_saturate(160%)] border border-slate-200/80 shadow-2xl shadow-emerald-950/[0.08]"
               : "bg-transparent border border-transparent shadow-none"
@@ -176,7 +178,7 @@ export function Navbar() {
 
           {/* Center: Desktop Segmented Control Links */}
           <div className={cn(
-            "hidden md:flex items-center gap-1 p-1 rounded-xl transition-all duration-300 relative",
+            "hidden md:flex items-center gap-1 p-1 rounded-xl transition-colors duration-180 relative",
             isScrolled
               ? "bg-slate-900/[0.04] border border-slate-900/[0.05]"
               : "bg-slate-900/[0.03] border border-transparent"
@@ -186,7 +188,7 @@ export function Navbar() {
               return (
                 <button
                   key={link.href}
-                  onClick={() => handleNavClick(link.href)}
+                  onClick={(event) => { setKeyboardAction(event.detail === 0); handleNavClick(link.href, event.detail === 0) }}
                   className={cn(
                     "relative px-3.5 py-1.5 rounded-lg text-xs font-bold transition-colors duration-200 z-10 cursor-pointer",
                     isActive ? "text-slate-900" : "text-slate-600 hover:text-slate-900"
@@ -196,7 +198,7 @@ export function Navbar() {
                     <motion.div
                       layoutId="navbar-active-pill"
                       className="absolute inset-0 bg-white rounded-lg border border-slate-200/90 shadow-sm"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.16 }}
                     />
                   )}
                   <span className="relative z-10">{link.name}</span>
@@ -219,13 +221,13 @@ export function Navbar() {
                     <motion.div
                       layoutId="navbar-active-pill"
                       className="absolute inset-0 bg-white rounded-lg border border-slate-200/90 shadow-sm"
-                      transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.16 }}
                     />
                   )}
                   <span className="relative z-10">Products</span>
                 </Link>
 
-                <div className="invisible absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 translate-y-3 opacity-0 transition-all duration-200 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
+                <div className="invisible absolute left-1/2 top-full z-50 w-64 -translate-x-1/2 translate-y-3 opacity-0 transition-[opacity,transform] duration-180 group-hover:visible group-hover:translate-y-1 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-1 group-focus-within:opacity-100">
                   <div className="overflow-hidden rounded-2xl border border-slate-200/80 bg-white/95 p-1.5 shadow-2xl backdrop-blur-2xl">
                     {brandLinks.map((brand) => (
                       <Link
@@ -253,7 +255,7 @@ export function Navbar() {
                 "hidden sm:flex items-center gap-2 text-xs font-bold px-4 py-2 rounded-xl",
                 "bg-brand-green text-white hover:bg-brand-green/90",
                 "shadow-md shadow-brand-green/25 hover:shadow-lg hover:shadow-brand-green/35",
-                "transition-all duration-200 hover:scale-[1.02] active:scale-[0.98]"
+                "press-feedback"
               )}
             >
               <MessageCircle size={15} />
@@ -262,7 +264,7 @@ export function Navbar() {
 
             {/* Mobile Menu Toggle */}
             <button
-              onClick={() => setIsOpen(!isOpen)}
+              onClick={(event) => { setKeyboardAction(event.detail === 0); setIsOpen(!isOpen) }}
               className="p-2 md:hidden rounded-xl border border-slate-200/80 bg-white/60 text-slate-800 hover:bg-white hover:text-brand-green transition-colors cursor-pointer"
               aria-label={isOpen ? "Close menu" : "Open menu"}
               aria-expanded={isOpen}
@@ -289,11 +291,11 @@ export function Navbar() {
 
             {/* Floating Menu Card */}
             <motion.div
-              initial={{ opacity: 0, scale: 0.95, y: -20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.95, y: -20 }}
-              transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-              className="fixed inset-x-4 top-20 z-40 bg-white/90 backdrop-blur-3xl [backdrop-filter:blur(24px)_saturate(160%)] border border-white/80 rounded-3xl p-5 shadow-2xl shadow-slate-900/25 md:hidden overflow-hidden"
+              initial={{ opacity: 0, transform: reduceMotion || keyboardAction ? "translateY(0px) scale(1)" : "translateY(-8px) scale(0.98)" }}
+              animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+              exit={{ opacity: 0, transform: reduceMotion || keyboardAction ? "translateY(0px) scale(1)" : "translateY(-4px) scale(0.98)" }}
+              transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.18, ease: [0.16, 1, 0.3, 1] }}
+              className="fixed inset-x-4 top-20 z-40 bg-white/90 backdrop-blur-3xl [backdrop-filter:blur(24px)_saturate(160%)] border border-white/80 rounded-3xl p-5 shadow-2xl shadow-slate-900/25 md:hidden overflow-hidden origin-top-right"
             >
               <div className="flex flex-col gap-1.5">
                 {navLinks.map((link) => {
@@ -302,9 +304,9 @@ export function Navbar() {
                   return (
                     <button
                       key={link.href}
-                      onClick={() => handleNavClick(link.href)}
+                      onClick={(event) => { setKeyboardAction(event.detail === 0); handleNavClick(link.href, event.detail === 0) }}
                       className={cn(
-                        "flex items-center justify-between p-2.5 rounded-2xl transition-all group text-left cursor-pointer",
+                        "flex items-center justify-between p-2.5 rounded-2xl transition-colors group text-left cursor-pointer",
                         isActive
                           ? "bg-emerald-500/10 border border-brand-green/20 text-slate-900"
                           : "hover:bg-slate-900/[0.04] text-slate-700 hover:text-slate-900"
@@ -358,7 +360,7 @@ export function Navbar() {
                     href="https://wa.me/919705522020"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-brand-green to-emerald-600 text-white shadow-lg shadow-brand-green/25 hover:shadow-xl transition-all duration-200 active:scale-[0.98]"
+                    className="flex items-center justify-center gap-2 w-full py-3.5 rounded-2xl font-bold text-sm bg-gradient-to-r from-brand-green to-emerald-600 text-white shadow-lg shadow-brand-green/25 hover:shadow-xl transition-[opacity,transform] duration-180 active:scale-[0.98]"
                     onClick={() => setIsOpen(false)}
                   >
                     <MessageCircle size={18} />

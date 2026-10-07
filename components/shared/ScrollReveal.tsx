@@ -1,7 +1,6 @@
 "use client"
 
-import React, { useRef } from 'react'
-import { motion, useInView } from 'motion/react'
+import React, { useEffect, useRef } from 'react'
 import { cn } from '@/lib/utils'
 
 interface ScrollRevealProps {
@@ -14,65 +13,35 @@ interface ScrollRevealProps {
   once?: boolean
 }
 
-export function ScrollReveal({
-  children,
-  className,
-  delay = 0,
-  direction = 'up',
-  distance = 40,
-  duration = 0.7,
-  once = true,
-}: ScrollRevealProps) {
+// Content stays visible without JavaScript; WAAPI adds a brief reveal on entry.
+export function ScrollReveal({ children, className, delay = 0, direction = 'up', distance = 16, duration = 0.3, once = true }: ScrollRevealProps) {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once, margin: "-80px 0px" })
-
-  const directionMap = {
-    up: { y: distance, x: 0 },
-    down: { y: -distance, x: 0 },
-    left: { x: distance, y: 0 },
-    right: { x: -distance, y: 0 },
-    none: { x: 0, y: 0 },
-  }
-
-  const offset = directionMap[direction]
-
-  return (
-    <motion.div
-      ref={ref}
-      initial={{ opacity: 0, ...offset }}
-      animate={isInView ? { opacity: 1, x: 0, y: 0 } : { opacity: 0, ...offset }}
-      transition={{
-        duration,
-        delay,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className={cn(className)}
-    >
-      {children}
-    </motion.div>
-  )
+  useEffect(() => {
+    const element = ref.current
+    if (!element) return
+    const preference = window.matchMedia('(prefers-reduced-motion: reduce)')
+    let animation: Animation | undefined
+    const offsets = { up: [0, distance], down: [0, -distance], left: [distance, 0], right: [-distance, 0], none: [0, 0] }
+    const [x, y] = offsets[direction]
+    const observer = new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) return
+      if (!preference.matches) {
+        animation?.cancel()
+        animation = element.animate([
+          { opacity: 0.6, transform: `translate(${x}px, ${y}px)` },
+          { opacity: 1, transform: 'translate(0, 0)' },
+        ], { duration: Math.min(duration, 0.4) * 1000, delay: Math.min(delay, 0.18) * 1000, easing: 'cubic-bezier(0.23, 1, 0.32, 1)' })
+      }
+      if (once) observer.unobserve(element)
+    }, { threshold: 0.1 })
+    const stopMotion = () => { if (preference.matches) animation?.cancel() }
+    preference.addEventListener('change', stopMotion)
+    observer.observe(element)
+    return () => { observer.disconnect(); animation?.cancel(); preference.removeEventListener('change', stopMotion) }
+  }, [delay, direction, distance, duration, once])
+  return <div ref={ref} className={cn(className)}>{children}</div>
 }
 
-interface StaggerContainerProps {
-  children: React.ReactNode
-  className?: string
-  staggerDelay?: number
-  direction?: 'up' | 'down' | 'left' | 'right' | 'none'
-}
-
-export function StaggerContainer({
-  children,
-  className,
-  staggerDelay = 0.1,
-  direction = 'up',
-}: StaggerContainerProps) {
-  return (
-    <div className={cn(className)}>
-      {React.Children.map(children, (child, i) => (
-        <ScrollReveal delay={i * staggerDelay} direction={direction}>
-          {child}
-        </ScrollReveal>
-      ))}
-    </div>
-  )
+export function StaggerContainer({ children, className, staggerDelay = 0.05, direction = 'up' }: { children: React.ReactNode; className?: string; staggerDelay?: number; direction?: ScrollRevealProps['direction'] }) {
+  return <div className={cn(className)}>{React.Children.map(children, (child, index) => <ScrollReveal delay={index * staggerDelay} direction={direction}>{child}</ScrollReveal>)}</div>
 }

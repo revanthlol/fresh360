@@ -38,6 +38,21 @@ export default defineType({
     }),
 
     defineField({
+      name: 'labelNote',
+      title: 'Label note',
+      type: 'text',
+    }),
+    defineField({
+      name: 'metaDescription',
+      title: 'Meta description',
+      type: 'text',
+    }),
+    defineField({
+      name: 'socialCaption',
+      title: 'Social caption',
+      type: 'text',
+    }),
+    defineField({
       name: 'color',
       title: 'Color',
       type: 'string',

@@ -43,22 +43,22 @@ export function HeroSection() {
 
       <div className="container mx-auto w-full px-5 pb-[42vh] pt-36 sm:px-6 lg:py-32">
         <motion.div
-          initial={reduceMotion ? false : { opacity: 0, y: 18 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.65, ease: [0.22, 1, 0.36, 1] }}
+          initial={false}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.24, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-[42rem]"
         >
-          <h1 className="max-w-[11ch] font-display text-[clamp(3.35rem,6.8vw,6.3rem)] font-extrabold leading-[0.99] tracking-[-0.055em] text-slate-900">
+          <h1 className="max-w-[11ch] font-display text-[clamp(2.65rem,6.8vw,6.3rem)] font-extrabold leading-[1.1] tracking-[-0.02em] text-slate-900">
             From cold press to <span className="text-brand-green">bold fizz.</span>
           </h1>
           <p className="mt-7 max-w-[34rem] text-base leading-relaxed text-slate-700 sm:text-lg">
             Juicera cold-pressed drinks. Fruizy sparkling fruit. Fizzo artificially flavoured fizz. Find your drink in the Fresh 360 collection.
           </p>
           <div className="mt-8 flex flex-wrap items-center gap-x-7 gap-y-3">
-            <Link href={productsTarget} onClick={(event) => scrollTo(event, 'products')} className="inline-flex min-h-12 items-center gap-3 rounded-xl bg-slate-900 px-6 py-3 font-bold text-white shadow-lg shadow-slate-900/10 transition-colors hover:bg-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2">
+            <Link href={productsTarget} onClick={(event) => scrollTo(event, 'products')} className="inline-flex min-h-12 press-feedback items-center gap-3 rounded-xl bg-slate-900 px-6 py-3 font-bold text-white shadow-lg shadow-slate-900/10 transition-colors hover:bg-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2">
               Explore the drinks <ArrowRight size={19} aria-hidden="true" />
             </Link>
-            <Link href={contactTarget} onClick={(event) => scrollTo(event, 'contact')} className="inline-flex min-h-12 items-center border-b-2 border-brand-green px-1 font-bold text-slate-900 transition-colors hover:text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2">
+            <Link href={contactTarget} onClick={(event) => scrollTo(event, 'contact')} className="inline-flex min-h-12 press-feedback items-center border-b-2 border-brand-green px-1 font-bold text-slate-900 transition-colors hover:text-brand-green focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green focus-visible:ring-offset-2">
               Get in touch
             </Link>
           </div>

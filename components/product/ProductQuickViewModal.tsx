@@ -1,20 +1,26 @@
 "use client"
 
 import React, { useEffect, useRef } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
-import { X, Sparkles, CheckCircle2, MessageCircle, Mail, Layers } from 'lucide-react'
+import { motion, useReducedMotion } from 'motion/react'
+import { X, Sparkles, CheckCircle2, MessageCircle, Mail, Layers, ChevronLeft, ChevronRight } from 'lucide-react'
 import { Product } from '@/lib/sanity'
 import { ProductMediaFrame } from './ProductMediaFrame'
-import { cn } from '@/lib/utils'
+import { ProductFlavorDetails } from './ProductFlavorDetails'
 
 interface ProductQuickViewModalProps {
   product: Product | null
   isOpen: boolean
   onClose: () => void
+  instant?: boolean
+  onPrevious?: () => void
+  onNext?: () => void
+  position?: number
+  total?: number
 }
 
-export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuickViewModalProps) {
-  const dialogRef = useRef<HTMLDivElement>(null)
+export function ProductQuickViewModal({ product, isOpen, onClose, instant = false, onPrevious, onNext, position, total }: ProductQuickViewModalProps) {
+  const reduceMotion = useReducedMotion()
+  const dialogRef = useRef<HTMLDialogElement>(null)
   const closeButtonRef = useRef<HTMLButtonElement>(null)
   // Close on Escape key and lock body scroll
   useEffect(() => {
@@ -31,17 +37,42 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
       if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first?.focus() }
     }
 
-    document.body.style.overflow = 'hidden'
+    const dialog = dialogRef.current
+    if (!dialog) return
+    const scrollY = window.scrollY
+    const body = document.body
+    const root = document.documentElement
+    const saved = { position: body.style.position, top: body.style.top, left: body.style.left, right: body.style.right, width: body.style.width, overflow: body.style.overflow, paddingRight: body.style.paddingRight, rootOverflow: root.style.overflow }
+    const scrollbar = window.innerWidth - root.clientWidth
+    const padding = parseFloat(getComputedStyle(body).paddingRight) || 0
+    Object.assign(body.style, { position: 'fixed', top: `-${scrollY}px`, left: '0', right: '0', width: '100%', overflow: 'hidden', paddingRight: `${padding + scrollbar}px` })
+    root.style.overflow = 'hidden'
+    if (!dialog.open) dialog.showModal()
     window.addEventListener('keydown', handleKeyDown)
     const focusFrame = requestAnimationFrame(() => closeButtonRef.current?.focus())
 
     return () => {
       cancelAnimationFrame(focusFrame)
-      document.body.style.overflow = ''
+      dialog.close()
+      Object.assign(body.style, { position: saved.position, top: saved.top, left: saved.left, right: saved.right, width: saved.width, overflow: saved.overflow, paddingRight: saved.paddingRight })
+      root.style.overflow = saved.rootOverflow
+      window.scrollTo({ top: scrollY, behavior: 'instant' })
       window.removeEventListener('keydown', handleKeyDown)
       previouslyFocused?.focus({ preventScroll: true })
     }
   }, [isOpen, onClose])
+
+  useEffect(() => {
+    if (!isOpen || !onPrevious || !onNext) return
+    const navigate = (event: KeyboardEvent) => {
+      if (event.altKey || event.ctrlKey || event.metaKey || event.shiftKey) return
+      if (event.target instanceof HTMLElement && event.target.closest('input, textarea, select, [contenteditable="true"]')) return
+      if (event.key === 'ArrowLeft') { event.preventDefault(); onPrevious() }
+      if (event.key === 'ArrowRight') { event.preventDefault(); onNext() }
+    }
+    window.addEventListener('keydown', navigate)
+    return () => window.removeEventListener('keydown', navigate)
+  }, [isOpen, onPrevious, onNext])
 
   if (!product) return null
 
@@ -54,30 +85,25 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${whatsappMessage}`
 
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6 md:p-10">
+    <dialog ref={dialogRef} aria-labelledby="product-quick-view-title" onCancel={(event) => { event.preventDefault(); onClose() }} className="fixed inset-0 m-0 h-dvh max-h-none w-screen max-w-none overflow-hidden border-0 bg-transparent p-0 backdrop:bg-transparent">
+        <div className="flex h-full items-center justify-center px-2 py-8 md:px-20">
           {/* Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: reduceMotion || instant ? 0 : 0.18 }}
             onClick={onClose}
             className="absolute inset-0 bg-slate-950/60 backdrop-blur-md"
           />
 
-          {/* Modal Card */}
+          <div className="relative w-full max-w-5xl">
           <motion.div
-            ref={dialogRef}
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="product-quick-view-title"
-            initial={{ opacity: 0, scale: 0.94, y: 20 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.94, y: 20 }}
-            transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="relative w-full max-w-4xl max-h-[90vh] overflow-y-auto bg-white/95 backdrop-blur-xl rounded-[2.5rem] shadow-2xl border border-emerald-100/80 z-10 p-6 sm:p-8 md:p-10"
+            initial={{ opacity: 0, transform: reduceMotion || instant ? "translateY(0px) scale(1)" : "translateY(8px) scale(0.97)" }}
+            animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+            exit={{ opacity: 0, transform: reduceMotion || instant ? "translateY(0px) scale(1)" : "translateY(4px) scale(0.98)" }}
+            transition={{ duration: reduceMotion || instant ? 0 : 0.2, ease: [0.23, 1, 0.32, 1] }}
+            className="relative mx-6 max-h-[calc(100dvh-4rem)] overflow-y-auto overscroll-contain rounded-2xl bg-white p-5 shadow-2xl sm:rounded-3xl sm:p-8 md:mx-0 md:p-10"
           >
             {/* Close Button */}
             <button
@@ -90,31 +116,25 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
             </button>
 
             <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
-              {/* Image Column */}
-              <div className="md:col-span-5 relative flex items-center justify-center">
-                <div className="w-full relative rounded-3xl overflow-hidden bg-[linear-gradient(180deg,rgba(255,255,255,0.9),rgba(235,248,235,0.7))] p-6 border border-emerald-100/80 shadow-inner">
+              {/* The photograph uses the same frame as the product carousel. */}
+              <div className="md:col-span-5 relative pt-8 md:pt-0">
+                <div className="relative">
                   <ProductMediaFrame
                     image={product.image}
                     alt={product.name}
                     brandName={product.brand?.name}
                     accentColor={activeColor}
                     sizes="(max-width: 768px) 100vw, 400px"
-                    className="max-h-[380px] w-auto mx-auto object-contain drop-shadow-xl"
+                    className="mx-auto aspect-[3/4] w-full max-w-72 rounded-xl bg-transparent sm:max-w-80 md:max-w-none"
+                    imageClassName="object-contain"
                   />
-                  {/* Floating Badge */}
-                  <div
-                    className={cn(
-                      'absolute top-4 left-4 px-3 py-1 rounded-full bg-white/95 text-xs font-bold uppercase tracking-wider border shadow-sm'
-                    )}
-                    style={{ color: activeColor, borderColor: `${activeColor}55` }}
-                  >
-                    {product.brand?.name || 'Fresh 360'}
-                  </div>
+
                 </div>
+                {total && position ? <p className="mt-3 text-center text-sm tabular-nums text-slate-500" aria-live="polite">{position} of {total}<span className="sr-only">: {product.name}</span></p> : null}
               </div>
 
               {/* Details Column */}
-              <div className="md:col-span-7 space-y-6">
+              <div className="min-w-0 md:col-span-7 space-y-5">
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <span className="text-xs font-semibold uppercase tracking-widest text-slate-400">
@@ -127,21 +147,21 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                     </span>
                   </div>
 
-                  <h2 id="product-quick-view-title" className="text-3xl sm:text-4xl font-display font-bold text-slate-900 leading-tight">
+                  <h2 id="product-quick-view-title" className="text-2xl sm:text-4xl font-display font-bold text-slate-900 leading-tight">
                     {product.name}
                   </h2>
                   {product.tagline && <p className="text-lg font-medium text-emerald-700/90 mt-1">{product.tagline}</p>}
                 </div>
 
                 {/* Description */}
-                {product.description && <p className="text-slate-600 leading-relaxed text-sm sm:text-base">{product.description}</p>}
+                {product.description && <p className="text-slate-600 leading-relaxed text-base max-w-[65ch]">{product.description}</p>}
 
                 {/* Benefits / Highlights */}
                 {product.benefits && product.benefits.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                       <Sparkles size={14} className="text-emerald-500" /> Key Highlights
-                    </h4>
+                    </h3>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       {product.benefits.map((benefit, i) => (
                         <div
@@ -159,14 +179,14 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                 {/* Ingredients */}
                 {product.ingredients && product.ingredients.length > 0 && (
                   <div className="space-y-2">
-                    <h4 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <h3 className="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
                       <Layers size={14} className="text-emerald-500" /> Ingredients
-                    </h4>
+                    </h3>
                     <div className="flex flex-wrap gap-2">
                       {product.ingredients.map((ing, i) => (
                         <span
                           key={i}
-                          className="inline-block bg-slate-100 text-slate-700 rounded-full px-3 py-1 text-xs font-medium"
+                          className="inline-block max-w-full break-words bg-slate-100 text-slate-700 rounded-full px-3 py-1 text-xs font-medium"
                         >
                           {ing}
                         </span>
@@ -175,13 +195,15 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                   </div>
                 )}
 
+                <ProductFlavorDetails product={product} />
+
                 {/* Call to Actions */}
                 <div className="pt-4 flex flex-wrap items-center gap-3 border-t border-slate-100">
                   <a
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-full text-sm shadow-lg shadow-emerald-600/20 transition-all hover:scale-[1.02] active:scale-95"
+                    className="inline-flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold px-6 py-3 rounded-full text-sm shadow-lg shadow-emerald-600/20 press-feedback"
                   >
                     <MessageCircle size={17} />
                     Inquire via WhatsApp
@@ -190,7 +212,7 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
                   <a
                     href="#contact"
                     onClick={onClose}
-                    className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-6 py-3 rounded-full text-sm transition-all hover:scale-[1.02] active:scale-95"
+                    className="inline-flex items-center justify-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold px-6 py-3 rounded-full text-sm press-feedback"
                   >
                     <Mail size={17} />
                     Send Bulk Inquiry
@@ -199,8 +221,18 @@ export function ProductQuickViewModal({ product, isOpen, onClose }: ProductQuick
               </div>
             </div>
           </motion.div>
+                  {onPrevious && onNext && (
+                    <>
+                      <button type="button" onClick={onPrevious} aria-label="Previous product" className="press-feedback absolute left-0 top-1/2 md:-left-14 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl bg-white/95 text-slate-900 shadow-md hover:bg-white">
+                        <ChevronLeft size={22} aria-hidden="true" />
+                      </button>
+                      <button type="button" onClick={onNext} aria-label="Next product" className="press-feedback absolute right-0 top-1/2 md:-right-14 flex h-11 w-11 -translate-y-1/2 items-center justify-center rounded-xl bg-white/95 text-slate-900 shadow-md hover:bg-white">
+                        <ChevronRight size={22} aria-hidden="true" />
+                      </button>
+                    </>
+                  )}
+          </div>
         </div>
-      )}
-    </AnimatePresence>
+    </dialog>
   )
 }

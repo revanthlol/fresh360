@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { ChevronLeft, ChevronRight, Eye } from 'lucide-react'
+import { ChevronLeft, ChevronRight, Eye, Pause, Play } from 'lucide-react'
 import { Brand, Product } from '@/lib/sanity'
 import { ProductMediaFrame } from './ProductMediaFrame'
 import { ProductQuickViewModal } from './ProductQuickViewModal'
@@ -34,6 +34,11 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
   const [selectedBrand, setSelectedBrand] = useState('all')
   const [activeModalProduct, setActiveModalProduct] = useState<Product | null>(null)
   const closeModal = useCallback(() => setActiveModalProduct(null), [])
+  const [keyboardModal, setKeyboardModal] = useState(false)
+  const [manuallyPaused, setManuallyPaused] = useState(false)
+  const manuallyPausedRef = useRef(false)
+  const modalOpenRef = useRef(false)
+  useEffect(() => { modalOpenRef.current = Boolean(activeModalProduct) }, [activeModalProduct])
   const [isRailPaused, setIsRailPaused] = useState(false)
   const scrollContainerRef = useRef<HTMLDivElement>(null)
   const pauseAutoScrollRef = useRef(false)
@@ -42,6 +47,16 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
   const filteredProducts = useMemo(() => selectedBrand === 'all'
     ? products
     : products.filter((product) => canonicalBrandId(product.brand?.id?.current) === selectedBrand), [products, selectedBrand])
+  const activeProductIndex = activeModalProduct ? filteredProducts.findIndex((product) => product._id === activeModalProduct._id) : -1
+  const navigateProduct = useCallback((direction: -1 | 1) => {
+    setActiveModalProduct((current) => {
+      const index = filteredProducts.findIndex((product) => product._id === current?._id)
+      if (index < 0 || filteredProducts.length < 2) return current
+      return filteredProducts[(index + direction + filteredProducts.length) % filteredProducts.length]
+    })
+  }, [filteredProducts])
+  const previousProduct = useCallback(() => navigateProduct(-1), [navigateProduct])
+  const nextProduct = useCallback(() => navigateProduct(1), [navigateProduct])
   const activeBrand = brands.find((brand) => canonicalBrandId(brand.id?.current) === selectedBrand)
   const activeBrandLabel = portfolioBrands.find((brand) => brand.id === selectedBrand)?.name || (activeBrand && brandLabel(activeBrand))
   const copies = filteredProducts.length < 2 ? 1 : filteredProducts.length < 4 ? 5 : 3
@@ -90,23 +105,21 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
       rail.scrollLeft = groupWidth * middleCopy
     })
     resizeObserver.observe(rail)
-    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    let frame = 0
-    const tick = () => {
+    const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)')
+    const wrapRail = () => {
       if (groupWidth && rail.scrollLeft >= groupWidth * (middleCopy + 1)) rail.scrollLeft -= groupWidth
       if (groupWidth && rail.scrollLeft < groupWidth * (middleCopy - 1)) rail.scrollLeft += groupWidth
-      frame = window.requestAnimationFrame(tick)
     }
-    frame = window.requestAnimationFrame(tick)
-    const autoTimer = reduceMotion ? null : window.setInterval(() => {
-      if (pauseAutoScrollRef.current || document.hidden) return
+    rail.addEventListener("scroll", wrapRail, { passive: true })
+    const autoTimer = window.setInterval(() => {
+      if (modalOpenRef.current || reduceMotion.matches || manuallyPausedRef.current || pauseAutoScrollRef.current || document.hidden) return
       const first = rail.children[0] as HTMLElement | undefined
       const second = rail.children[1] as HTMLElement | undefined
       if (first && second) rail.scrollBy({ left: second.offsetLeft - first.offsetLeft, behavior: 'smooth' })
     }, 3400)
     return () => {
-      window.cancelAnimationFrame(frame)
-      if (autoTimer) window.clearInterval(autoTimer)
+      rail.removeEventListener("scroll", wrapRail)
+      window.clearInterval(autoTimer)
       resizeObserver.disconnect()
     }
   }, [filteredProducts.length, selectedBrand])
@@ -115,7 +128,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
     if (resumeTimerRef.current) clearTimeout(resumeTimerRef.current)
   }, [])
 
-  const scrollRail = (direction: -1 | 1) => {
+  const scrollRail = (direction: -1 | 1, keyboard = false) => {
     const rail = scrollContainerRef.current
     if (!rail) return
     pauseAutoScrollRef.current = true
@@ -123,7 +136,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
     const first = rail.children[0] as HTMLElement | undefined
     const second = rail.children[1] as HTMLElement | undefined
     if (!first || !second) return
-    rail.scrollBy({ left: direction * (second.offsetLeft - first.offsetLeft), behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' })
+    rail.scrollBy({ left: direction * (second.offsetLeft - first.offsetLeft), behavior: keyboard || window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' })
     resumeTimerRef.current = setTimeout(() => setRailPaused(false), 1800)
   }
 
@@ -136,8 +149,9 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
             <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">Browse the Fresh 360 collection by brand. Open a product for the details available.</p>
           </div>
           {filteredProducts.length > 1 && <div className="flex shrink-0 gap-2" aria-label="Product carousel controls">
-            <button type="button" onClick={() => scrollRail(-1)} aria-label="Show previous products" className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 shadow-sm transition-colors hover:border-brand-green hover:text-brand-green active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"><ChevronLeft size={22} aria-hidden="true" /></button>
-            <button type="button" onClick={() => scrollRail(1)} aria-label="Show next products" className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 shadow-sm transition-colors hover:border-brand-green hover:text-brand-green active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"><ChevronRight size={22} aria-hidden="true" /></button>
+            <button type="button" aria-label={manuallyPaused ? 'Resume product movement' : 'Pause product movement'} aria-pressed={manuallyPaused} onClick={() => { manuallyPausedRef.current = !manuallyPausedRef.current; setManuallyPaused(manuallyPausedRef.current) }} className="press-feedback flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 focus-visible:ring-2 focus-visible:ring-brand-green">{manuallyPaused ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}</button>
+            <button type="button" onClick={(event) => scrollRail(-1, event.detail === 0)} aria-label="Show previous products" className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 shadow-sm transition-colors hover:border-brand-green hover:text-brand-green active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"><ChevronLeft size={22} aria-hidden="true" /></button>
+            <button type="button" onClick={(event) => scrollRail(1, event.detail === 0)} aria-label="Show next products" className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 shadow-sm transition-colors hover:border-brand-green hover:text-brand-green active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green"><ChevronRight size={22} aria-hidden="true" /></button>
           </div>}
         </div>
 
@@ -169,18 +183,18 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
               const color = brandColor(product.brand)
               return (
                 <article key={`${copy}-${product._id}`} aria-hidden={copy !== middleCopy ? true : undefined} className="group w-full shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)]">
-                  <button type="button" tabIndex={copy === middleCopy ? 0 : -1} onClick={() => setActiveModalProduct(product)} aria-label={`Quick view: ${product.name}`} className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-brand-green">
-                    <div className="relative overflow-hidden rounded-[1.5rem]" style={{ backgroundColor: color.surface }}>
-                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 25vw" className="aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-cover transition-transform duration-700 group-hover:scale-[1.035]" />
+                  <button type="button" tabIndex={copy === middleCopy ? 0 : -1} onClick={(event) => { setKeyboardModal(event.detail === 0); setActiveModalProduct(product) }} aria-label={`Quick view: ${product.name}`} className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-brand-green">
+                    <div className="product-image-hover relative overflow-hidden rounded-[1.5rem]" style={{ backgroundColor: color.surface }}>
+                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 25vw" className="aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-cover transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]" />
                       <span className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-800 shadow-sm transition-colors group-hover:bg-slate-900 group-hover:text-white"><Eye size={17} aria-hidden="true" /></span>
                     </div>
                     <div className="pt-4">
                       <div className="mb-1 flex items-center justify-between gap-3">
                         <p className="text-xs font-semibold text-slate-500">{brandLabel(product.brand)}</p>
-                        {product.category && <p className="truncate text-xs text-slate-400">{product.category.split('-').map((word) => word[0]?.toUpperCase() + word.slice(1)).join(' ')}</p>}
+                        {product.category && <p className="max-w-[60%] text-right text-xs leading-relaxed text-slate-500">{product.category.split('-').map((word) => word[0]?.toUpperCase() + word.slice(1)).join(' ')}</p>}
                       </div>
                       <h3 className="font-display text-lg font-bold leading-snug text-slate-900 group-hover:text-[var(--brand-accent)]" style={{ '--brand-accent': color.foreground } as React.CSSProperties}>{product.name}</h3>
-                      {product.tagline && <p className="mt-1 line-clamp-2 text-sm leading-relaxed text-slate-600">{product.tagline}</p>}
+                      {product.tagline && <p className="mt-1 text-sm leading-relaxed text-slate-600">{product.tagline}</p>}
                       <span className="mt-3 inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500"><Eye size={13} aria-hidden="true" /> View details</span>
                     </div>
                   </button>
@@ -190,7 +204,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
             </div>
             <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-[28rem] w-6 bg-gradient-to-r from-slate-50 to-transparent sm:h-[27rem] sm:w-10 lg:h-[23rem]" />
             <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 h-[28rem] w-6 bg-gradient-to-l from-slate-50 to-transparent sm:h-[27rem] sm:w-10 lg:h-[23rem]" />
-            <span className="sr-only" aria-live="polite">{isRailPaused ? 'Product movement paused' : 'Product movement resumes when the rail is not in use'}</span>
+            <span className="sr-only" aria-live="polite">{isRailPaused || manuallyPaused ? 'Product movement paused' : 'Product movement resumes when the rail is not in use'}</span>
           </div>
         ) : (
           <div className="border-y border-slate-200 py-14 text-center">
@@ -199,7 +213,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
           </div>
         )}
       </div>
-      <ProductQuickViewModal product={activeModalProduct} isOpen={Boolean(activeModalProduct)} onClose={closeModal} />
+      <ProductQuickViewModal product={activeModalProduct} isOpen={Boolean(activeModalProduct)} onClose={closeModal} instant={keyboardModal} onPrevious={filteredProducts.length > 1 ? previousProduct : undefined} onNext={filteredProducts.length > 1 ? nextProduct : undefined} position={activeProductIndex + 1} total={filteredProducts.length} />
     </section>
   )
 }

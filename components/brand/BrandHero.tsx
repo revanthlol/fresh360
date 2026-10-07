@@ -107,7 +107,7 @@ export function BrandHero({ brand }: BrandHeroProps) {
   const textOpacity = useTransform(
     scrollYProgress,
     [0, 0.7, 1],
-    [1, 0.85, 0.7]
+    [1, 1, 1]
   )
 
   const artScale = useTransform(
@@ -166,7 +166,7 @@ export function BrandHero({ brand }: BrandHeroProps) {
           className="max-w-2xl space-y-6"
         >
           <span
-            className="inline-flex items-center rounded-full border px-4 py-2 text-[10px] font-black uppercase tracking-[0.36em]"
+            className="inline-flex items-center rounded-full border px-4 py-2 text-xs font-extrabold uppercase tracking-[0.36em]"
             style={{
               borderColor: `rgba(${rgb}, 0.18)`,
               backgroundColor: `rgba(${rgb}, 0.09)`,
@@ -177,7 +177,7 @@ export function BrandHero({ brand }: BrandHeroProps) {
           </span>
 
           <h1
-            className="font-display font-black leading-[0.9] tracking-[-0.04em] text-slate-950"
+            className="font-display font-extrabold leading-[1.1] tracking-[-0.02em] text-slate-950"
             style={{
               fontSize: 'clamp(3.5rem, 8vw, 5.5rem)',
             }}
@@ -189,9 +189,11 @@ export function BrandHero({ brand }: BrandHeroProps) {
             {brand.tagline}
           </p>
 
-          <p className="text-base leading-relaxed text-slate-500 sm:text-[17px]">
+          <p className="text-base leading-relaxed text-slate-500 sm:text-lg max-w-[65ch]">
             {brand.description}
           </p>
+
+          {brand.labelNote && <p className="max-w-[65ch] text-sm leading-relaxed text-slate-600">{brand.labelNote}</p>}
 
           {brand.usps && brand.usps.length > 0 && (
             <div className="flex flex-wrap gap-2.5 pt-1">

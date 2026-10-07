@@ -4,8 +4,6 @@ import "./globals.css";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
-import { LoadingScreen } from "@/components/layout/LoadingScreen";
-import { PageTransition } from "@/components/layout/PageTransition";
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
@@ -17,7 +15,7 @@ const jakarta = Plus_Jakarta_Sans({
 const outfit = Outfit({
   subsets: ["latin"],
   variable: "--font-outfit",
-  weight: ["400", "600", "700", "800"],
+  weight: ["400", "500", "600", "700", "800", "900"],
   display: "swap",
 });
 
@@ -103,7 +101,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth" data-scroll-behavior="smooth">
+    <html lang="en" dir="ltr" data-scroll-behavior="smooth">
       <body className={`${jakarta.variable} ${outfit.variable} ${fraunces.variable} font-sans antialiased text-slate-900 bg-[#eff7ef] selection:bg-brand-green selection:text-white`}>
         <a 
           href="#main-content" 
@@ -112,8 +110,6 @@ export default function RootLayout({
           Skip to content
         </a>
         
-        <LoadingScreen />
-        <PageTransition />
         <Navbar />
         
         <main id="main-content" className="min-h-screen">

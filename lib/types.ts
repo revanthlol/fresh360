@@ -26,6 +26,9 @@ export interface Brand {
   heroImage: SanityImageAsset
   usps: string[]
   primaryColor: string
+  labelNote?: string
+  metaDescription?: string
+  socialCaption?: string
 }
 
 export interface Product {
@@ -37,6 +40,10 @@ export interface Product {
   tagline?: string
   description?: string
   ingredients?: string[]
+  tasteNotes?: string[]
+  servingSuggestion?: string
+  labelStatements?: string[]
+  vegetarian?: boolean
   benefits?: string[]
   image?: SanityImageAsset
   featured: boolean

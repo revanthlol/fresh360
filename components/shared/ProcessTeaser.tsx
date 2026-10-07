@@ -50,16 +50,16 @@ function TimelineStep({
   progress: MotionValue<number>
 }) {
   const reduceMotion = useReducedMotion()
-  const slideY = useTransform(progress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [28, 0, -14])
-  const slideOpacity = useTransform(progress, [0, 0.2, 0.8, 1], [0.35, 1, 1, 0.82])
+  const slideY = useTransform(progress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [16, 0, -8])
+  const slideOpacity = useTransform(progress, [0, 0.2, 0.8, 1], [1, 1, 1, 1])
   const artScale = useTransform(progress, [0, 0.5, 1], reduceMotion ? [1, 1, 1] : [0.96, 1, 0.98])
 
   return (
     <motion.div
       style={{ y: slideY, opacity: slideOpacity }}
-      className="relative flex items-start gap-6"
+      className="relative flex items-start gap-3 sm:gap-6"
     >
-      <div className="relative flex w-12 shrink-0 flex-col items-center">
+      <div className="relative flex hidden sm:flex w-12 shrink-0 flex-col items-center">
         <div className={`relative z-10 mt-[14px] h-4 w-4 rounded-full ${step.dot} ring-4 ring-[#f5fbf5]`} />
         <div className="absolute left-[15px] top-[21px] h-[1.5px] w-[calc(100%-15px)] bg-emerald-100/70" />
       </div>
@@ -71,8 +71,8 @@ function TimelineStep({
         <step.icon size={22} />
       </motion.div>
 
-      <div className="flex-1 pt-1 pb-2">
-        <span className="text-[10px] font-bold uppercase tracking-widest text-slate-400">
+      <div className="min-w-0 flex-1 pt-1 pb-2">
+        <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
           Step {String(index + 1).padStart(2, '0')}
         </span>
         <h3 className="mt-0.5 mb-1.5 text-2xl font-display font-bold text-slate-900 md:text-3xl">{step.title}</h3>
@@ -91,7 +91,7 @@ export function ProcessTeaser({ id = 'process' }: { id?: string } = {}) {
   })
 
   const headingY = useTransform(scrollYProgress, [0, 0.3, 1], reduceMotion ? [0, 0, 0] : [40, 0, -20])
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0.35, 1, 1, 0.82])
+  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [1, 1, 1, 1])
   const lineScale = useTransform(scrollYProgress, [0.1, 0.85], [0, 1])
   const ambientX = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-24, 24])
   const ambientY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [20, -20])
@@ -115,16 +115,16 @@ export function ProcessTeaser({ id = 'process' }: { id?: string } = {}) {
           <span className="inline-block rounded-full bg-brand-green/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-green">
             Our Process
           </span>
-          <h2 className="text-4xl font-display leading-[1.05] text-slate-900 md:text-5xl lg:text-6xl">
+          <h2 className="text-4xl font-display leading-[1.1] text-slate-900 md:text-5xl lg:text-6xl">
             From farm to bottle, <span className="font-accent text-slate-500">the healthy way.</span>
           </h2>
         </motion.div>
 
         <div className="relative mx-auto max-w-3xl">
-          <div className="absolute left-[23px] top-6 bottom-6 w-[2px] rounded-full bg-slate-100" />
+          <div className="hidden sm:block absolute left-[23px] top-6 bottom-6 w-[2px] rounded-full bg-slate-100" />
           <motion.div
-            style={{ scaleY: lineScale }}
-            className="absolute left-[23px] top-6 h-[calc(100%-3rem)] w-[2px] origin-top rounded-full bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange"
+            style={{ scaleY: reduceMotion ? 1 : lineScale }}
+            className="hidden sm:block absolute left-[23px] top-6 h-[calc(100%-3rem)] w-[2px] origin-top rounded-full bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange"
           />
 
           <div className="space-y-10 md:space-y-14">

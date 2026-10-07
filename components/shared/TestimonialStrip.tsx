@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion } from 'motion/react'
+import { ScrollReveal } from './ScrollReveal'
 import { Star, Quote } from 'lucide-react'
 
 const testimonials = [
@@ -39,11 +39,8 @@ export function TestimonialStrip() {
     <section className="pt-28 pb-20 md:pt-36 md:pb-24 home-surface overflow-hidden">
       <div className="container mx-auto px-6">
         {/* Heading */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
+        <ScrollReveal
+          duration={0.35}
           className="max-w-2xl mx-auto text-center mb-20 space-y-4"
         >
           <span className="text-xs font-bold uppercase tracking-[0.2em] text-brand-green">Community & Partner Voices</span>
@@ -51,22 +48,16 @@ export function TestimonialStrip() {
             Real experiences with{' '}
             <span className="font-accent text-slate-500">pure refreshment.</span>
           </h2>
-        </motion.div>
+        </ScrollReveal>
 
         {/* Testimonial Cards */}
         <div className="grid md:grid-cols-3 gap-6 lg:gap-8">
           {testimonials.map((t, idx) => (
-            <motion.div
+            <ScrollReveal
               key={idx}
-              initial={{ opacity: 0, y: 40, rotate: idx === 1 ? 0 : idx === 0 ? -1 : 1 }}
-              whileInView={{ opacity: 1, y: 0, rotate: 0 }}
-              viewport={{ once: true, margin: "-60px" }}
-              transition={{
-                delay: idx * 0.12,
-                duration: 0.7,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              className="home-card p-8 rounded-[2rem] flex flex-col space-y-6 hover:shadow-lg hover:-translate-y-1 transition-all duration-400"
+              delay={idx * 0.06}
+              duration={0.35}
+              className="home-card p-8 rounded-[2rem] flex flex-col space-y-6 hover:shadow-lg transition-shadow duration-200"
             >
               {/* Rating */}
               <div className="flex items-center justify-between">
@@ -75,7 +66,7 @@ export function TestimonialStrip() {
                     <Star key={i} size={14} className="fill-amber-400 text-amber-400" />
                   ))}
                 </div>
-                <span className={`text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${brandColorMap[t.brand]}`}>
+                <span className={`text-xs font-bold uppercase tracking-wider px-2.5 py-1 rounded-full ${brandColorMap[t.brand]}`}>
                   {t.brand}
                 </span>
               </div>
@@ -98,7 +89,7 @@ export function TestimonialStrip() {
                   <p className="text-slate-400 text-xs">{t.role}</p>
                 </div>
               </div>
-            </motion.div>
+            </ScrollReveal>
           ))}
         </div>
       </div>

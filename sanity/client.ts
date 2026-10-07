@@ -9,6 +9,7 @@ export const client = createClient({
   dataset,
   apiVersion,
   useCdn: true, // `false` if you want to ensure fresh data
+  perspective: 'published',
 })
 
 export const writeClient = createClient({

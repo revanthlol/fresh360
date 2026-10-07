@@ -1,7 +1,7 @@
 "use client"
 
 import React, { useState, useRef, useEffect } from 'react'
-import { motion, AnimatePresence } from 'motion/react'
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react'
 import { ChevronDown } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -19,6 +19,8 @@ interface CustomSelectProps {
 }
 
 export function CustomSelect({ options, name, defaultValue, placeholder = "Select an option", required }: CustomSelectProps) {
+  const reduceMotion = useReducedMotion()
+  const [keyboardAction, setKeyboardAction] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
   const [selected, setSelected] = useState<Option | null>(
     options.find(opt => opt.value === defaultValue) || null
@@ -52,9 +54,12 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
       
       <button
         type="button"
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={(event) => { setKeyboardAction(event.detail === 0); setIsOpen(!isOpen) }}
+        aria-expanded={isOpen}
+        aria-label={name}
+        onKeyDown={(event) => { if (event.key === "Escape") setIsOpen(false) }}
         className={cn(
-          "w-full px-6 py-4 rounded-2xl bg-white border text-left flex items-center justify-between transition-all duration-300 outline-none group",
+          "w-full px-6 py-4 rounded-2xl bg-white border text-left flex items-center justify-between transition-colors duration-180 outline-none group",
           isOpen 
             ? "ring-4 ring-brand-green/10 border-brand-green shadow-lg" 
             : "border-slate-200 hover:border-slate-300 hover:shadow-md"
@@ -67,13 +72,13 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
           {selected ? selected.label : placeholder}
         </span>
         <div className={cn(
-          "p-1 rounded-full transition-all duration-300",
+          "p-1 rounded-full transition-colors duration-180",
           isOpen ? "bg-brand-green text-white" : "bg-slate-100 text-slate-400 group-hover:bg-slate-200"
         )}>
           <ChevronDown 
             size={16} 
             className={cn(
-              "transition-transform duration-300",
+              "transition-transform duration-160",
               isOpen && "rotate-180"
             )} 
           />
@@ -83,11 +88,11 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: 10, scale: 0.98 }}
-            animate={{ opacity: 1, y: 6, scale: 1 }}
-            exit={{ opacity: 0, y: 10, scale: 0.98 }}
-            transition={{ duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute z-50 w-full bg-white/90 backdrop-blur-xl border border-white/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] overflow-hidden mt-1 p-2"
+            initial={{ opacity: 0, transform: reduceMotion || keyboardAction ? "translateY(0px) scale(1)" : "translateY(4px) scale(0.98)" }}
+            animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
+            exit={{ opacity: 0, transform: reduceMotion || keyboardAction ? "translateY(0px) scale(1)" : "translateY(2px) scale(0.98)" }}
+            transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.18, ease: [0.23, 1, 0.32, 1] }}
+            className="absolute z-50 w-full bg-white/90 backdrop-blur-xl border border-white/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] overflow-hidden origin-top mt-2 p-2"
           >
             <ul className="max-h-64 overflow-auto custom-scrollbar">
               {options.map((option) => (
@@ -96,16 +101,16 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
                     type="button"
                     onClick={() => handleSelect(option)}
                     className={cn(
-                      "w-full px-4 py-3 text-left text-sm rounded-xl transition-all flex items-center justify-between group",
+                      "w-full px-4 py-3 text-left text-sm rounded-xl transition-colors flex items-center justify-between group",
                       selected?.value === option.value 
                         ? "bg-brand-green text-white font-bold shadow-md shadow-brand-green/20" 
                         : "text-slate-600 hover:bg-brand-green/5 hover:text-brand-green"
                     )}
                   >
-                    <span className="truncate">{option.label}</span>
+                    <span className="break-words">{option.label}</span>
                     {selected?.value === option.value && (
                       <motion.div 
-                        initial={{ scale: 0 }}
+                        initial={false}
                         animate={{ scale: 1 }}
                         className="w-2 h-2 rounded-full bg-white" 
                       />

@@ -71,27 +71,32 @@
     --input: 214.3 31.8% 91.4%;
     --ring: 142.1 76.2% 36.3%;
     --radius: 0.75rem;
+    --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   }
 
   body {
     @apply bg-[var(--background)] text-slate-800 font-sans antialiased;
-    font-size: 16px;
-    line-height: 1.7;
-    letter-spacing: -0.01em;
+    font-size: 1rem;
+    line-height: 1.6;
+    letter-spacing: 0;
   }
 
   h1, h2, h3, h4, h5, h6 {
     @apply font-display font-bold tracking-tight;
-    line-height: 1.15;
-    letter-spacing: -0.03em;
+    line-height: 1.2;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+    overflow-wrap: break-word;
   }
 
   p {
-    line-height: 1.75;
+    line-height: 1.6;
+    text-wrap: pretty;
+    overflow-wrap: break-word;
   }
 
-  /* Smooth font rendering */
-  * {
+  /* Smooth font rendering belongs on the root. */
+  html {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
@@ -176,8 +181,8 @@
   .text-display {
     font-family: var(--font-display);
     font-weight: 800;
-    letter-spacing: -0.04em;
-    line-height: 1.05;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
   }
 
   /* Legal page prose — Privacy Policy & Terms of Service */
@@ -185,7 +190,7 @@
     color: #475569;
     line-height: 1.8;
     margin-bottom: 1rem;
-    font-size: 0.9625rem;
+    font-size: 1rem;
   }
 
   .prose-legal ul {
@@ -202,7 +207,7 @@
     align-items: flex-start;
     gap: 0.625rem;
     color: #475569;
-    font-size: 0.9625rem;
+    font-size: 1rem;
     line-height: 1.7;
     padding-left: 0;
   }
@@ -238,7 +243,7 @@
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 0.06em;
-    font-size: 0.7rem;
+    font-size: 0.75rem;
     padding: 0.75rem 1rem;
     text-align: left;
     border-bottom: 1px solid #e2e8f0;
@@ -257,5 +262,46 @@
 
   .prose-legal table tr:nth-child(even) td {
     background-color: #f8fafc;
+  }
+}
+
+@layer base {
+  a {
+    text-underline-position: from-font;
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.2em;
+  }
+
+  :focus-visible {
+    outline: 2px solid #2D6A2D;
+    outline-offset: 4px;
+  }
+
+  input, textarea, select {
+    font-size: 1rem;
+  }
+
+  ::selection {
+    background: #CCFBF1;
+    color: #0F172A;
+  }
+}
+
+@layer utilities {
+  .prose-legal { max-width: 70ch; }
+
+  .press-feedback {
+    transition: transform 140ms var(--ease-out), background-color 180ms ease, color 180ms ease;
+  }
+  .press-feedback:active { transform: scale(0.97); }
+  .press-feedback:focus-visible { transition-duration: 0ms; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .product-image-hover:hover img { transform: scale(1.025); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .press-feedback:active, .product-image-hover:hover img { transform: none; }
+    .animate-float, .animate-reveal, .animate-sheen { animation: none; }
   }
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import React from 'react'
-import { motion } from 'motion/react'
+import { ScrollReveal } from './ScrollReveal'
 import { ShieldCheck, Heart, Leaf, Award } from 'lucide-react'
 
 export function SinglePageStory({ id = 'about' }: { id?: string }) {
@@ -51,10 +51,10 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
           {/* 4 Pillars Grid */}
           <div className="lg:col-span-6 grid sm:grid-cols-2 gap-5">
             {pillars.map((pillar, i) => (
-              <motion.div
+              <ScrollReveal
                 key={i}
-                whileHover={{ y: -4 }}
-                className="home-card p-6 rounded-3xl border border-emerald-100/70 hover:shadow-lg transition-all"
+                delay={i * 0.05}
+                className="home-card p-6 rounded-3xl border border-emerald-100/70 hover:shadow-lg transition-shadow duration-200"
               >
                 <div className="w-12 h-12 rounded-2xl bg-white flex items-center justify-center mb-4 shadow-sm border border-emerald-100/80">
                   {pillar.icon}
@@ -62,10 +62,10 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
                 <h3 className="text-lg font-display font-bold text-slate-900 mb-2">
                   {pillar.title}
                 </h3>
-                <p className="text-slate-500 text-xs sm:text-sm leading-relaxed">
+                <p className="text-slate-500 text-sm leading-relaxed">
                   {pillar.desc}
                 </p>
-              </motion.div>
+              </ScrollReveal>
             ))}
           </div>
         </div>

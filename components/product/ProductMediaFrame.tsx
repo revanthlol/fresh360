@@ -51,7 +51,7 @@ export function ProductMediaFrame({
           sizes={sizes}
           placeholder="blur"
           blurDataURL={urlFor(image).width(24).blur(60).url()}
-          className={cn('object-cover transition-transform duration-500 group-hover:scale-[1.03]', imageClassName)}
+          className={cn('object-cover transition-transform duration-200', imageClassName)}
           priority={priority}
         />
       ) : (
@@ -61,7 +61,7 @@ export function ProductMediaFrame({
         >
           <span className="font-display text-sm font-extrabold uppercase tracking-[0.16em]" style={accentColor ? { color: accentColor } : undefined}>{brandName || 'Fresh 360'}</span>
           <div>
-            <p className="max-w-[8ch] font-display text-3xl font-extrabold leading-[1.02] tracking-tight text-slate-900 sm:text-4xl">{alt}</p>
+            <p className="max-w-[8ch] font-display text-3xl font-extrabold leading-[1.1] tracking-tight text-slate-900 sm:text-4xl">{alt}</p>
             <p className="mt-4 border-t border-slate-900/10 pt-3 text-xs font-medium text-slate-500">Product photo coming soon</p>
           </div>
         </div>

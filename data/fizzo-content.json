@@ -1,0 +1,216 @@
+{
+  "source": "docs/Fizzo Website Content & Ingredients.pdf",
+  "confirmedAt": "2026-10-07",
+  "brand": {
+    "tagline": "Fizz with Masti.",
+    "description": "Fizzo is Hyderabad's playful take on the nostalgic Indian soda: bold, bubbly flavours like Jeera, Paan and Chilli Mango that you won't find on a national brand's shelf. Artificially flavoured and proud of it, made for street-side cravings, biryani lunches and everyday fun.",
+    "labelNote": "All Fizzo beverages are artificially flavoured. Please see the bottle label for full ingredients.",
+    "metaDescription": "Meet Fizzo, bold desi sodas from Fresh 360: Lime, Orange, Blue Mojito, Jeera, Chilli Mango, Root Beer, Sugandhi and Paan. Artificially flavoured. Made in Hyderabad.",
+    "socialCaption": "Eight flavours. Zero boring. Meet Fizzo, the fizz with masti. #Fizzo #Fresh360 #DesiSoda"
+  },
+  "products": [
+    {
+      "name": "Lime",
+      "tagline": "The classic nimbu soda, turned up.",
+      "description": "Sharp, zesty and ice-cold. Fizzo Lime is the thirst-quencher you grew up on, with a tangy bite and a clean, crisp finish.",
+      "tasteNotes": [
+        "Tangy",
+        "Zesty",
+        "Refreshing"
+      ],
+      "servingSuggestion": "Hot afternoons, fried snacks, a plate of chaat",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Common Salt",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Lime)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Orange",
+      "tagline": "Sunshine with a sparkle.",
+      "description": "Sweet, bright and unapologetically fizzy. A throwback to orange-candy days in a bottle that's always ready to share.",
+      "tasteNotes": [
+        "Sweet",
+        "Citrusy",
+        "Bubbly"
+      ],
+      "servingSuggestion": "Parties, picnics, after-school treats",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Orange)",
+        "Colour (INS 110 Sunset Yellow FCF)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Blue Mojito",
+      "tagline": "Cool blue. Zero effort.",
+      "description": "A mint-and-lime chill in an eye-catching blue. Crisp, cooling and made for the photo as much as the sip.",
+      "tasteNotes": [
+        "Minty",
+        "Lime-bright",
+        "Cooling"
+      ],
+      "servingSuggestion": "Hangouts, weekends, anything with friends",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Mint and Lime)",
+        "Colour (INS 133 Brilliant Blue FCF)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Jeera",
+      "tagline": "Masala fizz, desi to the core.",
+      "description": "Warm roasted cumin meets tangy, salty-sweet spice. Fizzo Jeera is the soda that belongs next to a hot plate of biryani.",
+      "tasteNotes": [
+        "Savoury",
+        "Tangy",
+        "Spiced"
+      ],
+      "servingSuggestion": "Biryani, kebabs, heavy meals",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Black Salt",
+        "Common Salt",
+        "Roasted Cumin (Jeera) Extract",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Jeera Masala)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Chilli Mango",
+      "tagline": "Sweet first. Then the kick.",
+      "description": "Juicy mango sweetness with a playful chilli heat that sneaks up on you. The sip that makes you go \"one more.\"",
+      "tasteNotes": [
+        "Mango-sweet",
+        "Spicy",
+        "Bold"
+      ],
+      "servingSuggestion": "Street snacks, summer evenings",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Common Salt",
+        "Chilli (Capsicum) Extract",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Mango)",
+        "Colour (INS 102 Tartrazine)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Root Beer",
+      "tagline": "Smooth, creamy, a little mysterious.",
+      "description": "Rich vanilla-spice notes with a creamy, foamy fizz. A different kind of soda for those who like to try something new.",
+      "tasteNotes": [
+        "Creamy",
+        "Vanilla-spiced",
+        "Mellow"
+      ],
+      "servingSuggestion": "Burgers, fries, dessert",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Foaming Agent (INS 999 Quillaja Extract)",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Root Beer and Vanilla)",
+        "Colour (INS 150d Caramel)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Sugandhi",
+      "tagline": "Fragrance in every fizz.",
+      "description": "A fragrant, floral soda with the old-world aroma of Indian celebrations. One sip and it feels like a festive occasion.",
+      "tasteNotes": [
+        "Floral",
+        "Aromatic",
+        "Sweet"
+      ],
+      "servingSuggestion": "Festivals, family gatherings, sweets",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Rose and Kewra)",
+        "Colour (INS 122 Carmoisine)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    },
+    {
+      "name": "Paan",
+      "tagline": "The after-meal favourite, now fizzy.",
+      "description": "All the sweet, cooling character of meetha paan in a sparkling bottle. A natural finish to any feast.",
+      "tasteNotes": [
+        "Sweet",
+        "Cooling",
+        "Herbal"
+      ],
+      "servingSuggestion": "After meals, celebrations",
+      "ingredients": [
+        "Carbonated Water",
+        "Sugar",
+        "Acidity Regulator (INS 330)",
+        "Preservative (INS 211)",
+        "Added Flavour (Artificial Flavouring Substances: Paan and Fennel)",
+        "Colour (INS 133 Brilliant Blue FCF, INS 102 Tartrazine)"
+      ],
+      "labelStatements": [
+        "CONTAINS ARTIFICIAL FLAVOURING SUBSTANCES",
+        "CONTAINS PERMITTED SYNTHETIC FOOD COLOUR(S)",
+        "CONTAINS CLASS II PRESERVATIVE (INS 211, sodium benzoate)"
+      ],
+      "vegetarian": true
+    }
+  ]
+}

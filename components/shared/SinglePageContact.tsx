@@ -2,7 +2,8 @@
 
 import React from 'react'
 import { ContactForm } from './ContactForm'
-import { Phone, Mail, MapPin, MessageCircle, Send } from 'lucide-react'
+import { ContactMap } from './ContactMap'
+import { Phone, Mail, MapPin, MessageCircle } from 'lucide-react'
 
 export function SinglePageContact({ id = 'contact' }: { id?: string }) {
   const whatsappNumber = process.env.NEXT_PUBLIC_WHATSAPP_NUMBER || '9705522020'
@@ -21,9 +22,9 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-start">
+        <div className="grid lg:grid-cols-12 gap-12 items-stretch">
           {/* Contact Details & Quick Channels */}
-          <div className="lg:col-span-5 space-y-6">
+          <div className="lg:col-span-5 flex flex-col gap-6">
             <div className="home-card p-8 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm space-y-8 bg-white">
               <h3 className="text-2xl font-display font-bold text-slate-900">
                 Contact Details
@@ -79,11 +80,12 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
                 </a>
               </div>
             </div>
+            <ContactMap className="flex-1" />
           </div>
 
           {/* Form */}
           <div className="lg:col-span-7">
-            <div className="home-card p-8 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm bg-white">
+            <div className="home-card h-full p-8 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm bg-white">
               <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">
                 Send an Inquiry
               </h3>

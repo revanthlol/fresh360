@@ -1,9 +1,18 @@
 import React from 'react'
+import type { Metadata } from 'next'
 import { notFound } from 'next/navigation'
 import { getBrand, getProductsByBrand } from '@/lib/sanity'
 import { ProductCard } from '@/components/product/ProductCard'
 import { SectionHeader } from '@/components/shared/SectionHeader'
 import { BrandHero } from '@/components/brand/BrandHero'
+
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params
+  const brand = await getBrand(slug)
+  if (!brand) return { title: 'Brand not found' }
+  const description = brand.metaDescription || brand.description
+  return { title: brand.name, description, alternates: { canonical: `/brands/${slug}` }, openGraph: { title: brand.name, description, url: `/brands/${slug}` }, twitter: { title: brand.name, description } }
+}
 
 export default async function BrandPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
