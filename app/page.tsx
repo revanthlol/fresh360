@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/shared/HeroSection";
-import { PhilosophyStrip } from "@/components/shared/PhilosophyStrip";
 import { BrandStrip } from "@/components/brand/BrandStrip";
 import { FeaturedProducts } from "@/components/product/FeaturedProducts";
 import { ProcessTeaser } from "@/components/shared/ProcessTeaser";
@@ -27,14 +26,10 @@ export default async function Home() {
         {/* ACT 1 — Parallax Hero */}
         <HeroSection />
 
-        {/* ACT 2 — Concise About & Founding Story */}
-        <SinglePageStory id="about" />
-
-        {/* ACT 3 — Philosophy reveal */}
-        <PhilosophyStrip />
-
-        {/* ACT 4 — Brand Showcase */}
+        {/* Full-width brand sequence follows the hero. */}
         <BrandStrip id="brands" content={brands} />
+
+        <SinglePageStory id="about" />
 
         {/* ACT 5 — All Products: Horizontal movement + Quick View Modal */}
         <SinglePageProducts id="products" products={products} brands={brands} />
@@ -61,10 +56,7 @@ export default async function Home() {
       {/* ACT 1 — First impression, parallax hero */}
       <HeroSection />
 
-      {/* ACT 2 — Philosophy reveal, scroll-driven text + USP pills */}
-      <PhilosophyStrip />
-
-      {/* ACT 3 — Brand showcase cards */}
+      {/* Full-width brand sequence */}
       <BrandStrip content={brands} />
 
       {/* ACT 4 — Best-selling products from Sanity */}

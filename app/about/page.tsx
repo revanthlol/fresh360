@@ -125,7 +125,7 @@ export default function AboutPage() {
           >
               <div className="relative aspect-square rounded-[3rem] overflow-hidden home-card group">
               <Image 
-                src="/fresh360-about.png"
+                src="/old/fresh360-about.png"
                 alt="Fresh 360 - Authenticity and Purity"
                 fill
                 className="object-cover transition-transform duration-700 group-hover:scale-105"

@@ -67,9 +67,9 @@ export const metadata: Metadata = {
     description: "Explore cold-pressed juice, sparkling fruit and bold fizzy flavours from Juicera, Fruizy and Fizzo.",
     images: [
       {
-        url: "/fresh360-3_4.png",
-        width: 1200,
-        height: 630,
+        url: "/images/hero.png",
+        width: 1672,
+        height: 941,
         alt: "Fresh 360 Beverages",
       },
     ],
@@ -78,7 +78,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Fresh 360 | Drinks across three brands",
     description: "Cold-pressed juice, sparkling fruit and bold fizzy flavours from Fresh 360.",
-    images: ["/fresh360-3_4.png"],
+    images: ["/images/hero.png"],
   },
   robots: {
     index: true,
