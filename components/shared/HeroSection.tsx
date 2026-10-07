@@ -2,7 +2,7 @@
 
 import { useRef, type MouseEvent } from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
+import { VideoBackdrop } from './VideoBackdrop'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowRight } from 'lucide-react'
 import { useDesktopMotion } from '@/lib/use-desktop-motion'
@@ -13,6 +13,7 @@ export function HeroSection() {
   const desktopMotion = useDesktopMotion()
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start start', 'end start'] })
   const artTransform = useTransform(scrollYProgress, [0, 1], ['translate3d(0, 0, 0) scale(1)', 'translate3d(0, 2%, 0) scale(1.025)'])
+  const radius = useTransform(scrollYProgress, [0, 0.8], ['0rem', '2rem'])
   const singlePage = process.env.NEXT_PUBLIC_SINGLE_PAGE_MODE === 'true'
 
   const navigate = (event: MouseEvent<HTMLAnchorElement>, id: string) => {
@@ -25,9 +26,9 @@ export function HeroSection() {
   }
 
   return (
-    <section ref={ref} className="fresh-hero">
+    <motion.section ref={ref} className="fresh-hero" style={{ borderRadius: desktopMotion ? radius : 0 }}>
       <motion.div className="fresh-hero-art" style={{ transform: desktopMotion ? artTransform : 'none' }}>
-        <Image src="/images/hero.png" alt="Juicera Citrovit, Fruizy Purify Fizz and Fizzo Blue Mojito bottles" fill priority sizes="100vw" className="object-contain object-right" />
+        <VideoBackdrop src="/videos/hero.mp4" poster="/images/hero.png" alt="Juicera Citrovit, Fruizy Purify Fizz and Fizzo Blue Mojito bottles" priority />
       </motion.div>
       <div className="fresh-hero-scrim" aria-hidden="true" />
       <div className="fresh-hero-copy">
@@ -43,8 +44,8 @@ export function HeroSection() {
         </div>
       </div>
       <div className="fresh-hero-mobile-art">
-        <Image src="/images/hero.png" alt="Juicera, Fruizy and Fizzo drink bottles" fill priority sizes="(max-width: 1023px) 100vw, 1px" className="object-cover object-right" />
+        <VideoBackdrop src="/videos/hero.mp4" poster="/images/hero.png" alt="Juicera, Fruizy and Fizzo drink bottles" priority />
       </div>
-    </section>
+    </motion.section>
   )
 }

@@ -1,7 +1,7 @@
 'use client'
 
 import { useRef, type MouseEvent } from 'react'
-import Image from 'next/image'
+import { VideoBackdrop } from '@/components/shared/VideoBackdrop'
 import Link from 'next/link'
 import { motion, useReducedMotion, useScroll, useTransform } from 'motion/react'
 import { ArrowUpRight } from 'lucide-react'
@@ -39,10 +39,10 @@ export function BrandScene({ scene, content, index = 0, standalone = false, inst
   return (
     <article ref={ref} id={`brand-panel-${scene.id}`} tabIndex={-1} className={`brand-scene ${standalone ? 'brand-scene-standalone' : ''}`}>
       <motion.div className="brand-scene-art" style={{ transform: desktopMotion && !instant ? transform : 'none' }}>
-        <Image src={scene.image} alt={scene.alt} fill sizes="100vw" className="object-contain object-right" priority={standalone} />
+        <VideoBackdrop src={`/videos/${scene.id}.mp4`} poster={scene.image} alt={scene.alt} priority={standalone} />
       </motion.div>
       <div className="brand-scene-mobile-art">
-        <Image src={scene.image} alt={scene.alt} fill sizes="(max-width: 1023px) 100vw, 1px" className="object-cover object-right" priority={standalone} />
+        <VideoBackdrop src={`/videos/${scene.id}.mp4`} poster={scene.image} alt={scene.alt} priority={standalone} />
       </div>
       <div className="brand-scene-scrim" aria-hidden="true" />
       <motion.div className="brand-scene-copy" style={{ transform: desktopMotion && !instant ? textTransform : 'none' }}>
