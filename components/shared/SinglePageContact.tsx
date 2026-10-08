@@ -10,8 +10,8 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
   const whatsappUrl = `https://wa.me/${whatsappNumber}?text=${encodeURIComponent("Hello Fresh 360, I'd like to get in touch!")}`
 
   return (
-    <section id={id} className="py-24 relative overflow-hidden bg-transparent">
-      <div className="container mx-auto px-6 max-w-7xl relative z-10">
+    <section id={id} className="contact-section py-24 relative bg-transparent">
+      <div className="container mx-auto px-4 sm:px-6 max-w-7xl relative z-10">
         <div className="text-center max-w-3xl mx-auto mb-10 space-y-3" data-presentation-step>
 
           <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">
@@ -22,10 +22,10 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
           </p>
         </div>
 
-        <div className="grid lg:grid-cols-12 gap-12 items-stretch">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-stretch">
           {/* Contact Details & Quick Channels */}
-          <div className="lg:col-span-5 flex flex-col gap-6">
-            <div className="home-card p-8 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm space-y-8 bg-white">
+          <div className="min-w-0 lg:col-span-5 flex flex-col gap-6">
+            <div className="home-card min-w-0 p-5 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm space-y-8 bg-white">
               <h3 className="text-2xl font-display font-bold text-slate-900">
                 Contact Details
               </h3>
@@ -37,7 +37,7 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Phone</p>
-                    <a href="tel:+919705522020" className="text-slate-900 font-semibold hover:text-brand-green transition-colors">
+                    <a href="tel:+919705522020" className="break-words text-slate-900 font-semibold hover:text-brand-green transition-colors">
                       +91 97055 22020
                     </a>
                   </div>
@@ -49,7 +49,7 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
                   </div>
                   <div>
                     <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                    <a href="mailto:support@fresh360degrees.in" className="text-slate-900 font-semibold hover:text-brand-green transition-colors">
+                    <a href="mailto:support@fresh360degrees.in" className="break-words text-slate-900 font-semibold hover:text-brand-green transition-colors">
                       support@fresh360degrees.in
                     </a>
                   </div>
@@ -84,8 +84,8 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
           </div>
 
           {/* Form */}
-          <div className="lg:col-span-7">
-            <div className="home-card h-full p-8 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm bg-white">
+          <div className="min-w-0 lg:col-span-7">
+            <div className="home-card min-w-0 h-full p-5 sm:p-10 rounded-[2.5rem] border border-emerald-100/70 shadow-sm bg-white">
               <h3 className="text-2xl font-display font-bold text-slate-900 mb-2">
                 Send an Inquiry
               </h3>

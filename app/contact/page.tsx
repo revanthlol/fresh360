@@ -16,11 +16,11 @@ export default function ContactPage() {
 
       <section className="pb-24">
         <div className="container mx-auto px-6 max-w-7xl">
-          <div className="grid lg:grid-cols-3 gap-12">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 lg:gap-12">
             
             {/* Contact Details */}
-            <div className="lg:col-span-1 space-y-8">
-              <div className="home-card p-10 rounded-[2.5rem] space-y-10">
+            <div className="min-w-0 lg:col-span-1 space-y-8">
+              <div className="home-card min-w-0 p-5 sm:p-10 rounded-[2.5rem] space-y-10">
                 <div className="space-y-6">
                   <h3 className="text-2xl font-display font-bold text-slate-900">Contact Details</h3>
                   <ul className="space-y-6">
@@ -39,7 +39,7 @@ export default function ContactPage() {
                       </div>
                       <div>
                         <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Email</p>
-                        <p className="text-slate-900 font-medium">support@fresh360degrees.in</p>
+                        <p className="break-all text-slate-900 font-medium">support@fresh360degrees.in</p>
                       </div>
                     </li>
                     <li className="flex gap-4">
@@ -72,7 +72,7 @@ export default function ContactPage() {
             </div>
 
             {/* Form Section */}
-            <div className="lg:col-span-2">
+            <div className="min-w-0 lg:col-span-2">
               <div className="home-card p-6 md:p-12 rounded-[2.5rem]">
                 <SectionHeader 
                   label="Inquiry Form"

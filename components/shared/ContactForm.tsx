@@ -45,7 +45,7 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form onSubmit={handleSubmit} className="contact-form min-w-0 space-y-6">
       {status === 'error' && (
         <div className="bg-red-50 text-red-600 p-4 rounded-xl flex items-center gap-3 text-sm font-medium border border-red-100">
           <AlertCircle size={20} />
@@ -53,43 +53,47 @@ export function ContactForm() {
         </div>
       )}
 
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Full Name</label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="min-w-0 space-y-2">
+          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="contact-name">Full Name</label>
           <input 
             required
+            id="contact-name"
             name="name"
             type="text" 
             placeholder="John Doe"
-            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
+            className="w-full min-w-0 px-4 sm:px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
           />
         </div>
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Email Address</label>
+        <div className="min-w-0 space-y-2">
+          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="contact-email">Email Address</label>
           <input 
             required
+            id="contact-email"
             name="email"
             type="email" 
             placeholder="john@example.com"
-            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
+            className="w-full min-w-0 px-4 sm:px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
           />
         </div>
       </div>
       
-      <div className="grid md:grid-cols-2 gap-6">
-        <div className="space-y-2">
-          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Phone Number</label>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="min-w-0 space-y-2">
+          <label className="text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="contact-phone">Phone Number</label>
           <input 
+            id="contact-phone"
             name="phone"
             type="tel" 
             placeholder="+91 00000 00000"
-            className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
+            className="w-full min-w-0 px-4 sm:px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all"
           />
         </div>
-        <div className="space-y-2">
+        <div className="min-w-0 space-y-2">
           <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Brand Interest</label>
           <CustomSelect 
             name="brandInterest"
+            label="Brand interest"
             defaultValue="Juicera"
             options={[
               { value: "Juicera", label: "Juicera (100% Pure Cold-Pressed)" },
@@ -102,10 +106,11 @@ export function ContactForm() {
         </div>
       </div>
 
-      <div className="space-y-2">
+      <div className="min-w-0 space-y-2">
         <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">How can we help?</label>
         <CustomSelect 
           name="subject"
+          label="How can we help?"
           defaultValue="Partnership Inquiry"
           options={[
             { value: "Partnership Inquiry", label: "Partnership Inquiry" },
@@ -117,14 +122,15 @@ export function ContactForm() {
         />
       </div>
 
-      <div className="space-y-2">
-        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider">Message</label>
+      <div className="min-w-0 space-y-2">
+        <label className="text-sm font-bold text-slate-700 uppercase tracking-wider" htmlFor="contact-message">Message</label>
         <textarea 
           required
+          id="contact-message"
           name="message"
           rows={5}
           placeholder="How can we help you?"
-          className="w-full px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all resize-none"
+          className="w-full min-w-0 px-4 sm:px-6 py-4 rounded-2xl bg-slate-50 border border-slate-200 focus:outline-none focus:ring-2 focus:ring-brand-green/20 focus:border-brand-green transition-all resize-none"
         />
       </div>
 

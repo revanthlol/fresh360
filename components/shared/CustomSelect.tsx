@@ -13,12 +13,13 @@ interface Option {
 interface CustomSelectProps {
   options: Option[]
   name: string
+  label?: string
   defaultValue?: string
   placeholder?: string
   required?: boolean
 }
 
-export function CustomSelect({ options, name, defaultValue, placeholder = "Select an option", required }: CustomSelectProps) {
+export function CustomSelect({ options, name, label = name, defaultValue, placeholder = "Select an option", required }: CustomSelectProps) {
   const reduceMotion = useReducedMotion()
   const [keyboardAction, setKeyboardAction] = useState(false)
   const [isOpen, setIsOpen] = useState(false)
@@ -43,7 +44,7 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
   }
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative min-w-0" ref={containerRef}>
       {/* Hidden input for form submission */}
       <input 
         type="hidden" 
@@ -52,27 +53,31 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
         required={required}
       />
       
+      <select aria-label={label} value={selected?.value || ''} onChange={(event) => setSelected(options.find((option) => option.value === event.target.value) || null)} className="block min-h-12 w-full min-w-0 rounded-2xl border border-slate-200 bg-white px-4 py-4 text-base text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-green sm:hidden">
+        {!selected && <option value="">{placeholder}</option>}
+        {options.map((option) => <option key={option.value} value={option.value}>{option.label}</option>)}
+      </select>
       <button
         type="button"
         onClick={(event) => { setKeyboardAction(event.detail === 0); setIsOpen(!isOpen) }}
         aria-expanded={isOpen}
-        aria-label={name}
+        aria-label={label}
         onKeyDown={(event) => { if (event.key === "Escape") setIsOpen(false) }}
         className={cn(
-          "w-full px-6 py-4 rounded-2xl bg-white border text-left flex items-center justify-between transition-colors duration-180 outline-none group",
+          "hidden sm:flex min-w-0 w-full px-6 py-4 rounded-2xl bg-white border text-left items-center justify-between transition-colors duration-180 outline-none group",
           isOpen 
             ? "ring-4 ring-brand-green/10 border-brand-green shadow-lg" 
             : "border-slate-200 hover:border-slate-300 hover:shadow-md"
         )}
       >
         <span className={cn(
-          "block truncate font-medium",
+          "block min-w-0 flex-1 truncate font-medium",
           !selected ? "text-slate-400" : "text-slate-900"
         )}>
           {selected ? selected.label : placeholder}
         </span>
         <div className={cn(
-          "p-1 rounded-full transition-colors duration-180",
+          "ml-2 shrink-0 p-1 rounded-full transition-colors duration-180",
           isOpen ? "bg-brand-green text-white" : "bg-slate-100 text-slate-400 group-hover:bg-slate-200"
         )}>
           <ChevronDown 
@@ -92,7 +97,7 @@ export function CustomSelect({ options, name, defaultValue, placeholder = "Selec
             animate={{ opacity: 1, transform: "translateY(0px) scale(1)" }}
             exit={{ opacity: 0, transform: reduceMotion || keyboardAction ? "translateY(0px) scale(1)" : "translateY(2px) scale(0.98)" }}
             transition={{ duration: reduceMotion || keyboardAction ? 0 : 0.18, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute z-50 w-full bg-white/90 backdrop-blur-xl border border-white/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] overflow-hidden origin-top mt-2 p-2"
+            className="hidden sm:block absolute z-50 w-full bg-white/90 backdrop-blur-xl border border-white/40 rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.12)] overflow-hidden origin-top mt-2 p-2"
           >
             <ul className="max-h-64 overflow-auto custom-scrollbar">
               {options.map((option) => (

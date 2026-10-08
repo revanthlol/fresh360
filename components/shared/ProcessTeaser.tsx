@@ -1,151 +1,60 @@
-"use client"
+'use client'
 
-import React, { useRef } from 'react'
+import { useRef, useState, useSyncExternalStore } from 'react'
 import Link from 'next/link'
-import { motion, useReducedMotion, useScroll, useTransform, type MotionValue } from 'motion/react'
-import { ArrowRight, Cherry, ThermometerSnowflake, FlaskConical, Truck } from 'lucide-react'
+import { motion, useMotionValueEvent, useScroll, useTransform } from 'motion/react'
+import { ArrowRight, Cherry, ThermometerSnowflake, FlaskConical, Truck, Package } from 'lucide-react'
 
 const steps = [
-  {
-    icon: Cherry,
-    title: 'Source',
-    desc: 'Hand-picked organic fruits from trusted local farms across Karnataka.',
-    color: 'text-brand-green',
-    bg: 'bg-brand-green/10',
-    dot: 'bg-brand-green',
-  },
-  {
-    icon: ThermometerSnowflake,
-    title: 'Press',
-    desc: 'Cold-pressed at 4°C to preserve every vitamin, mineral, and enzyme.',
-    color: 'text-brand-teal',
-    bg: 'bg-brand-teal/10',
-    dot: 'bg-brand-teal',
-  },
-  {
-    icon: FlaskConical,
-    title: 'Test',
-    desc: 'Lab-tested in our ISO-certified facility for purity and safety.',
-    color: 'text-brand-orange',
-    bg: 'bg-brand-orange/10',
-    dot: 'bg-brand-orange',
-  },
-  {
-    icon: Truck,
-    title: 'Deliver',
-    desc: 'Cold-chain delivery to your doorstep within 24 hours of pressing.',
-    color: 'text-brand-green',
-    bg: 'bg-brand-green/10',
-    dot: 'bg-brand-green',
-  },
+  { icon: Cherry, title: 'Source', desc: 'Hand-picked organic fruits from trusted local farms across Karnataka.' },
+  { icon: ThermometerSnowflake, title: 'Press', desc: 'Cold-pressed at 4°C to preserve every vitamin, mineral, and enzyme.' },
+  { icon: FlaskConical, title: 'Test', desc: 'Lab-tested in our ISO-certified facility for purity and safety.' },
+  { icon: Package, title: 'Bottle', desc: 'From bottling to doorstep, every bottle stays in a tightly managed cold chain.' },
+  { icon: Truck, title: 'Deliver', desc: 'Cold-chain delivery to your doorstep within 24 hours of pressing.' },
 ]
-
-function TimelineStep({
-  step,
-  index,
-  progress,
-}: {
-  step: (typeof steps)[number]
-  index: number
-  progress: MotionValue<number>
-}) {
-  const reduceMotion = useReducedMotion()
-  const slideY = useTransform(progress, [0, 0.35, 1], reduceMotion ? [0, 0, 0] : [16, 0, -8])
-  const slideOpacity = useTransform(progress, [0, 0.2, 0.8, 1], [1, 1, 1, 1])
-  const artScale = useTransform(progress, [0, 0.5, 1], reduceMotion ? [1, 1, 1] : [0.96, 1, 0.98])
-
-  return (
-    <motion.div
-      style={{ y: slideY, opacity: slideOpacity }}
-      className="process-step relative flex items-start gap-3 sm:gap-6"
-    >
-      <div className="relative flex hidden sm:flex w-12 shrink-0 flex-col items-center">
-        <div className={`relative z-10 mt-[14px] h-4 w-4 rounded-full ${step.dot} ring-4 ring-[#f5fbf5]`} />
-        <div className="absolute left-[15px] top-[21px] h-[1.5px] w-[calc(100%-15px)] bg-emerald-100/70" />
-      </div>
-
-      <motion.div
-        style={{ scale: artScale }}
-        className={`relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl shadow-sm bg-[linear-gradient(180deg,rgba(255,255,255,0.96),rgba(237,247,237,0.96))] border border-emerald-100/80 ${step.color}`}
-      >
-        <step.icon size={22} />
-      </motion.div>
-
-      <div className="min-w-0 flex-1 pt-1 pb-2">
-        <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
-          Step {String(index + 1).padStart(2, '0')}
-        </span>
-        <h3 className="mt-0.5 mb-1.5 text-2xl font-display font-bold text-slate-900 md:text-3xl">{step.title}</h3>
-        <p className="text-sm leading-relaxed text-slate-500 md:text-base">{step.desc}</p>
-      </div>
-    </motion.div>
-  )
+const query = '(min-height: 38rem) and (prefers-reduced-motion: no-preference)'
+const subscribe = (change: () => void) => {
+  const media = window.matchMedia(query)
+  media.addEventListener('change', change)
+  return () => media.removeEventListener('change', change)
 }
+const snapshot = () => window.matchMedia(query).matches
 
 export function ProcessTeaser({ id = 'process' }: { id?: string } = {}) {
-  const sectionRef = useRef<HTMLElement>(null)
-  const reduceMotion = useReducedMotion()
-  const { scrollYProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
-
-  const headingY = useTransform(scrollYProgress, [0, 0.3, 1], reduceMotion ? [0, 0, 0] : [40, 0, -20])
-  const headingOpacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [1, 1, 1, 1])
-  const lineScale = useTransform(scrollYProgress, [0.1, 0.85], [0, 1])
-  const ambientX = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [-24, 24])
-  const ambientY = useTransform(scrollYProgress, [0, 1], reduceMotion ? [0, 0] : [20, -20])
-
+  const ref = useRef<HTMLElement>(null)
+  const enhanced = useSyncExternalStore(subscribe, snapshot, () => false)
+  const [active, setActive] = useState(0)
+  const [keyboard, setKeyboard] = useState(false)
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start 112px', 'end end'] })
+  // Completion precedes release, leaving the final step visible with a full bar.
+  const completion = useTransform(scrollYProgress, (value) => Math.max(0, Math.min(1, value / 0.9)))
+  const transform = useTransform(completion, (value) => `scaleX(${value})`)
+  useMotionValueEvent(completion, 'change', (value) => setActive(Math.min(steps.length - 1, Math.floor(value * steps.length))))
+  const select = (index: number, instant: boolean) => {
+    const root = ref.current
+    if (!root || !enhanced) return
+    setKeyboard(instant)
+    const top = root.getBoundingClientRect().top + window.scrollY - 112
+    const range = root.offsetHeight - window.innerHeight + 112
+    window.scrollTo({ top: top + range * ((index + 0.4) / steps.length * 0.9), behavior: instant ? 'instant' : 'smooth' })
+  }
+  const current = steps[active]
   return (
-    <section id={id} ref={sectionRef} className="relative overflow-hidden home-surface py-28 md:py-36">
-      <motion.div
-        style={{ x: ambientX, y: ambientY, opacity: headingOpacity }}
-        className="absolute -right-24 top-10 h-80 w-80 rounded-full bg-brand-green/10 blur-[100px] pointer-events-none"
-      />
-      <motion.div
-        style={{ x: ambientX, y: ambientY, opacity: headingOpacity }}
-        className="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-brand-orange/10 blur-[100px] pointer-events-none"
-      />
-
-      <div className="container relative z-10 mx-auto px-6">
-        <motion.div
-          style={{ y: headingY, opacity: headingOpacity }}
-          className="mx-auto mb-10 max-w-3xl space-y-4 text-center"
-        >
-          <span className="inline-block rounded-full bg-brand-green/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-green">
-            Our Process
-          </span>
-          <h2 data-presentation-step className="text-4xl font-display leading-[1.1] text-slate-900 md:text-5xl lg:text-6xl">
-            From farm to bottle, <span className="font-accent text-slate-500">the healthy way.</span>
-          </h2>
-        </motion.div>
-
-        <div className="process-layout relative mx-auto max-w-6xl">
-          <div className="process-track hidden sm:block absolute left-[23px] top-6 bottom-6 w-[2px] rounded-full bg-slate-100" />
-          <motion.div
-            style={{ scaleY: reduceMotion ? 1 : lineScale }}
-            className="process-track hidden sm:block absolute left-[23px] top-6 h-[calc(100%-3rem)] w-[2px] origin-top rounded-full bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange"
-          />
-
-          <div className="process-grid space-y-10 md:space-y-14">
-            {steps.map((step, idx) => (
-              <div key={step.title} data-presentation-step><TimelineStep step={step} index={idx} progress={scrollYProgress} /></div>
-            ))}
-          </div>
+    <section id={id} ref={ref} className={`process-presentation home-surface ${enhanced ? 'is-pinned' : ''}`}>
+      <div className="process-stage">
+        <div className="process-content">
+          <div className="process-heading"><p className="scene-eyebrow">Our process</p><h2>From farm to bottle, <span className="text-brand-green">the healthy way.</span></h2></div>
+          {enhanced ? <>
+            <div className="process-progress-track" aria-hidden="true"><motion.div style={{ transform }} /></div>
+            <nav className="process-step-nav" aria-label="Process steps">{steps.map((step, index) => <button key={step.title} type="button" onClick={(event) => select(index, event.detail === 0)} aria-current={active === index ? 'step' : undefined} aria-label={`Step ${index + 1}: ${step.title}`}><span>{String(index + 1).padStart(2, '0')}</span><span>{step.title}</span></button>)}</nav>
+            <div className="process-current-step" aria-live={keyboard ? 'polite' : 'off'}>
+              <motion.div key={active} initial={keyboard ? false : { opacity: 0.7 }} animate={{ opacity: 1 }} transition={{ duration: keyboard ? 0 : 0.16 }}>
+                <current.icon size={40} aria-hidden="true" /><p className="scene-eyebrow">Step {active + 1} of {steps.length}</p><h3>{current.title}</h3><p>{current.desc}</p>
+              </motion.div>
+            </div>
+          </> : <ol className="process-static-steps">{steps.map((step, index) => <li key={step.title}><step.icon size={28} aria-hidden="true" /><div><p className="scene-eyebrow">Step {index + 1} of {steps.length}</p><h3>{step.title}</h3><p>{step.desc}</p></div></li>)}</ol>}
+          <Link href="/process" className="scene-action press-feedback">See full process<ArrowRight size={20} aria-hidden="true" /></Link>
         </div>
-
-        <motion.div
-          style={{ y: headingY, opacity: headingOpacity }}
-          className="mt-10 text-center"
-        >
-          <Link
-            href="/process"
-            className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-8 py-4 font-bold text-white transition-all active:scale-[0.97] hover:bg-brand-green"
-          >
-            See Full Process
-            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
-          </Link>
-        </motion.div>
       </div>
     </section>
   )

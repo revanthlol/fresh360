@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit, Plus_Jakarta_Sans, Fraunces } from "next/font/google";
 import "./globals.css";
+import { SiteProgress } from "@/components/shared/SiteProgress";
 import { Navbar } from "@/components/layout/Navbar";
 import { Footer } from "@/components/layout/Footer";
 import { WhatsAppFloat } from "@/components/layout/WhatsAppFloat";
@@ -110,6 +111,7 @@ export default function RootLayout({
           Skip to content
         </a>
         
+        <SiteProgress />
         <Navbar />
         
         <main id="main-content" className="min-h-screen">

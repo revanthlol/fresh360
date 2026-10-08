@@ -585,3 +585,35 @@
     .home-page #process .process-step > div:first-child, .home-page #process .process-track { display: none; }
   }
 }
+
+@layer utilities {
+  .contact-section { scroll-margin-top: 7rem; }
+  .contact-form :is(input, textarea, select, button) { scroll-margin-block: 7rem 5rem; }
+  .whatsapp-float.is-editing { display: none; }
+  @media (min-width: 40rem) { .whatsapp-float.is-editing { display: flex; } }
+  .site-progress { position: fixed; inset: 0 0 auto; height: 3px; z-index: 151; pointer-events: none; background: rgba(45, 106, 45, 0.12); }
+  .site-progress > div { height: 100%; background: #2d6a2d; transform-origin: left; }
+  .process-presentation { position: relative; padding-block: 4rem; scroll-margin-top: 7rem; }
+  .process-presentation.is-pinned { height: 360svh; padding: 0; }
+  .process-stage { padding: 2rem 1.5rem; }
+  .is-pinned > .process-stage { position: sticky; top: 7rem; height: calc(100svh - 7rem); display: flex; align-items: center; }
+  .process-content { width: 100%; max-width: 64rem; margin-inline: auto; }
+  .process-heading { max-width: 48rem; margin-bottom: 1.5rem; }
+  .process-heading h2 { font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1.15; text-wrap: balance; }
+  .process-progress-track { height: 4px; background: #c5d5b9; }
+  .process-progress-track > div { height: 100%; background: #2d6a2d; transform-origin: left; }
+  .process-step-nav { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 0.5rem; margin-block: 0.75rem 1.5rem; }
+  .process-step-nav button { min-height: 44px; display: flex; flex-direction: column; align-items: start; gap: 0.25rem; font-size: 0.8125rem; color: #475569; cursor: pointer; }
+  .process-step-nav button[aria-current] { color: #2d6a2d; font-weight: 700; text-decoration: underline; text-underline-offset: 0.25rem; }
+  .process-step-nav button:focus-visible { outline: 2px solid #2d6a2d; outline-offset: 3px; }
+  .process-current-step { min-height: 16rem; }
+  .process-current-step svg { color: #2d6a2d; margin-bottom: 1rem; }
+  .process-current-step .scene-eyebrow { margin-bottom: 0.5rem; }
+  .process-current-step h3 { font-size: clamp(2rem, 4vw, 3rem); line-height: 1.2; margin-bottom: 0.75rem; }
+  .process-current-step p:last-child, .process-static-steps p:last-child { max-width: 50ch; font-size: 1rem; line-height: 1.6; color: #475569; }
+  .process-static-steps { display: grid; gap: 2rem; margin-bottom: 2rem; }
+  .process-static-steps li { display: flex; gap: 1rem; }
+  .process-static-steps svg { flex-shrink: 0; color: #2d6a2d; }
+  .process-static-steps h3 { font-size: 1.5rem; line-height: 1.3; }
+  .process-static-steps .scene-eyebrow { margin-bottom: 0.25rem; }
+}
