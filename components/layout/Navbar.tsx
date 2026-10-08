@@ -34,9 +34,9 @@ const defaultNavLinks: NavItem[] = [
 
 const singlePageNavLinks: NavItem[] = [
   { name: 'Home', href: '#top', icon: Home },
-  { name: 'About', href: '#about', icon: Info },
   { name: 'Brands', href: '#brands', icon: Sparkles },
   { name: 'Products', href: '#products', icon: Package },
+  { name: 'About', href: '#about', icon: Info },
   { name: 'Process', href: '#process', icon: RefreshCw },
   { name: 'Contact', href: '#contact', icon: Mail },
 ]

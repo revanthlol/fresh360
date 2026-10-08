@@ -482,7 +482,7 @@
 
 @layer components {
   .video-backdrop { position: absolute; inset: 0; overflow: hidden; background: #f5f5eb; }
-  .video-poster, .video-motion { object-fit: contain; object-position: right center; }
+  .video-poster, .video-motion { object-fit: cover; object-position: right center; }
   .video-motion { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 200ms ease; }
   .video-motion.is-ready { opacity: 1; }
   .video-control { position: absolute; right: 1.5rem; bottom: 1.5rem; z-index: 2; display: grid; place-items: center; width: 2.75rem; height: 2.75rem; border: 1px solid #dce5d9; border-radius: 0.5rem; background: #f5f5eb; color: #0f172a; cursor: pointer; }
@@ -504,10 +504,10 @@
   .brand-reveal-links a:focus-visible { outline: 2px solid currentColor; outline-offset: 4px; }
   .brand-reveal-curtain { position: absolute; inset: 0; pointer-events: none; transform: translate3d(0, -100%, 0); background: linear-gradient(135deg, #2d6a2d, #0f766e 65%, #c49b4c); }
   .brand-scroll-gallery { position: relative; }
-  .brand-scroll-gallery.is-enhanced { height: 400svh; }
+  .brand-scroll-gallery.is-enhanced { height: 900svh; }
   .gallery-anchors { position: absolute; inset: 0; pointer-events: none; }
   .gallery-stage { position: sticky; top: 0; height: 100svh; overflow: hidden; isolation: isolate; background: #f5f5eb; }
-  .gallery-panel { position: absolute; inset: 0; overflow: hidden; background: #f5f5eb; display: flex; align-items: center; }
+  .gallery-panel { position: absolute; inset: 0; overflow: hidden; background: #f5f5eb; display: flex; align-items: center; transform-origin: center top; }
   .gallery-scrim { position: absolute; inset: 0; pointer-events: none; background: linear-gradient(90deg, rgba(245,245,235,0.98), rgba(245,245,235,0.85) 28%, transparent 52%); }
   .gallery-panel .video-control { bottom: 2rem; }
   .gallery-dock { position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%); display: flex; gap: 0.75rem; padding: 0.5rem; background: #f5f5eb; border: 1px solid #dce5d9; border-radius: 0.75rem; }
@@ -551,4 +551,17 @@
   @keyframes review-progress { from { transform: scaleX(0); } to { transform: scaleX(1); } }
   @media (min-width: 64rem) { .testimonial-rotation { grid-template-columns: 0.8fr 1.2fr; gap: 5rem; padding: 7rem clamp(2rem, 5vw, 6rem); } }
   @media (prefers-reduced-motion: reduce) { .rotation-progress-fill.is-active { animation: none; transform: scaleX(1); } }
+}
+
+@layer components {
+  .fresh-hero-art .video-backdrop { inset: -1px; }
+  .fresh-hero, .brand-scene, .home-page > section { min-height: 100svh; }
+  .home-page > section:is(#about, #process, #contact) { display: flex; align-items: center; }
+  .gallery-panel > .brand-reveal-slide { width: 100%; height: 100%; }
+  .gallery-panel .brand-scene-copy { padding-bottom: 8rem; }
+  .film-story-text { grid-area: 1 / 1; margin: 0; }
+  .product-collection { min-height: 100svh; display: flex; align-items: center; }
+  @media (min-width: 64rem) {
+    .product-collection { padding-block: 7rem 4rem; }
+  }
 }

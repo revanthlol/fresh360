@@ -29,10 +29,10 @@ export default async function Home() {
         {/* Full-width brand sequence follows the hero. */}
         <BrandStrip id="brands" content={brands} />
 
-        <SinglePageStory id="about" />
-
         {/* ACT 5 — All Products: Horizontal movement + Quick View Modal */}
         <SinglePageProducts id="products" products={products} brands={brands} />
+
+        <SinglePageStory id="about" />
 
         {/* ACT 6 — Farm-to-Bottle Process */}
         <ProcessTeaser id="process" />

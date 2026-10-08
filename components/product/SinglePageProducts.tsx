@@ -141,8 +141,8 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
   }
 
   return (
-    <section id={id} className="relative scroll-mt-24 overflow-hidden bg-slate-50/60 py-20 md:py-28">
-      <div className="container relative z-10 mx-auto max-w-7xl px-5 sm:px-6">
+    <section id={id} className="product-collection relative scroll-mt-24 overflow-hidden bg-slate-50/60 py-20 md:py-28">
+      <div className="container relative z-10 mx-auto max-w-[100rem] px-5 sm:px-6 lg:px-12">
         <div className="mb-8 flex flex-wrap items-end justify-between gap-6 md:mb-10">
           <div className="max-w-3xl">
             <h2 className="text-balance font-display text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">Explore our drinks</h2>
@@ -182,10 +182,10 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
             {railProducts.map(({ product, copy }) => {
               const color = brandColor(product.brand)
               return (
-                <article key={`${copy}-${product._id}`} aria-hidden={copy !== middleCopy ? true : undefined} className="group w-full shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-4.5rem)/4)]">
+                <article key={`${copy}-${product._id}`} aria-hidden={copy !== middleCopy ? true : undefined} className="group w-full shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
                   <button type="button" tabIndex={copy === middleCopy ? 0 : -1} onClick={(event) => { setKeyboardModal(event.detail === 0); setActiveModalProduct(product) }} aria-label={`Quick view: ${product.name}`} className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-brand-green">
                     <div className="product-image-hover relative overflow-hidden rounded-[1.5rem]" style={{ backgroundColor: color.surface }}>
-                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 25vw" className="aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-cover transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]" />
+                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 33vw" className="aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-cover transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]" />
                       <span className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-800 shadow-sm transition-colors group-hover:bg-slate-900 group-hover:text-white"><Eye size={17} aria-hidden="true" /></span>
                     </div>
                     <div className="pt-4">
