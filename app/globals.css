@@ -568,26 +568,20 @@
 @layer utilities {
   .home-page .home-surface { background: transparent; }
   .scroll-presentation { position: relative; }
-  .scroll-presentation.has-hold { padding-bottom: 35svh; }
-  .presentation-stage { position: relative; transform-origin: center top; }
-  .has-hold > .presentation-stage { position: sticky; top: 7rem; }
-  .presentation-stage > section { padding-block: clamp(3.5rem, 6vw, 6rem); }
+  .scroll-presentation > section { padding-block: clamp(3.5rem, 6vw, 6rem); }
   .home-page #process > .absolute { display: none; }
   .home-page .testimonial-rotation { align-items: start; }
   .collection-edge { mask-image: linear-gradient(180deg, black, transparent); }
-  .collection-edge:first-of-type { background: linear-gradient(90deg, #e8efdf, transparent); }
-  .collection-edge:last-of-type { background: linear-gradient(270deg, #e8efdf, transparent); }
+  .collection-edge { background: linear-gradient(90deg, #f8fafc, transparent); }
+  .collection-edge:last-of-type { background: linear-gradient(270deg, #f8fafc, transparent); }
   .gallery-panel:last-of-type::after { content: ''; position: absolute; inset: auto 0 0; height: 5rem; background: linear-gradient(transparent, #e8efdf); pointer-events: none; }
   @media (min-width: 64rem) {
     .product-collection { padding-block: 7rem 2rem; }
-    .product-collection .collection-media { aspect-ratio: auto; height: clamp(14rem, calc(100svh - 31rem), 30rem); }
+    .product-collection article { width: clamp(12rem, calc((100svh - 31rem) * 0.75), 22.5rem); }
+    .product-collection .collection-media { aspect-ratio: 3 / 4; height: auto; }
     .home-page #process .process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
     .home-page #process .process-grid > * { margin-top: 0; }
     .home-page #process .process-step { flex-direction: column; gap: 1rem; }
     .home-page #process .process-step > div:first-child, .home-page #process .process-track { display: none; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .scroll-presentation.has-hold { padding-bottom: 0; }
-    .has-hold > .presentation-stage { position: relative; top: auto; }
   }
 }

@@ -42,7 +42,7 @@ export default async function Home() {
         <ScrollPresentation><TestimonialStrip /></ScrollPresentation>
 
         {/* ACT 8 — Direct Contact & Inquiry */}
-        <ScrollPresentation hold={false}><SinglePageContact id="contact" /></ScrollPresentation>
+        <ScrollPresentation><SinglePageContact id="contact" /></ScrollPresentation>
 
         {/* ACT 9 — Newsletter */}
         <NewsletterCTA />
