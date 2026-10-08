@@ -34,22 +34,22 @@ export function SinglePageStory({ id = 'about' }: { id?: string }) {
         <div className="grid lg:grid-cols-12 gap-12 items-center">
           {/* Main Story Narrative */}
           <div className="lg:col-span-6 space-y-6">
-            <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
+            <h2 data-presentation-step className="text-3xl md:text-5xl font-display font-bold text-slate-900 leading-tight">
               A drink range built around <span className="text-brand-green italic font-accent">choice.</span>
             </h2>
 
-            <p className="text-lg text-slate-600 leading-relaxed font-sans">
+            <p data-presentation-step className="text-lg text-slate-600 leading-relaxed font-sans">
               Fresh 360 Degrees Foods brings three beverage brands together under one parent company.
             </p>
 
-            <p className="text-slate-600 leading-relaxed">
+            <p data-presentation-step className="text-slate-600 leading-relaxed">
               Fresh 360 is the parent brand for Juicera, Fruizy and Fizzo. Together, the range includes cold-pressed juice, sparkling fruit drinks and artificially flavoured fizzy beverages.
             </p>
 
           </div>
 
           {/* 4 Pillars Grid */}
-          <div className="lg:col-span-6 grid sm:grid-cols-2 gap-5">
+          <div className="lg:col-span-6 grid sm:grid-cols-2 gap-5" data-presentation-step>
             {pillars.map((pillar, i) => (
               <ScrollReveal
                 key={i}

@@ -112,7 +112,7 @@
     isolation: isolate;
     min-height: 100vh;
     background:
-      linear-gradient(180deg, #fffefb 0%, #fbfdf8 30%, #eff7ef 100%);
+      linear-gradient(155deg, #edf2e7 0%, #e8efdf 45%, #dde8d6 100%);
   }
 
   .home-page::before {
@@ -122,10 +122,9 @@
     z-index: -2;
     pointer-events: none;
     background:
-      radial-gradient(circle at 15% 8%, rgba(45, 106, 45, 0.08), transparent 30%),
-      radial-gradient(circle at 88% 20%, rgba(15, 118, 110, 0.05), transparent 28%),
-      radial-gradient(circle at 50% 78%, rgba(45, 106, 45, 0.035), transparent 34%),
-      linear-gradient(180deg, rgba(255, 253, 249, 0.94) 0%, rgba(248, 252, 247, 0.98) 48%, rgba(239, 247, 239, 1) 100%);
+      radial-gradient(ellipse at 18% 15%, rgba(255, 255, 245, 0.55), transparent 65%),
+      radial-gradient(ellipse at 85% 80%, rgba(174, 199, 154, 0.18), transparent 65%),
+      linear-gradient(155deg, #edf2e7 0%, #e8efdf 45%, #dde8d6 100%);
   }
 
   .home-page::after {
@@ -527,7 +526,7 @@
 }
 
 @layer components {
-  .testimonial-rotation { padding: 5rem 1.5rem; background: #e8efdf; display: grid; gap: 3rem; }
+  .testimonial-rotation { padding: 5rem 1.5rem; background: transparent; display: grid; gap: 3rem; }
   .rotation-heading h2 { max-width: 12ch; font-size: clamp(2.5rem, 4vw, 4.5rem); line-height: 1.2; }
   .rotation-body { min-width: 0; }
   .rotation-controls { display: flex; align-items: center; gap: 1.5rem; margin-bottom: 2rem; }
@@ -555,13 +554,40 @@
 
 @layer components {
   .fresh-hero-art .video-backdrop { inset: -1px; }
-  .fresh-hero, .brand-scene, .home-page > section { min-height: 100svh; }
-  .home-page > section:is(#about, #process, #contact) { display: flex; align-items: center; }
+  .fresh-hero, .brand-scene { min-height: 100svh; }
   .gallery-panel > .brand-reveal-slide { width: 100%; height: 100%; }
   .gallery-panel .brand-scene-copy { padding-bottom: 8rem; }
   .film-story-text { grid-area: 1 / 1; margin: 0; }
-  .product-collection { min-height: 100svh; display: flex; align-items: center; }
+  .product-collection { min-height: 0; }
   @media (min-width: 64rem) {
-    .product-collection { padding-block: 7rem 4rem; }
+    .product-collection { padding-block: 7rem 2rem; }
+  }
+}
+
+/* One continuous sage surface; sections contribute content rather than new backplates. */
+@layer utilities {
+  .home-page .home-surface { background: transparent; }
+  .scroll-presentation { position: relative; }
+  .scroll-presentation.has-hold { padding-bottom: 35svh; }
+  .presentation-stage { position: relative; transform-origin: center top; }
+  .has-hold > .presentation-stage { position: sticky; top: 7rem; }
+  .presentation-stage > section { padding-block: clamp(3.5rem, 6vw, 6rem); }
+  .home-page #process > .absolute { display: none; }
+  .home-page .testimonial-rotation { align-items: start; }
+  .collection-edge { mask-image: linear-gradient(180deg, black, transparent); }
+  .collection-edge:first-of-type { background: linear-gradient(90deg, #e8efdf, transparent); }
+  .collection-edge:last-of-type { background: linear-gradient(270deg, #e8efdf, transparent); }
+  .gallery-panel:last-of-type::after { content: ''; position: absolute; inset: auto 0 0; height: 5rem; background: linear-gradient(transparent, #e8efdf); pointer-events: none; }
+  @media (min-width: 64rem) {
+    .product-collection { padding-block: 7rem 2rem; }
+    .product-collection .collection-media { aspect-ratio: auto; height: clamp(14rem, calc(100svh - 31rem), 30rem); }
+    .home-page #process .process-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
+    .home-page #process .process-grid > * { margin-top: 0; }
+    .home-page #process .process-step { flex-direction: column; gap: 1rem; }
+    .home-page #process .process-step > div:first-child, .home-page #process .process-track { display: none; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .scroll-presentation.has-hold { padding-bottom: 0; }
+    .has-hold > .presentation-stage { position: relative; top: auto; }
   }
 }

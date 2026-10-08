@@ -12,7 +12,7 @@ export function SinglePageContact({ id = 'contact' }: { id?: string }) {
   return (
     <section id={id} className="py-24 relative overflow-hidden bg-transparent">
       <div className="container mx-auto px-6 max-w-7xl relative z-10">
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
+        <div className="text-center max-w-3xl mx-auto mb-10 space-y-3" data-presentation-step>
 
           <h2 className="text-3xl md:text-5xl font-display font-bold text-slate-900 tracking-tight">
             Let’s talk drinks

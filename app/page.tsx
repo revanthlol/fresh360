@@ -6,6 +6,7 @@ import { TestimonialStrip } from "@/components/shared/TestimonialStrip";
 import { NewsletterCTA } from "@/components/shared/NewsletterCTA";
 import { isSinglePageMode } from "@/lib/config";
 import { getProducts, getBrands } from "@/lib/sanity";
+import { ScrollPresentation } from "@/components/shared/ScrollPresentation";
 import { SinglePageStory } from "@/components/shared/SinglePageStory";
 import { SinglePageProducts } from "@/components/product/SinglePageProducts";
 import { SinglePageContact } from "@/components/shared/SinglePageContact";
@@ -32,16 +33,16 @@ export default async function Home() {
         {/* ACT 5 — All Products: Horizontal movement + Quick View Modal */}
         <SinglePageProducts id="products" products={products} brands={brands} />
 
-        <SinglePageStory id="about" />
+        <ScrollPresentation><SinglePageStory id="about" /></ScrollPresentation>
 
         {/* ACT 6 — Farm-to-Bottle Process */}
-        <ProcessTeaser id="process" />
+        <ScrollPresentation><ProcessTeaser id="process" /></ScrollPresentation>
 
         {/* ACT 7 — Social proof */}
-        <TestimonialStrip />
+        <ScrollPresentation><TestimonialStrip /></ScrollPresentation>
 
         {/* ACT 8 — Direct Contact & Inquiry */}
-        <SinglePageContact id="contact" />
+        <ScrollPresentation hold={false}><SinglePageContact id="contact" /></ScrollPresentation>
 
         {/* ACT 9 — Newsletter */}
         <NewsletterCTA />
@@ -66,7 +67,7 @@ export default async function Home() {
       <ProcessTeaser />
 
       {/* ACT 6 — Social proof */}
-      <TestimonialStrip />
+      <ScrollPresentation><TestimonialStrip /></ScrollPresentation>
 
       {/* ACT 7 — Closing CTA with scroll zoom */}
       <NewsletterCTA />

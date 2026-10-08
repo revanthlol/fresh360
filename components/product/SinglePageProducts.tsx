@@ -141,12 +141,12 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
   }
 
   return (
-    <section id={id} className="product-collection relative scroll-mt-24 overflow-hidden bg-slate-50/60 py-20 md:py-28">
-      <div className="container relative z-10 mx-auto max-w-[100rem] px-5 sm:px-6 lg:px-12">
-        <div className="mb-8 flex flex-wrap items-end justify-between gap-6 md:mb-10">
+    <section id={id} className="product-collection relative scroll-mt-24 overflow-hidden bg-transparent py-16">
+      <div className="container relative z-10 mx-auto max-w-[90rem] px-5 sm:px-6 lg:px-12">
+        <div className="collection-heading mb-6 flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">
             <h2 className="text-balance font-display text-3xl font-extrabold tracking-tight text-slate-900 md:text-5xl">Explore our drinks</h2>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">Browse the Fresh 360 collection by brand. Open a product for the details available.</p>
+            <p className="mt-2 max-w-2xl text-base leading-relaxed text-slate-600 md:text-lg">Browse the Fresh 360 collection by brand. Open a product for the details available.</p>
           </div>
           {filteredProducts.length > 1 && <div className="flex shrink-0 gap-2" aria-label="Product carousel controls">
             <button type="button" aria-label={manuallyPaused ? 'Resume product movement' : 'Pause product movement'} aria-pressed={manuallyPaused} onClick={() => { manuallyPausedRef.current = !manuallyPausedRef.current; setManuallyPaused(manuallyPausedRef.current) }} className="press-feedback flex h-12 w-12 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-800 focus-visible:ring-2 focus-visible:ring-brand-green">{manuallyPaused ? <Play size={18} aria-hidden="true" /> : <Pause size={18} aria-hidden="true" />}</button>
@@ -155,7 +155,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
           </div>}
         </div>
 
-        <div className="mb-6 flex gap-5 overflow-x-auto border-b border-slate-200 pb-px" role="group" aria-label="Filter products by brand">
+        <div className="mb-4 flex gap-5 overflow-x-auto border-b border-slate-200 pb-px" role="group" aria-label="Filter products by brand">
           <button type="button" onClick={() => selectBrand('all')} aria-pressed={selectedBrand === 'all'} className={cn('shrink-0 border-b-2 px-1 py-3 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-brand-green', selectedBrand === 'all' ? 'border-brand-green text-slate-900' : 'border-transparent text-slate-500 hover:text-slate-900')}>
             All drinks <span className="ml-1 text-xs tabular-nums text-slate-400">{products.length}</span>
           </button>
@@ -171,7 +171,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
           })}
         </div>
 
-        <div className="mb-5 flex min-h-6 items-center justify-between text-sm text-slate-500" aria-live="polite">
+        <div className="mb-3 flex min-h-6 items-center justify-between text-sm text-slate-500" aria-live="polite">
           <p>{activeBrandLabel ? `${activeBrandLabel} collection` : 'Complete collection'}</p>
           <p className="tabular-nums">{filteredProducts.length} {filteredProducts.length === 1 ? 'drink' : 'drinks'}</p>
         </div>
@@ -185,7 +185,7 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
                 <article key={`${copy}-${product._id}`} aria-hidden={copy !== middleCopy ? true : undefined} className="group w-full shrink-0 snap-start sm:w-[calc((100%-1.5rem)/2)] lg:w-[calc((100%-3rem)/3)]">
                   <button type="button" tabIndex={copy === middleCopy ? 0 : -1} onClick={(event) => { setKeyboardModal(event.detail === 0); setActiveModalProduct(product) }} aria-label={`Quick view: ${product.name}`} className="block w-full text-left focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-4 focus-visible:ring-brand-green">
                     <div className="product-image-hover relative overflow-hidden rounded-[1.5rem]" style={{ backgroundColor: color.surface }}>
-                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 33vw" className="aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-cover transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]" />
+                      <ProductMediaFrame image={product.image} alt={product.name} brandName={brandLabel(product.brand)} accentColor={color.foreground} sizes="(max-width: 639px) calc(100vw - 2.5rem), (max-width: 1023px) 50vw, 33vw" className="collection-media aspect-[4/5] w-full rounded-[1.5rem] bg-transparent" imageClassName="object-contain transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)]" />
                       <span className="absolute bottom-3 right-3 inline-flex h-10 w-10 items-center justify-center rounded-full bg-white/95 text-slate-800 shadow-sm transition-colors group-hover:bg-slate-900 group-hover:text-white"><Eye size={17} aria-hidden="true" /></span>
                     </div>
                     <div className="pt-4">
@@ -202,8 +202,8 @@ export function SinglePageProducts({ products, brands, id = 'products' }: Single
               )
             })}
             </div>
-            <div aria-hidden="true" className="pointer-events-none absolute left-0 top-0 h-[28rem] w-6 bg-gradient-to-r from-slate-50 to-transparent sm:h-[27rem] sm:w-10 lg:h-[23rem]" />
-            <div aria-hidden="true" className="pointer-events-none absolute right-0 top-0 h-[28rem] w-6 bg-gradient-to-l from-slate-50 to-transparent sm:h-[27rem] sm:w-10 lg:h-[23rem]" />
+            <div aria-hidden="true" className="pointer-events-none collection-edge absolute left-0 top-0 h-full w-4 sm:w-6" />
+            <div aria-hidden="true" className="pointer-events-none collection-edge absolute right-0 top-0 h-full w-4 sm:w-6" />
             <span className="sr-only" aria-live="polite">{isRailPaused || manuallyPaused ? 'Product movement paused' : 'Product movement resumes when the rail is not in use'}</span>
           </div>
         ) : (

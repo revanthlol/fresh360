@@ -85,7 +85,7 @@ export function Navbar() {
         if (id === 'top') continue
         const element = document.getElementById(id)
         if (element) {
-          const top = element.offsetTop
+          const top = element.getBoundingClientRect().top + window.scrollY
           const height = element.offsetHeight
           if (scrollPosition >= top && scrollPosition < top + height) {
             setActiveSection(`#${id}`)

@@ -57,7 +57,7 @@ function TimelineStep({
   return (
     <motion.div
       style={{ y: slideY, opacity: slideOpacity }}
-      className="relative flex items-start gap-3 sm:gap-6"
+      className="process-step relative flex items-start gap-3 sm:gap-6"
     >
       <div className="relative flex hidden sm:flex w-12 shrink-0 flex-col items-center">
         <div className={`relative z-10 mt-[14px] h-4 w-4 rounded-full ${step.dot} ring-4 ring-[#f5fbf5]`} />
@@ -110,33 +110,33 @@ export function ProcessTeaser({ id = 'process' }: { id?: string } = {}) {
       <div className="container relative z-10 mx-auto px-6">
         <motion.div
           style={{ y: headingY, opacity: headingOpacity }}
-          className="mx-auto mb-20 max-w-3xl space-y-4 text-center"
+          className="mx-auto mb-10 max-w-3xl space-y-4 text-center"
         >
           <span className="inline-block rounded-full bg-brand-green/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.2em] text-brand-green">
             Our Process
           </span>
-          <h2 className="text-4xl font-display leading-[1.1] text-slate-900 md:text-5xl lg:text-6xl">
+          <h2 data-presentation-step className="text-4xl font-display leading-[1.1] text-slate-900 md:text-5xl lg:text-6xl">
             From farm to bottle, <span className="font-accent text-slate-500">the healthy way.</span>
           </h2>
         </motion.div>
 
-        <div className="relative mx-auto max-w-3xl">
-          <div className="hidden sm:block absolute left-[23px] top-6 bottom-6 w-[2px] rounded-full bg-slate-100" />
+        <div className="process-layout relative mx-auto max-w-6xl">
+          <div className="process-track hidden sm:block absolute left-[23px] top-6 bottom-6 w-[2px] rounded-full bg-slate-100" />
           <motion.div
             style={{ scaleY: reduceMotion ? 1 : lineScale }}
-            className="hidden sm:block absolute left-[23px] top-6 h-[calc(100%-3rem)] w-[2px] origin-top rounded-full bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange"
+            className="process-track hidden sm:block absolute left-[23px] top-6 h-[calc(100%-3rem)] w-[2px] origin-top rounded-full bg-gradient-to-b from-brand-green via-brand-teal to-brand-orange"
           />
 
-          <div className="space-y-10 md:space-y-14">
+          <div className="process-grid space-y-10 md:space-y-14">
             {steps.map((step, idx) => (
-              <TimelineStep key={step.title} step={step} index={idx} progress={scrollYProgress} />
+              <div key={step.title} data-presentation-step><TimelineStep step={step} index={idx} progress={scrollYProgress} /></div>
             ))}
           </div>
         </div>
 
         <motion.div
           style={{ y: headingY, opacity: headingOpacity }}
-          className="mt-16 text-center"
+          className="mt-10 text-center"
         >
           <Link
             href="/process"

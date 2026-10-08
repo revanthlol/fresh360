@@ -84,7 +84,7 @@ export function TestimonialStrip() {
     <section ref={ref} className="testimonial-rotation" aria-label="Partner testimonials" aria-roledescription="carousel"
       onPointerEnter={(event) => { if (event.pointerType !== 'touch') setHovered(true) }} onPointerLeave={() => setHovered(false)}
       onFocusCapture={() => setFocused(true)} onBlurCapture={(event) => { if (!event.currentTarget.contains(event.relatedTarget)) setFocused(false) }}>
-      <div className="rotation-heading"><p className="scene-eyebrow">Community and partner voices</p><h2>What our partners say.</h2></div>
+      <div className="rotation-heading" data-presentation-step><p className="scene-eyebrow">Community and partner voices</p><h2>What our partners say.</h2></div>
       <div className="rotation-body">
         <div className="rotation-controls">
           <div className="rotation-progress" aria-label="Choose a testimonial">{testimonials.map((review, index) => <button type="button" key={review.name} aria-label={`Show testimonial from ${review.name}`} aria-current={active === index ? 'true' : undefined} onClick={(event) => select(index, event.detail === 0)}>
